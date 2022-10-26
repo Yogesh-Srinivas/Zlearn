@@ -23,8 +23,16 @@ public class ZLearn {
                             String mobileNumber = sc.next();
                             System.out.println("Enter Password : ");
                             String password = sc.next();
-                            if(Authenticator.customerLogin(mobileNumber,password)){
+                            String authString = Authenticator.customerLogin(mobileNumber,password);
+                            if(!authString.equals("User Not Found")){
                                 isValidLoginCredentials=true;
+                                if(authString.equals(role.LEARNER_AND_CREATOR.toString())){
+                                    System.out.println("1.Learner Profile\n2.Creator Profile");
+                                }else if(authString.equals(role.LEARNER_ONLY.toString())){
+                                    System.out.println("Welcome Learner");
+                                }else if(authString.equals(role.CREATOR_ONLY.toString())){
+                                    System.out.println("Welcome Creator");
+                                }
                             }
                         }
 
@@ -41,6 +49,16 @@ public class ZLearn {
     }
 
     static void dbInitializer(){
-        Learner learner1= new Learner("Yogi","123","1234567890");
+        Database db = Database.getInstance();
+        Learner learner1= new Learner("Yogi","123","12345");
+        db.addLearner(learner1);
+        Learner learner3= new Learner("Avi","123","34567");
+        db.addLearner(learner3);
+        Learner learner2= new Learner("Logan","123","23456");
+        db.addLearner(learner2);
+        Creator creator1 = new Creator("Yogi","123","12345");
+        db.addCreator(creator1);
+        Creator creator2 = new Creator("Sathya","123","45678");
+        db.addCreator(creator2);
     }
 }

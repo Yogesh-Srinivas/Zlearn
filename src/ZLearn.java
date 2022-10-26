@@ -13,39 +13,59 @@ public class ZLearn {
             boolean isloginTypeValid = false;
             while(!isloginTypeValid){
                 String loginType = sc.next();
-                switch (loginType){
-                    case "1":
-                        isloginTypeValid=true;
-                        boolean isValidLoginCredentials = false;
-                        System.out.println("-----Customer Login Page-----");
-                        while (!isValidLoginCredentials) {
-                            System.out.println("Enter Mobile No. : ");
-                            String mobileNumber = sc.next();
-                            System.out.println("Enter Password : ");
-                            String password = sc.next();
-                            String authString = Authenticator.customerLogin(mobileNumber,password);
-                            if(!authString.equals("User Not Found")){
-                                isValidLoginCredentials=true;
-                                if(authString.equals(role.LEARNER_AND_CREATOR.toString())){
-                                    System.out.println("1.Learner Profile\n2.Creator Profile");
-                                }else if(authString.equals(role.LEARNER_ONLY.toString())){
-                                    System.out.println("Welcome Learner");
-                                }else if(authString.equals(role.CREATOR_ONLY.toString())){
-                                    System.out.println("Welcome Creator");
+                if(loginType=="1") {
+                    isloginTypeValid = true;
+                    boolean isValidLoginCredentials = false;
+                    System.out.println("-----Customer Login Page-----");
+                    while (!isValidLoginCredentials) {
+                        System.out.println("Enter Mobile No. : ");
+                        String mobileNumber = sc.next();
+                        System.out.println("Enter Password : ");
+                        String password = sc.next();
+                        String authString = Authenticator.customerLogin(mobileNumber, password);
+                        if (!authString.equals("User Not Found")) {
+                            isValidLoginCredentials = true;
+                            int profileFlag = 0;
+                            if (authString.equals(role.LEARNER_AND_CREATOR.toString())) {
+                                System.out.println("1.Learner Profile\n2.Creator Profile");
+                                boolean isValidProfilePref = false;
+                                while (!isValidProfilePref) {
+                                    String profilePref = sc.next();
+                                    if ("1".equals(profilePref)) {
+                                        isValidProfilePref = true;
+                                        profileFlag = 1;
+                                    } else if ("2".equals(profilePref)) {
+                                        isValidProfilePref = true;
+                                        profileFlag = 2;
+                                    } else {
+                                        System.out.println("Invalid Option!!");
+                                    }
                                 }
                             }
-                        }
+                            if (profileFlag == 1 || authString.equals(role.LEARNER_ONLY.toString())) {
+                                System.out.println("----Learning never exhausts the mind----");
+                                System.out.println("1. View Enrolled Courses\n2. Enroll new Course\n3.View Certificates");
+                                if (authString.equals(role.LEARNER_AND_CREATOR.toString())) {
+                                    System.out.println("4. Switch to Creator");
+                                }
+                                System.out.println("0. Log out");
 
-                        break;
-                    case "2":
+                            } else if (profileFlag == 2 || authString.equals(role.CREATOR_ONLY.toString())) {
+                                System.out.println("----To Teach is to Learn Twice Over----");
+                                System.out.println("1.View Created Courses\n2. Create New Course");
+                                if (authString.equals(role.LEARNER_AND_CREATOR.toString())) System.out.println(
+                                        "3. Switch to Learner");
+                                System.out.println("0. Log Out");
+                            }
+                        }
+                    }
+                } else if(loginType.equals("2")) {
                         System.out.println("Admin logged in");
-                        isloginTypeValid=true;
-                        break;
-                    default:
-                        System.out.println("Invalid input");
+                        isloginTypeValid = true;
+                    }
+                   else System.out.println("Invalid input");
                 }
             }
-        }
     }
 
     static void dbInitializer(){

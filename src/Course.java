@@ -7,11 +7,26 @@ public class Course {
     private double rating;
     private String creatorId;
     private int price;
-    private ArrayList<Comment> comments;
-    private ArrayList<Chapter> content;
+    private ArrayList<Comment> comments = new ArrayList<>();
+    private ArrayList<Chapter> content = new ArrayList<>();
 
+    public Course(String courseName, ArrayList<String> courseCategory, String courseId, double rating, String creatorId, int price, ArrayList<Chapter> content) {
+        this.courseName = courseName;
+        this.courseCategory = courseCategory;
+        this.courseId = courseId;
+        this.rating = rating;
+        this.creatorId = creatorId;
+        this.price = price;
+        this.content = content;
+    }
+    public Course(){
+        this.courseId=null;
+    }
     void editContent(){
 
+    }
+    void addContent(Chapter newChapter){
+        this.content.add(newChapter);
     }
     void editPricing(){
 
@@ -31,12 +46,26 @@ public class Course {
     void updateCategory(){
 
     }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public double getRating() {
+        return rating;
+    }
 }
 
 class Comment{
     private String title;
     private String body;
     private String commenter;
+
+    Comment(String title, String body, String commenter) {
+        this.title = title;
+        this.body = body;
+        this.commenter = commenter;
+    }
 
     void changeTitle(){
 
@@ -49,7 +78,10 @@ class Comment{
 class Chapter{
     private String chapterName;
     private String lesson;
-
+    Chapter(String chapterName,String lesson){
+        this.chapterName=chapterName;
+        this.lesson=lesson;
+    }
     void changeChapterName(){
 
     }

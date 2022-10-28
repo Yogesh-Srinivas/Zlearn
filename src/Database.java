@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class Database {
@@ -10,7 +12,7 @@ public class Database {
         }
         return instance;
     }
-
+    private Map<String,ArrayList<Map<Integer,Integer>>> userProgress = new HashMap<>();
     private ArrayList<Course> courses = new ArrayList<>();
     private ArrayList<Learner> learners = new ArrayList<>();
     private ArrayList<Creator> creators = new ArrayList<>();
@@ -22,8 +24,17 @@ public class Database {
     public void addCreator(Creator creator){
         this.creators.add(creator);
     }
-    void getCourseDetails(){
 
+    public void addUserProgress(String courseId,int userId){
+        this.userProgress.get(courseId).add(new HashMap<Integer,Integer>(){{put(userId,0);}});
+    }
+    Course getCourseDetails(String courseId){
+        for(Course c : this.courses){
+            if(c.getCourseId().equals(courseId)){
+                return c;
+            }
+        }
+        return new Course();
     }
     void getLearnerDetails(){
 
@@ -87,6 +98,11 @@ public class Database {
             }
         }
         return "User Not Found";
+    }
+
+    public void addCourses(Course course) {
+        this.courses.add(course);
+        this.userProgress.put(course.getCourseId(), new ArrayList<>());
     }
 }
 

@@ -28,6 +28,13 @@ public class Course {
     void addContent(Chapter newChapter){
         this.content.add(newChapter);
     }
+    public Chapter getChapter(int ind){
+        return this.content.get(ind);
+    }
+    public int getContentLength(){
+        return this.content.size();
+    }
+
     void editPricing(){
 
     }
@@ -53,6 +60,13 @@ public class Course {
 
     public double getRating() {
         return rating;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+    public double getCourseProgressStepValue(){
+        return 100.0 / this.content.size();
     }
 }
 
@@ -87,5 +101,13 @@ class Chapter{
     }
     void changeLesson(){
 
+    }
+
+    public String getChapterName() {
+        return chapterName;
+    }
+
+    public String getLesson() {
+        return lesson;
     }
 }

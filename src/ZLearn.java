@@ -72,24 +72,23 @@ public class ZLearn {
 //                   else System.out.println("Invalid input");
 //                }
 //            }
+        Learner user = new Learner("curUser","123","21345");
+        user.setMyCourses("cs001");
+        user.setMyCourses("cs002");
+        db.addUserProgress("cs001",user.getUserId());
+        db.addUserProgress("cs002", user.getUserId());
+        ZLearn.currUser = user;
         while(true) {
-            Learner user = new Learner("curUser","123","21345");
-            user.setMyCourses("cs001");
-            user.setMyCourses("cs002");
-            db.addUserProgress("cs001",user.getUserId());
-            db.addUserProgress("cs002", user.getUserId());
-
-            ZLearn.currUser = user;
             System.out.println("1.Learner\n2.Creator");
             String profileOption = sc.next();
             boolean isValidProfileOption = false;
             while (!isValidProfileOption) {
                 if (profileOption.equals("1")) {
                     isValidProfileOption = true;
-                    custOp.leanerOperation();
+                    custOp.learnerOperation();
                 } else if (profileOption.equals("2")) {
                     isValidProfileOption = true;
-                    custOp.creatorOperartions();
+                    custOp.creatorOperations();
                 } else {
                     System.out.println("Invalid Option");
                 }
@@ -121,6 +120,12 @@ public class ZLearn {
                 add(new Chapter("Lesson 1","Yellow is new black"));
                 add(new Chapter("Lesson 2","This is minions, they have yellow skin color with round eyes!"));
                 add(new Chapter("Lesson 3","Minions appears in despicable me movie and owns its franchaisis"));
+                add(new Chapter("Lesson 4","Minions appears in despicable me movie and owns its franchaisis"));
+                add(new Chapter("Lesson 5","Minions appears in despicable me movie and owns its franchaisis"));
+                add(new Chapter("Lesson 6","Minions appears in despicable me movie and owns its franchaisis"));
+                add(new Chapter("Lesson 7","Minions appears in despicable me movie and owns its franchaisis"));
+                add(new Chapter("Lesson 8","Minions appears in despicable me movie and owns its franchaisis"));
+
             }
         };
         Course course1 = new Course("The Minions",category,"cs001",4.5,"1004",200,content);

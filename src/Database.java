@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+
 
 public class Database {
     private Database(){}
@@ -12,7 +11,7 @@ public class Database {
         }
         return instance;
     }
-    private Map<String,ArrayList<Map<Integer,Integer>>> userProgress = new HashMap<>();
+    private HashMap<String,ArrayList<HashMap<Integer,Double>>> userProgress = new HashMap<>();
     private ArrayList<Course> courses = new ArrayList<>();
     private ArrayList<Learner> learners = new ArrayList<>();
     private ArrayList<Creator> creators = new ArrayList<>();
@@ -26,7 +25,33 @@ public class Database {
     }
 
     public void addUserProgress(String courseId,int userId){
-        this.userProgress.get(courseId).add(new HashMap<Integer,Integer>(){{put(userId,0);}});
+        this.userProgress.get(courseId).add(new HashMap<Integer,Double>(){{put(userId,0.0);}});
+    }
+    public void updateUserProgress(String courseId, int userId, double currProgressStepValue){
+        double oldProgress = 0.0;
+        for(HashMap<Integer,Double> individualUserProgress : this.userProgress.get(courseId)){
+            if(individualUserProgress.containsKey(userId)){
+                oldProgress = individualUserProgress.get(userId);
+            }
+        }
+        double currentProgress = oldProgress+currProgressStepValue;
+        if(currentProgress > 99.0) currentProgress=100.0;
+        for(int i=0;i<this.userProgress.get(courseId).size();i++){
+            if(this.userProgress.get(courseId).get(i).containsKey(userId)){
+                this.userProgress.get(courseId).get(i).put(userId,currentProgress);
+                break;
+            }
+        }
+    }
+    public double getUserCurrentProgress(String courseId, int userId){
+        double currentProgress = 0 ;
+        for(HashMap<Integer,Double> individualUserProgress : this.userProgress.get(courseId)){
+            if(individualUserProgress.containsKey(userId)){
+               currentProgress = individualUserProgress.get(userId);
+               break;
+            }
+        }
+        return currentProgress;
     }
     Course getCourseDetails(String courseId){
         for(Course c : this.courses){
@@ -34,6 +59,7 @@ public class Database {
                 return c;
             }
         }
+
         return new Course();
     }
     void getLearnerDetails(){

@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class CustomerOperations {
-    void leanerOperation() {
+    void learnerOperation() {
         Scanner sc = new Scanner(System.in);
         System.out.println("----Learning never exhausts the mind----");
         System.out.println("1. View Enrolled Courses\n2. Enroll new Course\n3. View Certificates\n4. Switch to Creator\n0. Log Out");
@@ -17,7 +17,7 @@ public class CustomerOperations {
                 isValidLearnerOperationOption=true;
             }else if(learnerOperationOption.equals("4")){
                 isValidLearnerOperationOption=true;
-                creatorOperartions();
+                creatorOperations();
             }else if(learnerOperationOption.equals("0")){
                 isValidLearnerOperationOption=true;
             }else{
@@ -25,20 +25,20 @@ public class CustomerOperations {
             }
         }
     }
-    void creatorOperartions(){
+    void creatorOperations(){
         Scanner sc = new Scanner(System.in);
         System.out.println("----To Teach is to Learn Twice Over----");
         System.out.println("1.View Created Courses\n2. Create New Course\n3. Switch to Learner\n0. Log Out");
-        String creatorOperationOption = sc.next();
         boolean isValidCreatorOperationOption = false;
         while(!isValidCreatorOperationOption){
+            String creatorOperationOption = sc.next();
             if(creatorOperationOption.equals("1")){
                 isValidCreatorOperationOption=true;
             }else if(creatorOperationOption.equals("2")){
                 isValidCreatorOperationOption=true;
             }else if(creatorOperationOption.equals("3")){
                 isValidCreatorOperationOption=true;
-                leanerOperation();
+                learnerOperation();
             }else if(creatorOperationOption.equals("0")){
                 isValidCreatorOperationOption=true;
             }else{
@@ -49,11 +49,100 @@ public class CustomerOperations {
 
     void viewEnrolledCourse(){
         Database db = Database.getInstance();
+        Scanner sc = new Scanner(System.in);
         if(ZLearn.currUser instanceof Learner) {
-            for (String courseId : ((Learner) ZLearn.currUser).getMyCourses()) {
-                Course tempCourse = db.getCourseDetails(courseId);
-                System.out.println(tempCourse.getCourseId());
-                System.out.println(tempCourse.getRating());
+            if(((Learner) ZLearn.currUser).getMyCourses().size() != 0) {
+                System.out.println("-----Enrolled Courses-----");
+                int courseNumber = 1;
+                for (String courseId : ((Learner) ZLearn.currUser).getMyCourses()) {
+                    Course tempCourse = db.getCourseDetails(courseId);
+                    System.out.println("["+courseNumber +"] "+tempCourse.getCourseName());
+                    courseNumber++;
+                }
+                System.out.println("0. Back");
+                boolean isValidCourseOption = false;
+                while (!isValidCourseOption){
+                    String courseOption = sc.next();
+                    if(courseOption.equals("0")) isValidCourseOption=true;
+                    else if (Integer.parseInt(courseOption) <= ((Learner) ZLearn.currUser).getMyCourses().size()) {
+                        int courseIndex = Integer.parseInt(courseOption)-1;
+                        openCourse(((Learner) ZLearn.currUser).getMyCourses().get(courseIndex));
+                        isValidCourseOption = true;
+                    }else{
+                        System.out.println("Invalid Option");
+                    }
+                }
+
+            }else{
+                System.out.println("You havent enrolled any course Yet!\n 1. To enroll new Course");
+            }
+        }
+    }
+
+    void openCourse(String courseId){
+        Database db = Database.getInstance();
+        Scanner sc = new Scanner(System.in);
+        Course currCourse = db.getCourseDetails(courseId);
+        System.out.println("+++++++"+currCourse.getCourseId()+"+++++++");
+        System.out.println("1. Start Learning\n2. Course Details\n3. Comment Page\n4. Unenroll Course\n0. Back");
+        String courseOperation = sc.next();
+        boolean isValidCourseOperation = false;
+        while (!isValidCourseOperation){
+            if(courseOperation.equals("1")){
+                isValidCourseOperation=true;
+                startLearning(courseId);
+                db.getCourseDetails(courseId);
+            } else if(courseOperation.equals("2")){
+                isValidCourseOperation=true;
+            } else if (courseOperation.equals("3")) {
+                isValidCourseOperation=true;
+            } else if (courseOperation.equals("4")) {
+                isValidCourseOperation=true;
+            } else if (courseOperation.equals("0")) {
+                isValidCourseOperation=true;
+            } else {
+                System.out.println("Invalid Option");
+            }
+        }
+    }
+
+    void startLearning(String courseId){
+        Database db = Database.getInstance();
+        Scanner sc = new Scanner(System.in);
+        Course currCourse = db.getCourseDetails(courseId);
+        double userCurrentProgress = db.getUserCurrentProgress(courseId,ZLearn.currUser.getUserId());
+        int chapterIndex = (userCurrentProgress==0.0) ? 0 : (int) Math.round(100.0 / userCurrentProgress);
+        db.updateUserProgress(courseId,ZLearn.currUser.getUserId(), currCourse.getCourseProgressStepValue());
+//        System.out.println(userCurrentProgress);
+        boolean loopContol = false;
+        while (!loopContol) {
+            System.out.println("userProgess "+db.getUserCurrentProgress(courseId,ZLearn.currUser.getUserId()));
+            System.out.println("+++++++" + currCourse.getCourseId() + "+++++++");
+            Chapter lesson = currCourse.getChapter(chapterIndex);
+            System.out.println("Chapter : "+lesson.getChapterName());
+            System.out.println("Lesson:\n"+lesson.getLesson());
+            if(chapterIndex>0 && chapterIndex<currCourse.getContentLength()-1)
+                System.out.println("0. back  1. next  2. Exit");
+            else if (chapterIndex == 0) {
+                System.out.println("1. next 2. Exit");
+            } else if(chapterIndex == currCourse.getContentLength()-1){
+                System.out.println("0. back 2. Exit");
+            }
+            while (true) {
+                String courseControl = sc.next();
+                if (courseControl.equals("0") && chapterIndex>0) {
+                    chapterIndex-=1;
+                    break;
+                } else if (courseControl.equals("1") && chapterIndex< currCourse.getContentLength()-1) {
+                    chapterIndex+=1;
+                    db.updateUserProgress(courseId,ZLearn.currUser.getUserId(), currCourse.getCourseProgressStepValue());
+                    break;
+                } else if (courseControl.equals("2")) {
+                    loopContol=true;
+                    break;
+                } else {
+                    System.out.println("Invalid input!!");
+                }
             }
         }
     }

@@ -23,7 +23,24 @@ public class Database {
     public void addCreator(Creator creator){
         this.creators.add(creator);
     }
-
+    public String getCreatorName(int userId){
+        String creatorName = "null";
+        for(Creator creator:this.creators){
+            if(creator.getUserId() == userId){
+                creatorName = creator.getUserName();
+            }
+        }
+        return creatorName;
+    }
+    public String getLearnerName(int userId){
+        String learnerName = "null";
+        for(Learner learner:this.learners){
+            if(learner.getUserId() == userId){
+                learnerName = learner.getUserName();
+            }
+        }
+        return learnerName;
+    }
     public void addUserProgress(String courseId,int userId){
         this.userProgress.get(courseId).add(new HashMap<Integer,Double>(){{put(userId,0.0);}});
     }
@@ -129,6 +146,15 @@ public class Database {
     public void addCourses(Course course) {
         this.courses.add(course);
         this.userProgress.put(course.getCourseId(), new ArrayList<>());
+    }
+    public void addComment(String courseId,String comment,int commenter){
+        int courseIndex=0;
+        for(Course course : this.courses){
+            if(course.getCourseId().equals(courseId)){
+                courseIndex = this.courses.indexOf(course);
+            }
+        }
+        this.courses.get(courseIndex).addComment(comment,commenter);
     }
 }
 

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CustomerOperations {
@@ -94,8 +95,18 @@ public class CustomerOperations {
                 db.getCourseDetails(courseId);
             } else if(courseOperation.equals("2")){
                 isValidCourseOperation=true;
+                System.out.println("+++++++"+currCourse.getCourseId()+"+++++++");
+                System.out.println("Course Name :"+ currCourse.getCourseName());
+                System.out.println("Creator :"+ db.getCreatorName(currCourse.getCreatorId()));
+                System.out.println("Rating :"+currCourse.getRating());
+                System.out.println("-What You'll Learn-");
+                ArrayList<String> learnings = currCourse.getCourseLearnings();
+                for(int i=1;i<learnings.size();i++){
+                    System.out.println("["+i+"] "+learnings.get(i-1));
+                }
             } else if (courseOperation.equals("3")) {
                 isValidCourseOperation=true;
+                openCommentPage(courseId);
             } else if (courseOperation.equals("4")) {
                 isValidCourseOperation=true;
             } else if (courseOperation.equals("0")) {
@@ -110,17 +121,17 @@ public class CustomerOperations {
         Database db = Database.getInstance();
         Scanner sc = new Scanner(System.in);
         Course currCourse = db.getCourseDetails(courseId);
-        double userCurrentProgress = db.getUserCurrentProgress(courseId,ZLearn.currUser.getUserId());
-        int chapterIndex = (userCurrentProgress==0.0) ? 0 : (int) Math.round(100.0 / userCurrentProgress);
         db.updateUserProgress(courseId,ZLearn.currUser.getUserId(), currCourse.getCourseProgressStepValue());
-//        System.out.println(userCurrentProgress);
+        double userCurrentProgress = db.getUserCurrentProgress(courseId,ZLearn.currUser.getUserId());
+        int contentLength = currCourse.getContentLength();
+        int chapterIndex = (int) Math.round(contentLength / (100.0 / userCurrentProgress)) - 1;
         boolean loopContol = false;
         while (!loopContol) {
-            System.out.println("userProgess "+db.getUserCurrentProgress(courseId,ZLearn.currUser.getUserId()));
-            System.out.println("+++++++" + currCourse.getCourseId() + "+++++++");
+            userCurrentProgress = db.getUserCurrentProgress(courseId,ZLearn.currUser.getUserId());
+            System.out.println("+++++++" + currCourse.getCourseId() + "+++++++   ["+(int)userCurrentProgress+" %]");
             Chapter lesson = currCourse.getChapter(chapterIndex);
             System.out.println("Chapter : "+lesson.getChapterName());
-            System.out.println("Lesson:\n"+lesson.getLesson());
+            System.out.println("Lesson: "+lesson.getLesson());
             if(chapterIndex>0 && chapterIndex<currCourse.getContentLength()-1)
                 System.out.println("0. back  1. next  2. Exit");
             else if (chapterIndex == 0) {
@@ -142,6 +153,54 @@ public class CustomerOperations {
                     break;
                 } else {
                     System.out.println("Invalid input!!");
+                }
+            }
+        }
+    }
+
+    void openCommentPage(String courseId){
+        Database db = Database.getInstance();
+        Scanner sc = new Scanner(System.in);
+        Course currCourse = db.getCourseDetails(courseId);
+        boolean closeCommentPage = false;
+        while (!closeCommentPage) {
+            boolean isCurrentUserCommented = false;
+            for (Comment comment : currCourse.getComments()) {
+                if (comment.getCommenter() == ZLearn.currUser.getUserId()) {
+                    isCurrentUserCommented = true;
+                    break;
+                }
+            }
+            System.out.println("          Comment Page");
+            System.out.println("-------------------------------");
+            System.out.println("| 1. Add Comment      0. Back |");
+            if (isCurrentUserCommented) {
+                System.out.println("++++++++++Your Comment+++++++++");
+                for (Comment comment : currCourse.getComments()) {
+                    if (comment.getCommenter() == ZLearn.currUser.getUserId()) {
+                        System.out.println(" * " + comment.getComment());
+                    }
+                }
+            }
+            System.out.println("-------------------------------");
+            for (Comment comment : currCourse.getComments()) {
+                if (comment.getCommenter() != ZLearn.currUser.getUserId())
+                    System.out.println(db.getLearnerName(comment.getCommenter()) + " : " + comment.getComment());
+            }
+
+            boolean isValidCommentPageOption = false;
+            while (!isValidCommentPageOption) {
+                String commentPageOption = sc.nextLine();
+                if (commentPageOption.equals("1")) {
+                    System.out.println("Enter Your Comment");
+                    String comment = sc.nextLine();
+                    db.addComment(currCourse.getCourseId(),comment,ZLearn.currUser.getUserId());
+                    isValidCommentPageOption = true;
+                } else if (commentPageOption.equals("0")) {
+                    isValidCommentPageOption = true;
+                    closeCommentPage = true;
+                } else {
+                    System.out.println("Invalid Option!!!");
                 }
             }
         }

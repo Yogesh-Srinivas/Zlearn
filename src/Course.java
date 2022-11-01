@@ -5,12 +5,12 @@ public class Course {
     private ArrayList<String> courseCategory;
     private String courseId;
     private double rating;
-    private String creatorId;
+    private int creatorId;
     private int price;
     private ArrayList<Comment> comments = new ArrayList<>();
     private ArrayList<Chapter> content = new ArrayList<>();
 
-    public Course(String courseName, ArrayList<String> courseCategory, String courseId, double rating, String creatorId, int price, ArrayList<Chapter> content) {
+    public Course(String courseName, ArrayList<String> courseCategory, String courseId, double rating, int creatorId, int price, ArrayList<Chapter> content) {
         this.courseName = courseName;
         this.courseCategory = courseCategory;
         this.courseId = courseId;
@@ -38,8 +38,15 @@ public class Course {
     void editPricing(){
 
     }
-    void editComments(){
+    void editComment(){
 
+    }
+    public void addComment(String comment,int commenter){
+        Comment newComment = new Comment(comment,commenter);
+        this.comments.add(newComment);
+    }
+    public ArrayList<Comment> getComments(){
+        return this.comments;
     }
     void changeCourseName(){
 
@@ -68,24 +75,38 @@ public class Course {
     public double getCourseProgressStepValue(){
         return 100.0 / this.content.size();
     }
+
+    public int getCreatorId() {
+        return creatorId;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+    public ArrayList<String> getCourseLearnings(){
+        ArrayList<String> learnings = new ArrayList<>();
+        for(Chapter ch : this.content){
+            learnings.add(ch.getChapterName());
+        }
+        return learnings;
+    }
 }
 
 class Comment{
-    private String title;
-    private String body;
-    private String commenter;
+    private String comment;
+    private int commenter;
 
-    Comment(String title, String body, String commenter) {
-        this.title = title;
-        this.body = body;
+    Comment(String comment, int commenter) {
+        this.comment = comment;
         this.commenter = commenter;
     }
 
-    void changeTitle(){
-
+    public String getComment() {
+        return comment;
     }
-    void changeBody() {
 
+    public int getCommenter() {
+        return commenter;
     }
 }
 

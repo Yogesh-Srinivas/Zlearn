@@ -116,6 +116,8 @@ public class ZLearn {
                 add("Self Help");
             }
         };
+        db.addCategory("Finance");
+        db.addCategory("Self Help");
         ArrayList<Chapter> content = new ArrayList<Chapter>(){
             {
                 add(new Chapter("Lesson 1","Yellow is new black"));

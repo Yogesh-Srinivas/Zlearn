@@ -69,6 +69,9 @@ class Learner extends Customer{
     void enrollCourse(){
 
     }
+    void unenrollCourse(String courseId){
+        this.myCourses.remove(courseId);
+    }
     void startLearning(){
 
     }

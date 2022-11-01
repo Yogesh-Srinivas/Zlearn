@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Course {
     private String courseName;
-    private ArrayList<String> courseCategory;
+    private ArrayList<String> courseCategories;
     private String courseId;
     private double rating;
     private int creatorId;
@@ -12,7 +12,7 @@ public class Course {
 
     public Course(String courseName, ArrayList<String> courseCategory, String courseId, double rating, int creatorId, int price, ArrayList<Chapter> content) {
         this.courseName = courseName;
-        this.courseCategory = courseCategory;
+        this.courseCategories = courseCategory;
         this.courseId = courseId;
         this.rating = rating;
         this.creatorId = creatorId;
@@ -35,30 +35,12 @@ public class Course {
         return this.content.size();
     }
 
-    void editPricing(){
-
-    }
-    void editComment(){
-
-    }
     public void addComment(String comment,int commenter){
         Comment newComment = new Comment(comment,commenter);
         this.comments.add(newComment);
     }
     public ArrayList<Comment> getComments(){
         return this.comments;
-    }
-    void changeCourseName(){
-
-    }
-    void updateRating(){
-
-    }
-    void editCourseDescription(){
-
-    }
-    void updateCategory(){
-
     }
 
     public String getCourseId() {
@@ -89,6 +71,10 @@ public class Course {
             learnings.add(ch.getChapterName());
         }
         return learnings;
+    }
+
+    public ArrayList<String> getCourseCategories() {
+        return courseCategories;
     }
 }
 

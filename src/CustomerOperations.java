@@ -14,6 +14,7 @@ public class CustomerOperations {
                 viewEnrolledCourse();
             }else if(learnerOperationOption.equals("2")){
                 isValidLearnerOperationOption=true;
+                enrollNewCourse();
             }else if(learnerOperationOption.equals("3")){
                 isValidLearnerOperationOption=true;
             }else if(learnerOperationOption.equals("4")){
@@ -109,6 +110,9 @@ public class CustomerOperations {
                 openCommentPage(courseId);
             } else if (courseOperation.equals("4")) {
                 isValidCourseOperation=true;
+                ((Learner) ZLearn.currUser).unenrollCourse(courseId);
+                db.unenrollCourse(courseId,ZLearn.currUser.getUserId());
+                System.out.println("Course Unenrolled!!");
             } else if (courseOperation.equals("0")) {
                 isValidCourseOperation=true;
             } else {
@@ -204,5 +208,87 @@ public class CustomerOperations {
                 }
             }
         }
+    }
+    void enrollNewCourse(){
+        Database db = Database.getInstance();
+        Scanner sc = new Scanner(System.in);
+        String selectedCourseId = showCategoriesToEnroll();
+        if(selectedCourseId.equals("0")){
+            System.out.println("Back");
+        }else{
+            Course selectedCourse = db.getCourseDetails(selectedCourseId);
+            System.out.println("+++++++"+selectedCourse.getCourseId()+"+++++++");
+            System.out.println("Course Name :"+ selectedCourse.getCourseName());
+            System.out.println("Creator :"+ db.getCreatorName(selectedCourse.getCreatorId()));
+            System.out.println("Rating :"+selectedCourse.getRating());
+            System.out.println("-What You'll Learn-");
+            ArrayList<String> learnings = selectedCourse.getCourseLearnings();
+            for(int i=1;i<learnings.size();i++){
+                System.out.println("["+i+"] "+learnings.get(i-1));
+            }
+            System.out.println("\n1. Enroll  0.Back");
+            boolean isValidEnrollOption = false;
+            while(!isValidEnrollOption){
+                String enrollOption = sc.next();
+                if(enrollOption.equals("1")){
+                    //methods to enroll
+                    isValidEnrollOption=true;
+                } else if (enrollOption.equals("0")) {
+                    isValidEnrollOption=true;
+                }else {
+                    System.out.println("Invalid Option!!");
+                }
+            }
+        }
+    }
+    String showCategoriesToEnroll(){
+        Database db = Database.getInstance();
+        Scanner sc = new Scanner(System.in);
+        int categoryNumber = 0;
+        System.out.println("Select Course Category");
+        ArrayList<String> courseCategories = db.getCategories();
+        for (String category : courseCategories){
+            System.out.println("["+ (++categoryNumber)+"] "+category);
+        }
+        boolean isValidCategoryOption = false;
+        while (!isValidCategoryOption){
+            String categoryOption = sc.next();
+            if(categoryOption.equals("0")) isValidCategoryOption=true;
+            else if (Integer.parseInt(categoryOption) <= courseCategories.size()) {
+                isValidCategoryOption = true;
+                int categoryIndex = Integer.parseInt(categoryOption);
+                String selectedCourseId=showCoursesBasedOnCategory(courseCategories.get(categoryIndex));
+                return selectedCourseId;
+            }else{
+                System.out.println("Invalid Input!!");
+            }
+        }
+        return "0";
+    }
+    String showCoursesBasedOnCategory(String category){
+        Database db = Database.getInstance();
+        Scanner sc = new Scanner(System.in);
+        ArrayList<Course> courses = db.getCoursesBasedOnCategory(category);
+        if(courses.size() == 0){
+            System.out.println("Sorry! No Courses Available for your Category!!");
+        }else{
+            System.out.println("******"+category+" Courses*****");
+            int courseNumber = 0;
+            for(Course course:courses){
+                System.out.println("["+(++courseNumber)+"] "+course.getCourseName());
+                System.out.println("Price: "+course.getPrice()+"      Author:"+db.getCreatorName(course.getCreatorId())+"      Rating: "+course.getRating());
+                System.out.println();
+            }
+            boolean isValidCourseOption = false;
+            while (!isValidCourseOption){
+                String courseOption = sc.next();
+                if(courseOption.equals("0")) return "0";
+                if(Integer.parseInt(courseOption) <= courses.size()){
+                    int courseIndex = Integer.parseInt(courseOption)-1;
+                    return courses.get(courseIndex).getCourseId();
+                }
+            }
+        }
+        return "0";
     }
 }

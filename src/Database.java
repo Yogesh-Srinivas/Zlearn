@@ -15,7 +15,7 @@ public class Database {
     private ArrayList<Course> courses = new ArrayList<>();
     private ArrayList<Learner> learners = new ArrayList<>();
     private ArrayList<Creator> creators = new ArrayList<>();
-    private ArrayList<String> courseCategory = new ArrayList<>();
+    private ArrayList<String> courseCategories = new ArrayList<>();
 
     public void addLearner(Learner learner){
         this.learners.add(learner);
@@ -70,6 +70,16 @@ public class Database {
         }
         return currentProgress;
     }
+    public void unenrollCourse(String courseId,int userId){
+        int userProgressIndex=0;
+        for(HashMap<Integer,Double> individualUserProgress : this.userProgress.get(courseId)){
+            if(individualUserProgress.containsKey(userId)){
+                userProgressIndex = this.userProgress.get(courseId).indexOf(individualUserProgress);
+                break;
+            }
+        }
+        this.userProgress.get(courseId).remove(userProgressIndex);
+    }
     Course getCourseDetails(String courseId){
         for(Course c : this.courses){
             if(c.getCourseId().equals(courseId)){
@@ -79,20 +89,19 @@ public class Database {
 
         return new Course();
     }
-    void getLearnerDetails(){
-
+    ArrayList<String> getCategories(){
+        return this.courseCategories;
     }
-    void getCreatorDetails(){
-
+    void addCategory(String newCategory){
+        this.courseCategories.add(newCategory);
     }
-    void getCategory(){
-
-    }
-    void addCategory(){
-
-    }
-    void deleteCategory(){
-
+    ArrayList<Course> getCoursesBasedOnCategory(String category){
+        ArrayList<Course> filteredCourses = new ArrayList<>();
+        for(Course course : this.courses){
+            if(course.getCourseCategories().contains(category))
+                filteredCourses.add(course);
+        }
+        return filteredCourses;
     }
     boolean isCreatorALearner(String mobile){
         for(Learner l : this.learners){

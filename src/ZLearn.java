@@ -10,7 +10,6 @@ public class ZLearn {
         System.out.println("********Welcome********");
         System.out.println("*     IT's  ZLEARN    *");
         System.out.println("***********************");
-        CustomerOperations custOp = new CustomerOperations();
 //        while(true){
 //            System.out.println("-------Login---------");
 //            System.out.println("1. Customer Login\n2. Admin Login");
@@ -73,23 +72,23 @@ public class ZLearn {
 //                }
 //            }
         Learner user = new Learner("curUser","123","21345");
-        user.setMyCourses("cs001");
-        user.setMyCourses("cs002");
+        user.addMyCourse("cs001");
+        user.addMyCourse("cs002");
         db.addUserProgress("cs001",user.getUserId());
         db.addUserProgress("cs002", user.getUserId());
         db.addLearner(user);
         ZLearn.currUser = user;
-        while(true) {
+        while (true) {
             System.out.println("1.Learner\n2.Creator");
             String profileOption = sc.next();
             boolean isValidProfileOption = false;
             while (!isValidProfileOption) {
                 if (profileOption.equals("1")) {
                     isValidProfileOption = true;
-                    custOp.learnerOperation();
+                    CustomerOperations.learnerOperation();
                 } else if (profileOption.equals("2")) {
                     isValidProfileOption = true;
-                    custOp.creatorOperations();
+                    CustomerOperations.creatorOperations();
                 } else {
                     System.out.println("Invalid Option");
                 }
@@ -107,7 +106,7 @@ public class ZLearn {
         db.addLearner(learner2);
         Creator creator1 = new Creator("Yogi","123","12345");
         db.addCreator(creator1);
-        Creator creator2 = new Creator("Sathya","123","45678");
+        Creator creator2 = new Creator("Satya","123","45678");
         db.addCreator(creator2);
 
         ArrayList<String> category = new ArrayList<String>(){
@@ -122,26 +121,26 @@ public class ZLearn {
             {
                 add(new Chapter("Lesson 1","Yellow is new black"));
                 add(new Chapter("Lesson 2","This is minions, they have yellow skin color with round eyes!"));
-                add(new Chapter("Lesson 3","Minions appears in despicable me movie and owns its franchaisis"));
-                add(new Chapter("Lesson 4","Minions appears in despicable me movie and owns its franchaisis"));
-                add(new Chapter("Lesson 5","Minions appears in despicable me movie and owns its franchaisis"));
-                add(new Chapter("Lesson 6","Minions appears in despicable me movie and owns its franchaisis"));
-                add(new Chapter("Lesson 7","Minions appears in despicable me movie and owns its franchaisis"));
-                add(new Chapter("Lesson 8","Minions appears in despicable me movie and owns its franchaisis"));
+                add(new Chapter("Lesson 3","Minions appears in despicable me movie and owns its franchises"));
+                add(new Chapter("Lesson 4","Minions appears in despicable me movie and owns its franchises"));
+                add(new Chapter("Lesson 5","Minions appears in despicable me movie and owns its franchises"));
+                add(new Chapter("Lesson 6","Minions appears in despicable me movie and owns its franchises"));
+                add(new Chapter("Lesson 7","Minions appears in despicable me movie and owns its franchises"));
+                add(new Chapter("Lesson 8","Minions appears in despicable me movie and owns its franchises"));
 
             }
         };
-        Course course1 = new Course("The Minions",category,"cs001",4.5,1004,200,content);
+        Course course1 = new Course("The Minions",category,"cs001",1004,200,content);
         course1.addComment("Nice Course",1001);
-        course1.addComment("Awsome Course",1002);
+        course1.addComment("Awesome Course",1002);
         course1.addComment("Need More Improvement",1003);
         course1.addComment("Add more content like this.",1006);
-        course1.addComment("Add more content like this.Yess!!",1006);
-        course1.addComment("Add more content like this.No moree",1006);
+        course1.addComment("Add more content like this.Yes!!",1006);
+        course1.addComment("Add more content like this.No more",1006);
         db.addCourses(course1);
-        Course course2 = new Course("The Minions 2",category,"cs002",4.5,1005,250,content);
+        Course course2 = new Course("The Minions 2",category,"cs002",1005,250,content);
         course2.addComment("Need More Improvement",1003);
-        course2.addComment("Awsome Course",1002);
+        course2.addComment("Awesome Course",1002);
         course2.addComment("Add more content like this.",1006);
         course2.addComment("Nice Course",1001);
         db.addCourses(course2);

@@ -4,17 +4,17 @@ public class Course {
     private String courseName;
     private ArrayList<String> courseCategories;
     private String courseId;
-    private double rating;
+    private double rating = 0.0;
+    private ArrayList<Integer> ratedBy = new ArrayList<>();
     private int creatorId;
     private int price;
     private ArrayList<Comment> comments = new ArrayList<>();
     private ArrayList<Chapter> content = new ArrayList<>();
 
-    public Course(String courseName, ArrayList<String> courseCategory, String courseId, double rating, int creatorId, int price, ArrayList<Chapter> content) {
+    public Course(String courseName, ArrayList<String> courseCategory, String courseId, int creatorId, int price, ArrayList<Chapter> content) {
         this.courseName = courseName;
         this.courseCategories = courseCategory;
         this.courseId = courseId;
-        this.rating = rating;
         this.creatorId = creatorId;
         this.price = price;
         this.content = content;
@@ -22,10 +22,7 @@ public class Course {
     public Course(){
         this.courseId=null;
     }
-    void editContent(){
-
-    }
-    void addContent(Chapter newChapter){
+    public void addContent(Chapter newChapter){
         this.content.add(newChapter);
     }
     public Chapter getChapter(int ind){
@@ -75,6 +72,16 @@ public class Course {
 
     public ArrayList<String> getCourseCategories() {
         return courseCategories;
+    }
+
+    public boolean isUserRated(int userId) {
+        return this.ratedBy.contains(userId);
+    }
+    public void updateRating(int userId,int rating){
+        int ratedUserCount = this.ratedBy.size();
+        double newRating =  ((rating*ratedUserCount) + rating) / (ratedUserCount+1);
+        this.rating = Double.parseDouble(String.format("%.1f",newRating));
+        this.ratedBy.add(userId);
     }
 }
 

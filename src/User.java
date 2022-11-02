@@ -41,88 +41,12 @@ class Customer extends User{
     public Customer(String userName, String password, String mobileNumber) {
         super(userName, password, mobileNumber);
     }
-    void viewAllCourses(){
-
-    }
     public void setRole(String role) {
         this.role = role;
     }
 
     public String getRole() {
         return role;
-    }
-}
-class Learner extends Customer{
-    private ArrayList<String> myCourses = new ArrayList<>();
-
-    public Learner(String userName, String password, String mobileNumber) {
-        super(userName, password, mobileNumber);
-        Database db = Database.getInstance();
-        if(db.isLearnerACreator(mobileNumber)){
-            super.setRole(role.LEARNER_AND_CREATOR.toString());
-            db.changeCreatorRole(role.LEARNER_AND_CREATOR.toString(),mobileNumber);
-        }
-        else super.setRole(role.LEARNER_ONLY.toString());
-
-    }
-
-    void enrollCourse(){
-
-    }
-    void unenrollCourse(String courseId){
-        this.myCourses.remove(courseId);
-    }
-    void startLearning(){
-
-    }
-    void addComments(){
-
-    }
-    void editComments(){
-
-    }
-    void deleteComments(){
-
-    }
-    void showCertificates(){
-
-    }
-    void rateCourse(){
-
-    }
-    void viewEnrolledCourse(){
-
-    }
-
-    public ArrayList<String> getMyCourses() {
-        return myCourses;
-    }
-    public void setMyCourses(String courseId) {
-        this.myCourses.add(courseId);
-    }
-}
-
-class Creator extends Customer{
-    public Creator(String userName, String password, String mobileNumber) {
-        super(userName, password, mobileNumber);
-        Database db = Database.getInstance();
-        if(db.isCreatorALearner(mobileNumber)){
-            super.setRole(role.LEARNER_AND_CREATOR.toString());
-            db.changeLearnerRole(role.LEARNER_AND_CREATOR.toString(),mobileNumber);
-        }
-        else super.setRole(role.CREATOR_ONLY.toString());
-    }
-    void createCourse(){
-
-    }
-    void deleteCourse(){
-
-    }
-    void editCourse(){
-
-    }
-    void viewCreatedCourse(){
-
     }
 }
 

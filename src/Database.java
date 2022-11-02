@@ -70,6 +70,9 @@ public class Database {
         }
         return currentProgress;
     }
+    public void enrollCourse(String courseId,int userId){
+        addUserProgress(courseId,userId);
+    }
     public void unenrollCourse(String courseId,int userId){
         int userProgressIndex=0;
         for(HashMap<Integer,Double> individualUserProgress : this.userProgress.get(courseId)){
@@ -80,7 +83,7 @@ public class Database {
         }
         this.userProgress.get(courseId).remove(userProgressIndex);
     }
-    Course getCourseDetails(String courseId){
+    public Course getCourseDetails(String courseId){
         for(Course c : this.courses){
             if(c.getCourseId().equals(courseId)){
                 return c;
@@ -89,13 +92,13 @@ public class Database {
 
         return new Course();
     }
-    ArrayList<String> getCategories(){
+    public ArrayList<String> getCategories(){
         return this.courseCategories;
     }
-    void addCategory(String newCategory){
+    public void addCategory(String newCategory){
         this.courseCategories.add(newCategory);
     }
-    ArrayList<Course> getCoursesBasedOnCategory(String category){
+    public ArrayList<Course> getCoursesBasedOnCategory(String category){
         ArrayList<Course> filteredCourses = new ArrayList<>();
         for(Course course : this.courses){
             if(course.getCourseCategories().contains(category))
@@ -103,26 +106,26 @@ public class Database {
         }
         return filteredCourses;
     }
-    boolean isCreatorALearner(String mobile){
+    public boolean isCreatorALearner(String mobile){
         for(Learner l : this.learners){
             if(l.getMobileNumber().equals(mobile)) return true;
         }
         return false;
     }
-    boolean isLearnerACreator(String mobile){
+    public boolean isLearnerACreator(String mobile){
         for(Creator c : this.creators){
             if(c.getMobileNumber().equals(mobile)) return true;
         }
         return false;
     }
-    void changeLearnerRole(String role,String mobile){
+    public void changeLearnerRole(String role,String mobile){
         for(Learner l : this.learners){
             if(l.getMobileNumber().equals(mobile)){
                 l.setRole(role);
             }
         }
     }
-    void changeCreatorRole(String role,String mobile){
+    public void changeCreatorRole(String role,String mobile){
         for(Creator c : this.creators){
             if(c.getMobileNumber().equals(mobile)){
                 c.setRole(role);
@@ -164,6 +167,15 @@ public class Database {
             }
         }
         this.courses.get(courseIndex).addComment(comment,commenter);
+    }
+    public void rateCourse(String courseId,int userId,int rating){
+        int courseIndex=0;
+        for(Course course : this.courses){
+            if(course.getCourseId().equals(courseId)){
+                courseIndex = this.courses.indexOf(course);
+            }
+        }
+        this.courses.get(courseIndex).updateRating(userId,rating);
     }
 }
 

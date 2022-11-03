@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CustomerOperations {
@@ -36,8 +35,10 @@ public class CustomerOperations {
             String creatorOperationOption = sc.next();
             if(creatorOperationOption.equals("1")){
                 isValidCreatorOperationOption=true;
+                ((Creator)ZLearn.currUser).viewCreatedCourse();
             }else if(creatorOperationOption.equals("2")){
                 isValidCreatorOperationOption=true;
+                ((Creator)ZLearn.currUser).createCourse();
             }else if(creatorOperationOption.equals("3")){
                 isValidCreatorOperationOption=true;
                 CustomerOperations.learnerOperation();

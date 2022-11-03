@@ -48,7 +48,8 @@ public class Learner extends Customer{
             }
 
         }else{
-            System.out.println("You have not enrolled any course Yet!\n 1. To enroll new Course");
+            //need to add back to this
+            System.out.println("You have not enrolled any course Yet!");
         }
     }
     private void openCourse(String courseId){
@@ -67,7 +68,7 @@ public class Learner extends Customer{
         while (!isValidCourseOperation){
             if(courseOperation.equals("1")){
                 isValidCourseOperation=true;
-                startLearning(courseId);
+                this.startLearning(courseId);
                 db.getCourseDetails(courseId);
             } else if(courseOperation.equals("2")){
                 isValidCourseOperation=true;
@@ -82,7 +83,7 @@ public class Learner extends Customer{
                 }
             } else if (courseOperation.equals("3")) {
                 isValidCourseOperation=true;
-                openCommentPage(courseId);
+                this.openCommentPage(courseId);
             } else if (courseOperation.equals("4")) {
                 isValidCourseOperation=true;
                 this.unenrollCourse(courseId);
@@ -92,7 +93,7 @@ public class Learner extends Customer{
                 isValidCourseOperation=true;
             } else if (!isUserRated && courseOperation.equals("5")) {
                 isValidCourseOperation=true;
-                rateCourse(courseId);
+                this.rateCourse(courseId);
                 System.out.println("Rated Successfully!!");
             } else {
                 System.out.println("Invalid Option");

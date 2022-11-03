@@ -83,6 +83,19 @@ public class Course {
         this.rating = Double.parseDouble(String.format("%.1f",newRating));
         this.ratedBy.add(userId);
     }
+    public void changeCourseName(String newCourseName){
+        this.courseName = newCourseName;
+    }
+    public void addCategory(String categoryName){
+        this.courseCategories.add(categoryName);
+    }
+    public void deleteCategory(String categoryName){
+        this.courseCategories.remove(categoryName);
+    }
+    public void changePrice(int newPrice){
+        this.price = newPrice;
+        System.out.println("Price Changed");
+    }
 }
 
 class Comment{

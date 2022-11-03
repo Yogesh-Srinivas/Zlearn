@@ -77,7 +77,11 @@ public class ZLearn {
         db.addUserProgress("cs001",user.getUserId());
         db.addUserProgress("cs002", user.getUserId());
         db.addLearner(user);
-        ZLearn.currUser = user;
+
+        Creator creator = new Creator("createUser","123","12435");
+        db.addCreator(creator);
+//        ZLearn.currUser = user;
+        ZLearn.currUser = creator;
         while (true) {
             System.out.println("1.Learner\n2.Creator");
             String profileOption = sc.next();
@@ -117,6 +121,9 @@ public class ZLearn {
         };
         db.addCategory("Finance");
         db.addCategory("Self Help");
+        db.addCategory("Business");
+        db.addCategory("Coding");
+
         ArrayList<Chapter> content = new ArrayList<Chapter>(){
             {
                 add(new Chapter("Lesson 1","Yellow is new black"));
@@ -130,7 +137,7 @@ public class ZLearn {
 
             }
         };
-        Course course1 = new Course("The Minions",category,"cs001",1004,200,content);
+        Course course1 = new Course("The Minions",category,"cs001",1007,200,content);
         course1.addComment("Nice Course",1001);
         course1.addComment("Awesome Course",1002);
         course1.addComment("Need More Improvement",1003);
@@ -138,7 +145,7 @@ public class ZLearn {
         course1.addComment("Add more content like this.Yes!!",1006);
         course1.addComment("Add more content like this.No more",1006);
         db.addCourses(course1);
-        Course course2 = new Course("The Minions 2",category,"cs002",1005,250,content);
+        Course course2 = new Course("The Minions 2",category,"cs002",1007,0,content);
         course2.addComment("Need More Improvement",1003);
         course2.addComment("Awesome Course",1002);
         course2.addComment("Add more content like this.",1006);

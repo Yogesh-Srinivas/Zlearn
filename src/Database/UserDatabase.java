@@ -119,7 +119,7 @@ public class UserDatabase {
         this.learners.get(learnerIndex).changePassword(newPassword);
     }
 
-    public void changeUserPassword(String userId,String newPassword){
+    public void changeCreatorPassword(String userId,String newPassword){
         int creatorIndex = getCreatorIndex(userId);
         this.creators.get(creatorIndex).changePassword(newPassword);
     }
@@ -138,5 +138,6 @@ public class UserDatabase {
         int learnerIndex = getLearnerIndex(userId);
         this.learners.get(learnerIndex).removeCourse(courseId);
     }
+
 
 }

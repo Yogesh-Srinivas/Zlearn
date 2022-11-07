@@ -1,7 +1,9 @@
+package oldFiles;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Creator extends Customer{
+public class Creator extends Customer {
     public Creator(String userName, String password, String mobileNumber) {
         super(userName, password, mobileNumber);
         Database db = Database.getInstance();
@@ -39,7 +41,7 @@ public class Creator extends Customer{
 
         }else{
             //need to add break
-            System.out.println("You have not Created any Course,Yet!");
+            System.out.println("You have not Created any oldFiles.Course,Yet!");
         }
 
     }
@@ -48,15 +50,15 @@ public class Creator extends Customer{
         Database db = Database.getInstance();
         Scanner sc = new Scanner(System.in);
         System.out.println("+++++++"+currCourse.getCourseId()+"+++++++");
-        System.out.println("1. View Course\n2. Edit Course\n3. View Comments\n4. Delete Course\n0. Back");
+        System.out.println("1. View oldFiles.Course\n2. Edit oldFiles.Course\n3. View Comments\n4. Delete oldFiles.Course\n0. Back");
         String courseOperation = sc.next();
         boolean isValidCourseOperation = false;
         while (!isValidCourseOperation){
             if(courseOperation.equals("1")){
                 isValidCourseOperation=true;
                 System.out.println("+++++++"+currCourse.getCourseId()+"+++++++");
-                System.out.println("Course Name :"+ currCourse.getCourseName());
-                System.out.println("Creator :"+ db.getCreatorName(currCourse.getCreatorId()));
+                System.out.println("oldFiles.Course Name :"+ currCourse.getCourseName());
+                System.out.println("oldFiles.Creator :"+ db.getCreatorName(currCourse.getCreatorId()));
                 System.out.println("Rating :"+currCourse.getRating());
                 if(currCourse.getPrice() == 0) System.out.println("Price: Free");
                 else System.out.println("Price :"+currCourse.getPrice());
@@ -74,7 +76,7 @@ public class Creator extends Customer{
             } else if (courseOperation.equals("4")) {
                 isValidCourseOperation=true;
                 this.deleteCourse(currCourse.getCourseId());
-                System.out.println("Course Deleted!!");
+                System.out.println("oldFiles.Course Deleted!!");
             } else if (courseOperation.equals("0")) {
                 isValidCourseOperation=true;
             } else {
@@ -86,8 +88,8 @@ public class Creator extends Customer{
     private void editCourse(String courseId){
         Database db = Database.getInstance();
         Scanner sc = new Scanner(System.in);
-        System.out.println("*****Edit Course*****");
-        System.out.println("1. Change Course Name\n2. Add/Remove Category\n3. Change Price\n4. Edit Content\n0. Back");
+        System.out.println("*****Edit oldFiles.Course*****");
+        System.out.println("1. Change oldFiles.Course Name\n2. Add/Remove Category\n3. Change Price\n4. Edit Content\n0. Back");
         boolean isValidEditOption = false;
         while (!isValidEditOption){
             String editOption = sc.next();
@@ -113,10 +115,10 @@ public class Creator extends Customer{
     private void changeCourseName(String courseId){
         Database db = Database.getInstance();
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter New Course Name");
+        System.out.println("Enter New oldFiles.Course Name");
         String newCourseName = sc.nextLine();
         db.changeCourseName(courseId,newCourseName);
-        System.out.println("Course Name Updated!!");
+        System.out.println("oldFiles.Course Name Updated!!");
     }
     private void editCategory(String courseId){
         Database db = Database.getInstance();
@@ -129,7 +131,7 @@ public class Creator extends Customer{
             for(String category:currCourseCategories){
                 availableCategories.remove(category);
             }
-            System.out.print("Course Category\n ");
+            System.out.print("oldFiles.Course Category\n ");
             for (String category : currCourseCategories) {
                 System.out.print(category + " | ");
             }
@@ -186,7 +188,7 @@ public class Creator extends Customer{
                             }
                         }
                     }else {
-                        System.out.println("Course Must Contain One Category.");
+                        System.out.println("oldFiles.Course Must Contain One Category.");
                         break;
                     }
                 } else if (editOperation.equals("0")) {

@@ -1,7 +1,9 @@
+package oldFiles;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Learner extends Customer{
+public class Learner extends Customer {
     private ArrayList<String> myCourses = new ArrayList<>();
 
     public Learner(String userName, String password, String mobileNumber) {
@@ -59,9 +61,9 @@ public class Learner extends Customer{
         System.out.println("+++++++"+currCourse.getCourseId()+"+++++++");
         boolean isUserRated = currCourse.isUserRated(super.getUserId());
         if(isUserRated){
-            System.out.println("1. Start Learning\n2. Course Details\n3. Comment Page\n4. Unenroll Course\n0. Back");
+            System.out.println("1. Start Learning\n2. oldFiles.Course Details\n3. oldFiles.Comment Page\n4. Unenroll oldFiles.Course\n0. Back");
         }else {
-            System.out.println("1. Start Learning\n2. Course Details\n3. Comment Page\n4. Unenroll Course\n5. Rate Course\n0. Back");
+            System.out.println("1. Start Learning\n2. oldFiles.Course Details\n3. oldFiles.Comment Page\n4. Unenroll oldFiles.Course\n5. Rate oldFiles.Course\n0. Back");
         }
         String courseOperation = sc.next();
         boolean isValidCourseOperation = false;
@@ -73,8 +75,8 @@ public class Learner extends Customer{
             } else if(courseOperation.equals("2")){
                 isValidCourseOperation=true;
                 System.out.println("+++++++"+currCourse.getCourseId()+"+++++++");
-                System.out.println("Course Name :"+ currCourse.getCourseName());
-                System.out.println("Creator :"+ db.getCreatorName(currCourse.getCreatorId()));
+                System.out.println("oldFiles.Course Name :"+ currCourse.getCourseName());
+                System.out.println("oldFiles.Creator :"+ db.getCreatorName(currCourse.getCreatorId()));
                 System.out.println("Rating :"+currCourse.getRating());
                 System.out.println("-What You'll Learn-");
                 ArrayList<String> learnings = currCourse.getCourseLearnings();
@@ -88,7 +90,7 @@ public class Learner extends Customer{
                 isValidCourseOperation=true;
                 this.unenrollCourse(courseId);
                 db.unenrollCourse(courseId,super.getUserId());
-                System.out.println("Course Unenrolled!!");
+                System.out.println("oldFiles.Course Unenrolled!!");
             } else if (courseOperation.equals("0")) {
                 isValidCourseOperation=true;
             } else if (!isUserRated && courseOperation.equals("5")) {
@@ -113,7 +115,7 @@ public class Learner extends Customer{
             userCurrentProgress = db.getUserCurrentProgress(courseId, super.getUserId());
             System.out.println("+++++++" + currCourse.getCourseId() + "+++++++   [" + (int) userCurrentProgress + " %]");
             Chapter lesson = currCourse.getChapter(chapterIndex);
-            System.out.println("Chapter : " + lesson.getChapterName());
+            System.out.println("oldFiles.Chapter : " + lesson.getChapterName());
             System.out.println("Lesson: " + lesson.getLesson());
             if (chapterIndex > 0 && chapterIndex < currCourse.getContentLength() - 1)
                 System.out.println("0. back  1. next  2. Exit");
@@ -149,8 +151,8 @@ public class Learner extends Customer{
         }else{
             Course selectedCourse = db.getCourseDetails(selectedCourseId);
             System.out.println("+++++++"+selectedCourse.getCourseId()+"+++++++");
-            System.out.println("Course Name :"+ selectedCourse.getCourseName());
-            System.out.println("Creator :"+ db.getCreatorName(selectedCourse.getCreatorId()));
+            System.out.println("oldFiles.Course Name :"+ selectedCourse.getCourseName());
+            System.out.println("oldFiles.Creator :"+ db.getCreatorName(selectedCourse.getCreatorId()));
             System.out.println("Rating :"+selectedCourse.getRating());
             System.out.println("-What You'll Learn-");
             ArrayList<String> learnings = selectedCourse.getCourseLearnings();
@@ -164,7 +166,7 @@ public class Learner extends Customer{
                 if(enrollOption.equals("1")){
                     this.myCourses.add(selectedCourseId);
                     db.enrollCourse(selectedCourseId,super.getUserId());
-                    System.out.println("Course Enrolled Successfully!!");
+                    System.out.println("oldFiles.Course Enrolled Successfully!!");
                     isValidEnrollOption=true;
                 } else if (enrollOption.equals("0")) {
                     isValidEnrollOption=true;
@@ -178,7 +180,7 @@ public class Learner extends Customer{
         Database db = Database.getInstance();
         Scanner sc = new Scanner(System.in);
         int categoryNumber = 0;
-        System.out.println("Select Course Category");
+        System.out.println("Select oldFiles.Course Category");
         ArrayList<String> courseCategories = db.getCategories();
         for (String category : courseCategories){
             System.out.println("["+ (++categoryNumber)+"] "+category);
@@ -242,11 +244,11 @@ public class Learner extends Customer{
                     break;
                 }
             }
-            System.out.println("          Comment Page");
+            System.out.println("          oldFiles.Comment Page");
             System.out.println("-------------------------------");
-            System.out.println("| 1. Add Comment      0. Back |");
+            System.out.println("| 1. Add oldFiles.Comment      0. Back |");
             if (isCurrentUserCommented) {
-                System.out.println("++++++++++Your Comment+++++++++");
+                System.out.println("++++++++++Your oldFiles.Comment+++++++++");
                 for (Comment comment : currCourse.getComments()) {
                     if (comment.getCommenter() == super.getUserId()) {
                         System.out.println(" * " + comment.getComment());
@@ -263,7 +265,7 @@ public class Learner extends Customer{
             while (!isValidCommentPageOption) {
                 String commentPageOption = sc.nextLine();
                 if (commentPageOption.equals("1")) {
-                    System.out.println("Enter Your Comment");
+                    System.out.println("Enter Your oldFiles.Comment");
                     String comment = sc.nextLine();
                     db.addComment(currCourse.getCourseId(),comment,super.getUserId());
                     isValidCommentPageOption = true;
@@ -283,7 +285,7 @@ public class Learner extends Customer{
     private void rateCourse(String courseId){
         Database db = Database.getInstance();
         Scanner sc = new Scanner(System.in);
-        System.out.println("****Rate the Course - "+courseId+" ****");
+        System.out.println("****Rate the oldFiles.Course - "+courseId+" ****");
         System.out.println("1.Poor 2.Bad 3.Good 4.Very Good 5.Excellent");
         boolean isValidRatingOption = false;
         int rating=0;

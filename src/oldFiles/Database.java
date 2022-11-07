@@ -1,6 +1,7 @@
+package oldFiles;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 
 
 public class Database {
@@ -18,7 +19,7 @@ public class Database {
     private ArrayList<Creator> creators = new ArrayList<>();
     private ArrayList<String> courseCategories = new ArrayList<>();
 
-    //Learner Methods
+    //oldFiles.Learner Methods
     public void addLearner(Learner learner){
         this.learners.add(learner);
     }
@@ -156,7 +157,7 @@ public class Database {
                 }
             }
         }
-        return "User Not Found";
+        return "oldFiles.User Not Found";
     }
 
     public void addCourses(Course course) {
@@ -182,7 +183,7 @@ public class Database {
         this.courses.get(courseIndex).updateRating(userId,rating);
     }
 
-    //Creator Methods
+    //oldFiles.Creator Methods
     public ArrayList<Course> getCreatorCourses(int userId){
         ArrayList<Course> creatorCourses = new ArrayList<>();
         for(Course course:this.courses){

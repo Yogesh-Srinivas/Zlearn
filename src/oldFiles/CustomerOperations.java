@@ -1,10 +1,12 @@
+package oldFiles;
+
 import java.util.Scanner;
 
 public class CustomerOperations {
     public static void learnerOperation() {
         Scanner sc = new Scanner(System.in);
         System.out.println("----Learning never exhausts the mind----");
-        System.out.println("1. View Enrolled Courses\n2. Enroll new Course\n3. View Certificates\n4. Switch to Creator\n0. Log Out");
+        System.out.println("1. View Enrolled Courses\n2. Enroll new oldFiles.Course\n3. View Certificates\n4. Switch to oldFiles.Creator\n0. Log Out");
         String learnerOperationOption = sc.next();
         boolean isValidLearnerOperationOption = false;
         while(!isValidLearnerOperationOption){
@@ -13,7 +15,7 @@ public class CustomerOperations {
                 ((Learner)ZLearn.currUser).viewEnrolledCourse();
             }else if(learnerOperationOption.equals("2")){
                 isValidLearnerOperationOption=true;
-                ((Learner)ZLearn.currUser).enrollNewCourse();
+                ((Learner) ZLearn.currUser).enrollNewCourse();
             }else if(learnerOperationOption.equals("3")){
                 isValidLearnerOperationOption=true;
             }else if(learnerOperationOption.equals("4")){
@@ -29,7 +31,7 @@ public class CustomerOperations {
     public static void creatorOperations(){
         Scanner sc = new Scanner(System.in);
         System.out.println("----To Teach is to Learn Twice Over----");
-        System.out.println("1.View Created Courses\n2. Create New Course\n3. Switch to Learner\n0. Log Out");
+        System.out.println("1.View Created Courses\n2. Create New oldFiles.Course\n3. Switch to oldFiles.Learner\n0. Log Out");
         boolean isValidCreatorOperationOption = false;
         while(!isValidCreatorOperationOption){
             String creatorOperationOption = sc.next();

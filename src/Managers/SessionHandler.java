@@ -8,8 +8,8 @@ public class SessionHandler implements SignupManager,LoginManager{
 
     public static void initializeUser(){
         UserDatabase udb = UserDatabase.getInstance();
-        currentUser = udb.getLearner("1001");
-//        currentUser = udb.getCreator("1004");
+//        currentUser = udb.getLearner("1001");
+        currentUser = udb.getCreator("1004");
     }
 
     public static User getCurrentUser() {

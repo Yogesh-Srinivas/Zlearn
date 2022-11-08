@@ -5,9 +5,6 @@ import Core.Course.Course;
 import java.util.ArrayList;
 
 public interface CreatorManager {
-
-    CreatorManager initialize();
-
     void addNewCourse(Course newCourse);
 
     void deleteCourse(String courseId, String userId);

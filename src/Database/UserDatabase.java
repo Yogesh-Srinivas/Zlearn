@@ -6,6 +6,7 @@ import Core.Users.Creator;
 import Core.Users.Learner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class UserDatabase {
     private ArrayList<Learner> learners = new ArrayList<>();
@@ -69,10 +70,23 @@ public class UserDatabase {
         int creatorIndex = -1;
         for(Creator c : this.creators){
             if(c.getUserId().equals(userId)){
-                creatorIndex = this.learners.indexOf(c);
+                creatorIndex = this.creators.indexOf(c);
             }
         }
         return creatorIndex;
+    }
+    public String getLearnerName(String commentor) {
+        int learnerIndex = getLearnerIndex(commentor);
+        return this.learners.get(learnerIndex).getFirstName();
+    }
+    public String getCreatorName(String userId){
+        int creatorIndex = getCreatorIndex(userId);
+        return this.creators.get(creatorIndex).getFirstName();
+    }
+
+    public double getLearnerCurrentProgress(String courseId,String userId){
+        int learnerIndex = getLearnerIndex(userId);
+        return this.learners.get(learnerIndex).getCourseProgress(courseId);
     }
     //****************************************************************************
     public void addLearner(Learner learner) {
@@ -138,6 +152,8 @@ public class UserDatabase {
         int learnerIndex = getLearnerIndex(userId);
         this.learners.get(learnerIndex).removeCourse(courseId);
     }
-
-
+    public void updateUserProgress(String courseId, String userId, double currentProgress){
+        int learnerIndex = getLearnerIndex(userId);
+        this.learners.get(learnerIndex).updateProgress(courseId,currentProgress);
+    }
 }

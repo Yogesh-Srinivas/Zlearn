@@ -1,7 +1,6 @@
 package Managers;
 
 public interface LearnerManager {
-    LearnerManager initialize();
     void enrollNewCourse(String courseId, String userID);
 
     void updateCourseProgress(String courseId, double currentProgress, String userID);

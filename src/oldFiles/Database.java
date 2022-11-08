@@ -76,7 +76,7 @@ public class Database {
     public void enrollCourse(String courseId,int userId){
         addUserProgress(courseId,userId);
     }
-    public void unenrollCourse(String courseId,int userId){
+    public void unenrollCourse(String courseId, String userId){
         int userProgressIndex=0;
         for(HashMap<Integer,Double> individualUserProgress : this.userProgress.get(courseId)){
             if(individualUserProgress.containsKey(userId)){

@@ -1,16 +1,16 @@
 package Core.Users;
 
 import Managers.AdminManager;
+import Managers.UserManager;
 
 public class Admin{
     private String adminId;
     private String adminPassword;
-    private AdminManager adminManager;
+    private AdminManager adminManager = new UserManager();
 
     public Admin(String adminId, String adminPassword) {
         this.adminId = adminId;
         this.adminPassword = adminPassword;
-        this.adminManager = adminManager.initialize();
     }
 
     public String getAdminId() {

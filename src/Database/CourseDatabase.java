@@ -21,7 +21,7 @@ public class CourseDatabase {
     public Course getCourse(String courseId){
         Course course = null;
         for(Course c:this.courses){
-            if(c.getCourseId().equals(courses)){
+            if(c.getCourseId().equals(courseId)){
                 course=c;
             }
         }
@@ -53,6 +53,7 @@ public class CourseDatabase {
         }
         return courses;
     }
+
     //********* Setters ************************************************************************
 
     public void addCourse(Course course){
@@ -115,5 +116,14 @@ public class CourseDatabase {
         if(this.courses.get(courseIndex).getCreatorId().equals(userId)) {
             this.courses.get(courseIndex).removeCourseCategory(category);
         }
+    }
+
+    public ArrayList<Course> getCoursesBasedOnCategory(String category) {
+        ArrayList<Course> filteredCourses = new ArrayList<>();
+        for(Course course : this.courses){
+            if(course.getCourseCategories().contains(category))
+                filteredCourses.add(course);
+        }
+        return filteredCourses;
     }
 }

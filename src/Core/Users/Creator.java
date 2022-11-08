@@ -2,14 +2,14 @@ package Core.Users;
 
 import Core.Course.Course;
 import Managers.CreatorManager;
+import Managers.UserManager;
 
 import java.util.ArrayList;
 
 public class Creator extends User{
-    CreatorManager creatorManager;
+    CreatorManager creatorManager = new UserManager();
     public Creator(String userId,String userName,String password,String firstName,ROLE role){
         super(userId,userName,password,firstName,role);
-        this.creatorManager = creatorManager.initialize();
     }
 
     //Creator Operations

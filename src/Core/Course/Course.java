@@ -58,6 +58,18 @@ public class Course {
     public boolean isRatedBy(String userId){
         return this.ratedBy.contains(userId);
     }
+
+    public ArrayList<String> getCourseLearnings(){
+        ArrayList<String> learnings = new ArrayList<>();
+        for(Chapter ch : this.content){
+            learnings.add(ch.getChapterName());
+        }
+        return learnings;
+    }
+
+    public double getCourseProgressStepValue(){
+        return 100.0 / this.content.size();
+    }
     //***********************************************************************************
 
     public void changeCourseName(String courseName) {
@@ -95,5 +107,13 @@ public class Course {
 
     public void deleteContent(Chapter chapter){
         this.content.remove(chapter);
+    }
+
+    public int getContentLength() {
+        return this.content.size();
+    }
+
+    public Chapter getChapter(int chapterIndex) {
+        return this.content.get(chapterIndex);
     }
 }

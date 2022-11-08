@@ -1,8 +1,6 @@
 package Managers;
 
 public interface AdminManager {
-    AdminManager initialize();
-    
     void removeLearner(String userId);
 
     void removeCreator(String userId);

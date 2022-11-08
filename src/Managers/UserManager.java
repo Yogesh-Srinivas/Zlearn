@@ -7,9 +7,6 @@ import Database.UserDatabase;
 import java.util.ArrayList;
 
 public class UserManager implements LearnerManager,CreatorManager,AdminManager{
-    public UserManager initialize(){
-        return new UserManager();
-    }
 
     //***** Learner Manager Operations ******************************************************
     @Override
@@ -19,9 +16,12 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
     }
 
     @Override
-    public void updateCourseProgress(String courseId, double currentProgress, String userId) {
+    public void updateCourseProgress(String courseId, double courseProgressStepValue, String userId) {
         UserDatabase userdb = UserDatabase.getInstance();
-        userdb.updateUserProgress(userId,currentProgress,courseId);
+        double currentProgress = userdb.getLearnerCurrentProgress(courseId,userId);
+        currentProgress += courseProgressStepValue;
+        if(currentProgress > 99.0) currentProgress=100.0;
+        userdb.updateUserProgress(courseId,userId,currentProgress);
     }
 
     @Override

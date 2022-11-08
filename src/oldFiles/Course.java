@@ -76,7 +76,7 @@ public class Course {
         return courseCategories;
     }
 
-    public boolean isUserRated(int userId) {
+    public boolean isUserRated(String userId) {
         return this.ratedBy.contains(userId);
     }
     public void updateRating(int userId,int rating){

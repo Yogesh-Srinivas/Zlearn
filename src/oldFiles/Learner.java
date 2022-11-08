@@ -59,7 +59,7 @@ public class Learner extends Customer {
         Scanner sc = new Scanner(System.in);
         Course currCourse = db.getCourseDetails(courseId);
         System.out.println("+++++++"+currCourse.getCourseId()+"+++++++");
-        boolean isUserRated = currCourse.isUserRated(super.getUserId());
+        boolean isUserRated = true;
         if(isUserRated){
             System.out.println("1. Start Learning\n2. oldFiles.Course Details\n3. oldFiles.Comment Page\n4. Unenroll oldFiles.Course\n0. Back");
         }else {
@@ -89,7 +89,7 @@ public class Learner extends Customer {
             } else if (courseOperation.equals("4")) {
                 isValidCourseOperation=true;
                 this.unenrollCourse(courseId);
-                db.unenrollCourse(courseId,super.getUserId());
+//                db.unenrollCourse(courseId,super.getUserId());
                 System.out.println("oldFiles.Course Unenrolled!!");
             } else if (courseOperation.equals("0")) {
                 isValidCourseOperation=true;

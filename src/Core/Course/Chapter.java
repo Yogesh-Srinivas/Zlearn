@@ -4,6 +4,11 @@ public class Chapter {
     private String chapterName;
     private String lesson;
 
+    public Chapter(String chapterName,String lesson){
+        this.chapterName = chapterName;
+        this.lesson = lesson;
+    }
+
     public String getChapterName() {
         return chapterName;
     }

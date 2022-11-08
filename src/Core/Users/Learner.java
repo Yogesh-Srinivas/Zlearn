@@ -1,16 +1,16 @@
 package Core.Users;
 import Managers.LearnerManager;
+import Managers.UserManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Learner extends User{
     private HashMap<String,Double> enrolledCourses = new HashMap<>();
-    private LearnerManager learnerManager;
+    private LearnerManager learnerManager = new UserManager() ;
     //***************************************************************************
     public Learner(String userId,String userName,String password,String firstName,ROLE role){
         super(userId,userName,password,firstName,role);
-        this.learnerManager = learnerManager.initialize();
     }
 
     public void addEnrolledCourse(String courseId){
@@ -29,7 +29,7 @@ public class Learner extends User{
         learnerManager.enrollNewCourse(courseId,this.getUserId());
     }
 
-    public ArrayList<String> getEnrolledCourse(){
+    public ArrayList<String> getEnrolledCourses(){
         ArrayList<String> courses = new ArrayList<>();
         for(String courseId : this.enrolledCourses.keySet()){
             courses.add(courseId);
@@ -51,5 +51,9 @@ public class Learner extends User{
 
     public void unenrollCourse(String courseId){
         learnerManager.unenrollCourse(courseId,this.getUserId());
+    }
+
+    public double getCourseProgress(String courseId) {
+        return this.enrolledCourses.get(courseId);
     }
 }

@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class LearnerOperations {
     private Learner currentLearner;
-    private UIManager uiManager = new UIManager();
+    private final UIManager uiManager = new UIManager();
     public LearnerOperations(Learner learner){
         this.currentLearner = learner;
     }
@@ -189,28 +189,29 @@ public class LearnerOperations {
         while (!closeCommentPage) {
             boolean isCurrentUserCommented = false;
             for (Comment comment : currCourse.getComments()) {
-                if (comment.getCommentor() == currentLearner.getUserId()) {
+                if (comment.getCommentor().equals(currentLearner.getUserId())) {
                     isCurrentUserCommented = true;
                     break;
                 }
             }
             System.out.println("          Comment Page");
             System.out.println("-------------------------------");
-            System.out.println("| 1. Add Comment      0. Back |");
             if (isCurrentUserCommented) {
                 System.out.println("++++++++++Your Comment+++++++++");
                 for (Comment comment : currCourse.getComments()) {
-                    if (comment.getCommentor() == currentLearner.getUserId()) {
+                    if (comment.getCommentor().equals(currentLearner.getUserId())){
                         System.out.println(" * " + comment.getComment());
                     }
                 }
             }
             System.out.println("-------------------------------");
             for (Comment comment : currCourse.getComments()) {
-                if (comment.getCommentor() != currentLearner.getUserId())
+                if (!comment.getCommentor().equals(currentLearner.getUserId())) {
                     System.out.println(uiManager.getLearnerName(comment.getCommentor()) + " : " + comment.getComment());
+                }
             }
-
+            System.out.println();
+            System.out.println("1. Add Comment    0. Back");
             boolean isValidCommentPageOption = false;
             while (!isValidCommentPageOption) {
                 String commentPageOption = sc.nextLine();

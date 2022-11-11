@@ -3,18 +3,17 @@ package UI.Initializers;
 import Core.Users.Admin;
 import Core.Users.Creator;
 import Core.Users.Learner;
-import Core.Users.ROLE;
 import Database.UserDatabase;
 
 public class UserInitializer {
     public static void initiateUsers(){
         UserDatabase userdb = UserDatabase.getInstance();
-        Learner learner1 = new Learner("1001", "Yogi", "123", "Yogesh", ROLE.LEARNER);
-        Learner learner2 = new Learner("1002", "Logan", "123", "Loganathan", ROLE.LEARNER);
-        Learner learner3 = new Learner("1003", "Avinash", "123", "Avinash", ROLE.LEARNER);
+        Learner learner1 = new Learner("1001", "Yogi", "123", "Yogesh");
+        Learner learner2 = new Learner("1002", "Logan", "123", "Loganathan");
+        Learner learner3 = new Learner("1003", "Avinash", "123", "Avinash");
 
-        Creator creator1 = new Creator("1004", "Sivanesh", "123", "Shivaneshwaran", ROLE.CREATOR);
-        Creator creator2 = new Creator("1005","Sathya","123","Sathyanarayanan",ROLE.CREATOR);
+        Creator creator1 = new Creator("1004", "Sivanesh", "123", "Shivaneshwaran");
+        Creator creator2 = new Creator("1005","Sathya","123","Sathyanarayanan");
 
         Admin admin1 = new Admin("ad123", "123");
 

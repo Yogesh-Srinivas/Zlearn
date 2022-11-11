@@ -1,8 +1,8 @@
 package Core.Course;
 
 public class Comment {
-    private String comment;
-    private String commentor;
+    private final String comment;
+    private final String commentor;
 
     public Comment(String comment, String commentor) {
         this.comment = comment;

@@ -5,10 +5,10 @@ import java.util.ArrayList;
 public class Course {
     private String courseName;
     private ArrayList<String> courseCategories;
-    private String courseId;
+    private final String courseId;
     private double rating;
     private ArrayList<String> ratedBy = new ArrayList<>();
-    private String creatorId;
+    private final String creatorId;
     private int price;
     private ArrayList<Comment> comments = new ArrayList<>();
     private ArrayList<Chapter> content;
@@ -105,8 +105,8 @@ public class Course {
         this.content.add(chapter);
     }
 
-    public void deleteContent(Chapter chapter){
-        this.content.remove(chapter);
+    public void deleteContent(int chapterIndex){
+        this.content.remove(chapterIndex);
     }
 
     public int getContentLength() {
@@ -116,4 +116,12 @@ public class Course {
     public Chapter getChapter(int chapterIndex) {
         return this.content.get(chapterIndex);
     }
+
+    public void changeChapterName(String newChapterName, int chapterIndex) {
+        this.content.get(chapterIndex).changeChapterName(newChapterName);
+    }
+    public void changeLesson(String newLesson, int chapterIndex) {
+        this.content.get(chapterIndex).changeLesson(newLesson);
+    }
+
 }

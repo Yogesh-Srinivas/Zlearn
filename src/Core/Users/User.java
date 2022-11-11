@@ -1,14 +1,14 @@
 package Core.Users;
 
-public class User {
-    private String userId;
-    private String userName;
+public abstract class User {
+    private  String userId;
+    private  String userName;
     private String password;
     private String firstName;
-    private ROLE role;
+    private  ROLE role;
 
-
-    protected User(String userId,String userName,String password,String firstName,ROLE role){
+    private User() {}
+     User(String userId,String userName,String password,String firstName,ROLE role){
         this.userId = userId;
         this.userName = userName;
         this.password = password;
@@ -32,6 +32,8 @@ public class User {
         return firstName;
     }
 
+    public String getPassword(){ return password;}
+
     public boolean isCorrectPassword(String password) {
         return this.password.equals(password);
     }
@@ -39,4 +41,5 @@ public class User {
     public ROLE getRole() {
         return role;
     }
+
 }

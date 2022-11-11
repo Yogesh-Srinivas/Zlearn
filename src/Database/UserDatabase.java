@@ -6,7 +6,6 @@ import Core.Users.Creator;
 import Core.Users.Learner;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class UserDatabase {
     private ArrayList<Learner> learners = new ArrayList<>();
@@ -100,27 +99,27 @@ public class UserDatabase {
     }
 
     //****************************************************************************
-    public void removeLearner(String userId){
+    public void removeLearner(String userName){
         for(Learner l:this.learners){
-            if(l.getUserId().equals(userId)){
+            if(l.getUserName().equals(userName)){
                 this.learners.remove(l);
                 break;
             }
         }
     }
 
-    public void removeCreator(String userId){
+    public void removeCreator(String userName){
         for(Creator c:this.creators){
-            if(c.getUserId().equals(userId)){
+            if(c.getUserName().equals(userName)){
                 this.creators.remove(c);
                 break;
             }
         }
     }
 
-    public void removeAdmin(String userId){
+    public void removeAdmin(String adminId){
         for(Admin a:this.admins){
-            if(a.getAdminId().equals(userId)){
+            if(a.getAdminId().equals(adminId)){
                 this.admins.remove(a);
                 break;
             }
@@ -128,26 +127,28 @@ public class UserDatabase {
     }
 
     //****************************************************************************
-    public void changeLearnerPassword(String userId,String newPassword){
-        int learnerIndex = getLearnerIndex(userId);
-        this.learners.get(learnerIndex).changePassword(newPassword);
+    public void changeLearnerPassword(String userName,String newPassword){
+        for(Learner l:this.learners){
+            if(l.getUserName().equals(userName)){
+                this.learners.get(this.learners.indexOf(l)).changePassword(newPassword);
+                break;
+            }
+        }
     }
 
-    public void changeCreatorPassword(String userId,String newPassword){
-        int creatorIndex = getCreatorIndex(userId);
-        this.creators.get(creatorIndex).changePassword(newPassword);
+    public void changeCreatorPassword(String userName,String newPassword){
+        for(Creator c:this.creators){
+            if(c.getUserName().equals(userName)){
+                this.creators.get(this.creators.indexOf(c)).changePassword(newPassword);
+                break;
+            }
+        }
     }
     //****************************************************************************
     public void addCourseToLearner(String userId,String courseId){
         int learnerIndex = getLearnerIndex(userId);
         this.learners.get(learnerIndex).addEnrolledCourse(courseId);
     }
-
-    public void updateUserProgress(String userId,double currentProgress,String courseId){
-        int learnerIndex = getLearnerIndex(userId);
-        this.learners.get(learnerIndex).updateProgress(courseId, currentProgress);
-    }
-
     public void unenrollCourse(String courseId, String userId) {
         int learnerIndex = getLearnerIndex(userId);
         this.learners.get(learnerIndex).removeCourse(courseId);
@@ -155,5 +156,15 @@ public class UserDatabase {
     public void updateUserProgress(String courseId, String userId, double currentProgress){
         int learnerIndex = getLearnerIndex(userId);
         this.learners.get(learnerIndex).updateProgress(courseId,currentProgress);
+    }
+
+    public ArrayList<String> getCourseLearners(String courseId) {
+        ArrayList<String> courseLearners = new ArrayList<>();
+        for(Learner learner:this.learners){
+            if(learner.isEnrolled(courseId)){
+                courseLearners.add(learner.getUserId());
+            }
+        }
+        return courseLearners;
     }
 }

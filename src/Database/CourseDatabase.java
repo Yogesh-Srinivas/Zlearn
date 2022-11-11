@@ -1,5 +1,7 @@
 package Database;
 
+import Core.Course.Chapter;
+import Core.Course.Comment;
 import Core.Course.Course;
 
 import java.util.ArrayList;
@@ -29,11 +31,7 @@ public class CourseDatabase {
     }
 
     public ArrayList<String> getAllCategories(){
-        ArrayList<String> categories = new ArrayList<>();
-        for(String category:this.allCategories){
-            categories.add(category);
-        }
-        return categories;
+        return new ArrayList<>(this.allCategories);
     }
 
     private int getCourseIndex(String courseId){
@@ -61,11 +59,9 @@ public class CourseDatabase {
     }
 
     public void deleteCourse(String courseId,String userId){
-        boolean isCourseDeleted = false;
         for(Course course : this.courses){
             if(course.getCreatorId().equals(userId) && course.getCourseId().equals(courseId)){
                 this.courses.remove(course);
-                isCourseDeleted = true;
                 break;
             }
         }
@@ -73,10 +69,12 @@ public class CourseDatabase {
 
     public void addToAllCategories(String category){
         this.allCategories.add(category);
+        System.out.println(allCategories);
     }
 
     public void removeFromAllCategories(String category){
         this.allCategories.remove(category);
+        System.out.println(allCategories);
     }
 
     public void addComment(String comment, String courseId, String userId){
@@ -125,5 +123,41 @@ public class CourseDatabase {
                 filteredCourses.add(course);
         }
         return filteredCourses;
+    }
+
+    public ArrayList<Comment> getCourseComments(String courseId, String userId) {
+        int courseIndex = getCourseIndex(courseId);
+        if(this.courses.get(courseIndex).getCreatorId().equals(userId))
+            return this.courses.get(courseIndex).getComments();
+        return null;
+    }
+
+    public void addCorseContent(String courseId, Chapter courseChapter, String userId) {
+        int courseIndex = getCourseIndex(courseId);
+        if(this.courses.get(courseIndex).getCreatorId().equals(userId))
+            this.courses.get(courseIndex).addContent(courseChapter);
+
+    }
+
+    public void deleteCourseContent(String courseId, int contentIndex, String userId) {
+        int courseIndex = getCourseIndex(courseId);
+        if(this.courses.get(courseIndex).getCreatorId().equals(userId))
+            this.courses.get(courseIndex).deleteContent(contentIndex);
+
+    }
+
+    public void changeCourseChapterName(String newChapterName, String courseId, int chapterIndex, String userId) {
+        int courseIndex = getCourseIndex(courseId);
+        if(this.courses.get(courseIndex).getCreatorId().equals(userId))
+            this.courses.get(courseIndex).changeChapterName(newChapterName,chapterIndex);
+    }
+    public void changeCourseLesson(String newLesson, String courseId, int chapterIndex, String userId) {
+        int courseIndex = getCourseIndex(courseId);
+        if(this.courses.get(courseIndex).getCreatorId().equals(userId))
+            this.courses.get(courseIndex).changeLesson(newLesson,chapterIndex);
+    }
+
+    public ArrayList<Course> getAllCourses() {
+        return new ArrayList<>(this.courses);
     }
 }

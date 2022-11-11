@@ -7,10 +7,10 @@ import java.util.HashMap;
 
 public class Learner extends User{
     private HashMap<String,Double> enrolledCourses = new HashMap<>();
-    private LearnerManager learnerManager = new UserManager() ;
+    private final LearnerManager learnerManager = new UserManager() ;
     //***************************************************************************
-    public Learner(String userId,String userName,String password,String firstName,ROLE role){
-        super(userId,userName,password,firstName,role);
+    public Learner(String userId,String userName,String password,String firstName){
+        super(userId,userName,password,firstName,ROLE.LEARNER);
     }
 
     public void addEnrolledCourse(String courseId){
@@ -30,11 +30,7 @@ public class Learner extends User{
     }
 
     public ArrayList<String> getEnrolledCourses(){
-        ArrayList<String> courses = new ArrayList<>();
-        for(String courseId : this.enrolledCourses.keySet()){
-            courses.add(courseId);
-        }
-        return courses;
+        return new ArrayList<>(this.enrolledCourses.keySet());
     }
 
     public void updateCourseProgress(String courseId,double currentProgress){
@@ -55,5 +51,9 @@ public class Learner extends User{
 
     public double getCourseProgress(String courseId) {
         return this.enrolledCourses.get(courseId);
+    }
+
+    public boolean isEnrolled(String courseId) {
+        return this.enrolledCourses.containsKey(courseId);
     }
 }

@@ -34,25 +34,25 @@ public class CourseInitializer {
 
             }
         };
-        Course course1 = new Course("The Minions", "cs001",  category,"1004", 200, content);
-        course1.addComment("Nice Course","1001");
-        course1.addComment("Awesome Course","1002");
-        course1.addComment("Need More Improvement","1003");
-        course1.addComment("Add more content like this.","1001");
-        course1.addComment("Add more content like this.","1002");
-        course1.addComment("Add more content.","1003");
+        Course course1 = new Course("The Minions", "cs001",  category,"Ctr_1105", 200, content);
+        course1.addComment("Nice Course","Lrn_1100");
+        course1.addComment("Awesome Course","Lrn_1102");
+        course1.addComment("Need More Improvement","Lrn_1100");
+        course1.addComment("Add more content like this.","Lrn_1101");
+        course1.addComment("Add more content like this.","Lrn_1102");
+        course1.addComment("Add more content.","Lrn_1100");
         coursedb.addCourse(course1);
         Course course2 = new Course("The Minions 2",  "ZCourse_001", category, "Adm_001", 0, content);
-        course2.addComment("Need More Improvement","1003");
-        course2.addComment("Awesome Course","1002");
-        course2.addComment("Add more content like this.","1006");
-        course2.addComment("Nice Course","1001");
+        course2.addComment("Need More Improvement","Lrn_1101");
+        course2.addComment("Awesome Course","Lrn_1102");
+        course2.addComment("Add more content like this.","Lrn_1101");
+        course2.addComment("Nice Course","Lrn_1102");
         coursedb.addCourse(course2);
-        Course course3 = new Course("The Business School",  "bs001", category, "1005", 5000, content);
-        course3.addComment("Need More Improvement","1003");
-        course3.addComment("Awesome Course","1002");
-        course3.addComment("Add more content like this.","1006");
-        course3.addComment("Nice Course","1001");
+        Course course3 = new Course("The Business School",  "bs001", category, "Ctr_1105", 5000, content);
+        course3.addComment("Need More Improvement","Lrn_1100");
+        course3.addComment("Awesome Course","Lrn_1102");
+        course3.addComment("Add more content like this.","Lrn_1101");
+        course3.addComment("Nice Course","Lrn_1102");
         coursedb.addCourse(course3);
         
     }

@@ -8,12 +8,12 @@ import Database.UserDatabase;
 public class UserInitializer {
     public static void initiateUsers(){
         UserDatabase userdb = UserDatabase.getInstance();
-        Learner learner1 = new Learner("1001", "Yogi", "123", "Yogesh");
-        Learner learner2 = new Learner("1002", "Logan", "123", "Loganathan");
-        Learner learner3 = new Learner("1003", "Avinash", "123", "Avinash");
+        Learner learner1 = new Learner("Lrn_1100", "Yogi", "123", "Yogesh");
+        Learner learner2 = new Learner("Lrn_1101", "Logan", "123", "Loganathan");
+        Learner learner3 = new Learner("Lrn_1102", "Avinash", "123", "Avinash");
 
-        Creator creator1 = new Creator("1004", "Sivanesh", "123", "Shivaneshwaran");
-        Creator creator2 = new Creator("1005","Sathya","123","Sathyanarayanan");
+        Creator creator1 = new Creator("Ctr_1104", "Sivanesh", "123", "Shivaneshwaran");
+        Creator creator2 = new Creator("Ctr_1105","Sathya","123","Sathyanarayanan");
 
         Admin admin1 = new Admin("Adm_123", "123");
 
@@ -24,6 +24,6 @@ public class UserInitializer {
         userdb.addCreator(creator2);
         userdb.addAdmin(admin1);
         learner1.enrollNewCourse("cs001");
-        learner1.enrollNewCourse("cs002");
+        learner1.enrollNewCourse("ZCourse_001");
     }
 }

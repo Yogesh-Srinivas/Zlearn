@@ -81,6 +81,7 @@ public class UserDatabase {
     }
     public String getCreatorName(String userId){
         int creatorIndex = getCreatorIndex(userId);
+        if(userId.contains("Adm")) return "ZLearn";
         return this.creators.get(creatorIndex).getFirstName();
     }
 
@@ -209,5 +210,27 @@ public class UserDatabase {
         }
         if(isUserFound) return AuthStatus.PASSWORD_MISMATCH;
         return AuthStatus.ID_NOT_FOUND;
+    }
+
+    public boolean isLearnerExist(String userName) {
+        boolean isUserExist = false;
+        for(Learner learner:this.learners){
+            if(learner.getUserName().equals(userName)){
+                isUserExist = true;
+                break;
+            }
+        }
+        return isUserExist;
+    }
+
+    public boolean isCreatorExist(String userName) {
+        boolean isUserExist = false;
+        for(Creator creator:this.creators){
+            if(creator.getUserName().equals(userName)){
+                isUserExist = true;
+                break;
+            }
+        }
+        return isUserExist;
     }
 }

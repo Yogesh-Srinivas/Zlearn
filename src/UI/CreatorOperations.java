@@ -9,7 +9,6 @@ import UI.Utilities.CustomScanner;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.zip.Checksum;
 
 public class CreatorOperations {
     private Creator currentCreator;

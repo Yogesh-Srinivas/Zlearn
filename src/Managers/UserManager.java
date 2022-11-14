@@ -3,14 +3,16 @@ package Managers;
 import Core.Course.Chapter;
 import Core.Course.Comment;
 import Core.Course.Course;
+import Database.CourseDBOperations;
 import Database.CourseDatabase;
+import Database.UserDBOperations;
 import Database.UserDatabase;
 
 import java.util.ArrayList;
 
 public class UserManager implements LearnerManager,CreatorManager,AdminManager{
-    private final  UserDatabase userdb = UserDatabase.getInstance();
-    private final CourseDatabase coursedb = CourseDatabase.getInstance();
+    private final UserDBOperations userdb = UserDatabase.getInstance();
+    private final CourseDBOperations coursedb = CourseDatabase.getInstance();
 
     //***** Learner Manager Operations ******************************************************
     @Override
@@ -41,30 +43,21 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
     }
     //***** Creator Manager Operations ******************************************************
     @Override
+    public void changeCourseName(String newCourseName,String courseId,String userId) {
+        coursedb.changeCourseName(newCourseName,courseId,userId);
+    }
+
+    @Override
+    public void changeCoursePrice(int newPrice, String courseId, String userId) {
+        coursedb.changeCoursePrice(newPrice,courseId,userId);
+    }
+    //**************************************
+
+    @Override
     public void addNewCourse(String courseName, ArrayList<String> courseCategories, ArrayList<Chapter> courseContent, int coursePrice,String creatorId) {
         String courseId = IdGenerator.getNewGeneralCourseId();
         Course newCourse = new Course(courseName,courseId,courseCategories,creatorId,coursePrice,courseContent);
         coursedb.addCourse(newCourse);
-    }
-
-    @Override
-    public void addCourseContent(String courseId, Chapter courseChapter, String userId) {
-        coursedb.addCourseContent(courseId,courseChapter,userId);
-    }
-
-    @Override
-    public void deleteCourseContent(String courseId, int contentIndex, String userId) {
-        coursedb.deleteCourseContent(courseId,contentIndex,userId);
-    }
-
-    @Override
-    public void changeCourseChapterName(String newChapterName, String courseId, int contentIndex, String userId) {
-        coursedb.changeCourseChapterName(newChapterName,courseId,contentIndex,userId);
-    }
-
-    @Override
-    public void changeCourseChapterContent(String newContent, String courseId, int contentIndex, String userId) {
-        coursedb.changeCourseLesson(newContent,courseId,contentIndex,userId);
     }
 
     @Override
@@ -78,16 +71,29 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
                 userdb.unenrollCourse(courseId,learnerId);
         }
     }
+    //**************************************
 
     @Override
-    public void changeCourseName(String newCourseName,String courseId,String userId) {
-        coursedb.changeCourseName(newCourseName,courseId,userId);
+    public void addCourseContent(String courseId, Chapter courseChapter, String userId) {
+        coursedb.addCourseContent(courseId,courseChapter,userId);
     }
 
     @Override
-    public void changeCoursePrice(int newPrice, String courseId, String userId) {
-        coursedb.changeCoursePrice(newPrice,courseId,userId);
+    public void deleteCourseContent(String courseId, int contentIndex, String userId) {
+        coursedb.deleteCourseContent(courseId,contentIndex,userId);
     }
+    //**************************************
+    @Override
+    public void changeCourseChapterName(String newChapterName, String courseId, int contentIndex, String userId) {
+        coursedb.changeCourseChapterName(newChapterName,courseId,contentIndex,userId);
+    }
+
+    @Override
+    public void changeCourseChapterContent(String newContent, String courseId, int contentIndex, String userId) {
+        coursedb.changeCourseLesson(newContent,courseId,contentIndex,userId);
+    }
+
+    //**************************************
 
     @Override
     public void addCourseCategory(String category, String courseId,String userId) {
@@ -98,6 +104,7 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
     public void removeCourseCategory(String category, String courseId, String userId) {
         coursedb.removeCourseCategory(category,courseId,userId);
     }
+    //**************************************
 
     @Override
     public ArrayList<Course> getCreatedCourse(String userId) {
@@ -115,23 +122,26 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
         userdb.removeLearner(userName);
     }
     @Override
-    public void removeCreator(String userName) {
-        userdb.removeCreator(userName);
-    }
-    @Override
-    public void removeAdmin(String adminId) {
-        userdb.removeAdmin(adminId);
-    }
-
-    @Override
     public void changeLearnerPassword(String newPassword, String userName) {
         userdb.changeLearnerPassword(userName,newPassword);
+    }
+    //**************************************
+    @Override
+    public void removeCreator(String userName) {
+        userdb.removeCreator(userName);
     }
 
     @Override
     public void changeCreatorPassword(String newPassword, String userName) {
         userdb.changeCreatorPassword(userName,newPassword);
     }
+    //**************************************
+
+    @Override
+    public void removeAdmin(String adminId) {
+        userdb.removeAdmin(adminId);
+    }
+    //**************************************
 
     @Override
     public void addCategoryToAllCategories(String newCategory) {
@@ -142,11 +152,7 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
     public void deleteCategoryFromAllCategories(String category) {
         coursedb.removeFromAllCategories(category);
     }
-
-    @Override
-    public void removeCourse(String courseId,String adminId) {
-        coursedb.deleteCourse(courseId,adminId);
-    }
+    //**************************************
 
     @Override
     public void addNewZCourse(String courseName, ArrayList<String> selectedCategories,
@@ -154,6 +160,12 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
         String courseId = IdGenerator.getNewZlearnCourseId();
         coursedb.addCourse(new Course(courseName,courseId,selectedCategories,courseId,coursePrice,courseContent));
     }
+
+    @Override
+    public void removeCourse(String courseId,String adminId) {
+        coursedb.deleteCourse(courseId,adminId);
+    }
+    //**************************************
 
 
 }

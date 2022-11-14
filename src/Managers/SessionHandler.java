@@ -10,10 +10,14 @@ import java.util.Scanner;
 public class SessionHandler {
     private static User currentUser = null;
     private static Admin currentAdmin =null;
+
+    //***************************************************************************
     public static User getCurrentUser() {
         return currentUser;
     }
     public static Admin getCurrentAdmin(){ return currentAdmin;}
+
+    //******** Auth *******************************************************************
 
     public static AuthStatus authenticate() {
         AuthStatus authStatus = null;
@@ -29,8 +33,10 @@ public class SessionHandler {
         return authStatus;
     }
 
+    //******** Login *******************************************************************
+
     private static AuthStatus login() {
-        AuthStatus authStatus = null;
+        AuthStatus authStatus = AuthStatus.AUTH_FAILED;
         Scanner sc =new Scanner(System.in);
         System.out.println("[L]earner login\n[C]reator Login\n[A]dmin Login");
         String loginOption = CustomScanner.getOptions("lLcCaA");
@@ -65,6 +71,8 @@ public class SessionHandler {
         if(authStatus.equals(AuthStatus.LOGIN_SUCCESS)) System.out.println("Login Success!!!");
         return authStatus;
     }
+
+    //********* Sign Up ***************************************************************
 
     private static AuthStatus signUp() {
         AuthStatus authStatus = null;
@@ -126,7 +134,7 @@ public class SessionHandler {
 
     private static String getPassword(){
         Scanner sc = new Scanner(System.in);
-        String password = null;
+        String password;
         while (true){
             System.out.println("Enter Password :");
             password = sc.next();
@@ -138,6 +146,7 @@ public class SessionHandler {
         return password;
     }
 
+    //*********** Log Out **********************************************************
     public static void logOutUser() {
         currentUser = null;
     }

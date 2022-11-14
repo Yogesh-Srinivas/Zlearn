@@ -1,13 +1,13 @@
 package Core.Users;
 
 public abstract class User {
-    private  String userId;
-    private  String userName;
+    private final String userId;
+    private final String userName;
     private String password;
-    private String firstName;
-    private  ROLE role;
+    private final String firstName;
+    private final ROLE role;
+    //******* Constructor ***************************************************************************
 
-    private User() {}
      User(String userId,String userName,String password,String firstName,ROLE role){
         this.userId = userId;
         this.userName = userName;
@@ -15,13 +15,18 @@ public abstract class User {
         this.firstName = firstName;
         this.role = role;
     }
-    //need to add login manager to change password
-    public void changePassword(String newPassword){
-        this.password = newPassword;
-    }
+    //******* Getters and Setters ********************************************************************
 
     public String getUserId() {
         return userId;
+    }
+
+    public boolean isCorrectPassword(String password) {
+        return this.password.equals(password);
+    }
+
+    public void changePassword(String newPassword){
+        this.password = newPassword;
     }
 
     public String getUserName() {
@@ -30,12 +35,6 @@ public abstract class User {
 
     public String getFirstName() {
         return firstName;
-    }
-
-    public String getPassword(){ return password;}
-
-    public boolean isCorrectPassword(String password) {
-        return this.password.equals(password);
     }
 
     public ROLE getRole() {

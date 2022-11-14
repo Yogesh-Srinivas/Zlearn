@@ -4,18 +4,19 @@ import Core.Users.Admin;
 import Core.Users.Creator;
 import Core.Users.Learner;
 import Database.UserDatabase;
+import Managers.IdGenerator;
 
 public class UserInitializer {
     public static void initiateUsers(){
         UserDatabase userdb = UserDatabase.getInstance();
-        Learner learner1 = new Learner("Lrn_1100", "Yogi", "123", "Yogesh");
-        Learner learner2 = new Learner("Lrn_1101", "Logan", "123", "Loganathan");
-        Learner learner3 = new Learner("Lrn_1102", "Avinash", "123", "Avinash");
+        Learner learner1 = new Learner(IdGenerator.getNewLearnerId(), "Yogi", "123", "Yogesh");
+        Learner learner2 = new Learner(IdGenerator.getNewLearnerId(), "Logan", "123", "Loganathan");
+        Learner learner3 = new Learner(IdGenerator.getNewLearnerId(), "Avinash", "123", "Avinash");
 
-        Creator creator1 = new Creator("Ctr_1104", "Sivanesh", "123", "Shivaneshwaran");
-        Creator creator2 = new Creator("Ctr_1105","Sathya","123","Sathyanarayanan");
+        Creator creator1 = new Creator(IdGenerator.getNewCreatorId(), "Sivanesh", "123", "Shivaneshwaran");
+        Creator creator2 = new Creator(IdGenerator.getNewCreatorId(),"Sathya","123","Sathyanarayanan");
 
-        Admin admin1 = new Admin("Adm_123", "123");
+        Admin admin1 = new Admin(IdGenerator.getNewAdminId(), "123");
 
         userdb.addLearner(learner1);
         userdb.addLearner(learner2);

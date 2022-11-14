@@ -4,16 +4,16 @@ import java.util.ArrayList;
 
 public class Course {
     private String courseName;
-    private ArrayList<String> courseCategories;
+    private final ArrayList<String> courseCategories;
     private final String courseId;
     private double rating;
-    private ArrayList<String> ratedBy = new ArrayList<>();
+    private final ArrayList<String> ratedBy = new ArrayList<>();
     private final String creatorId;
     private int price;
-    private ArrayList<Comment> comments = new ArrayList<>();
-    private ArrayList<Chapter> content;
+    private final ArrayList<Comment> comments = new ArrayList<>();
+    private final ArrayList<Chapter> content;
 
-    //***********************************************************************************
+    //******* Constructor ***************************************************************************
     public Course(String courseName,String courseId,ArrayList<String> courseCategories,String creatorId,int price,ArrayList<Chapter> content){
         this.courseName = courseName;
         this.courseId = courseId;
@@ -23,69 +23,36 @@ public class Course {
         this.content = content;
 
     }
-    public String getCourseName() {
-        return courseName;
-    }
-
+    //*********Getters and Setters *********************************************************************
     public String getCourseId() {
         return courseId;
-    }
-
-    public double getRating() {
-        return rating;
     }
 
     public String getCreatorId() {
         return creatorId;
     }
 
-    public int getPrice() {
-        return price;
-    }
-
-    public ArrayList<Comment> getComments() {
-        return comments;
-    }
-
-    public ArrayList<Chapter> getContent() {
-        return content;
-    }
-
-    public ArrayList<String> getCourseCategories() {
-        return courseCategories;
+    public double getCourseProgressStepValue(){
+        return 100.0 / this.content.size();
     }
 
     public boolean isRatedBy(String userId){
         return this.ratedBy.contains(userId);
     }
 
-    public ArrayList<String> getCourseLearnings(){
-        ArrayList<String> learnings = new ArrayList<>();
-        for(Chapter ch : this.content){
-            learnings.add(ch.getChapterName());
-        }
-        return learnings;
-    }
+    //**************************
 
-    public double getCourseProgressStepValue(){
-        return 100.0 / this.content.size();
+    public String getCourseName() {
+        return courseName;
     }
-    //***********************************************************************************
 
     public void changeCourseName(String courseName) {
         this.courseName = courseName;
     }
 
-    public void changePrice(int price) {
-        this.price = price;
-    }
-
-    public void addCourseCategory(String category){
-        this.courseCategories.add(category);
-    }
-
-    public void removeCourseCategory(String category){
-        this.courseCategories.remove(category);
+    //**************************
+    public double getRating() {
+        return rating;
     }
 
     public void updateRating(double rating,String userId){
@@ -97,8 +64,32 @@ public class Course {
         }
     }
 
+    //**************************
+    public int getPrice() {
+        return price;
+    }
+
+    public void changePrice(int price) {
+        this.price = price;
+    }
+
+    //**************************
+    public ArrayList<Comment> getComments() {
+        return new ArrayList<>(comments);
+    }
+
     public void addComment(String comment,String commentor){
         this.comments.add(new Comment(comment,commentor));
+    }
+
+    //**************************
+
+    public ArrayList<Chapter> getContent() {
+        return new ArrayList<>(content);
+    }
+
+    public int getContentLength() {
+        return this.content.size();
     }
 
     public void addContent(Chapter chapter){
@@ -108,18 +99,38 @@ public class Course {
     public void deleteContent(int chapterIndex){
         this.content.remove(chapterIndex);
     }
+    //**************************
 
-    public int getContentLength() {
-        return this.content.size();
+    public ArrayList<String> getCourseCategories() {
+        return new ArrayList<>(courseCategories);
     }
 
+    public void addCourseCategory(String category){
+        this.courseCategories.add(category);
+    }
+
+    public void removeCourseCategory(String category){
+        this.courseCategories.remove(category);
+    }
+
+
+    //**************************
     public Chapter getChapter(int chapterIndex) {
         return this.content.get(chapterIndex);
+    }
+
+    public ArrayList<String> getCourseLearnings(){
+        ArrayList<String> learnings = new ArrayList<>();
+        for(Chapter ch : this.content){
+            learnings.add(ch.getChapterName());
+        }
+        return learnings;
     }
 
     public void changeChapterName(String newChapterName, int chapterIndex) {
         this.content.get(chapterIndex).changeChapterName(newChapterName);
     }
+
     public void changeLesson(String newLesson, int chapterIndex) {
         this.content.get(chapterIndex).changeLesson(newLesson);
     }

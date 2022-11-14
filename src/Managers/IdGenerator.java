@@ -12,6 +12,7 @@ public class IdGenerator {
     public static String getNewCreatorId(){
         return "Ctr_"+(++currentCreatorId);
     }
+
     public static String getNewAdminId(){
         return "Adm_"+(++currentAdminId);
     }

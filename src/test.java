@@ -1,8 +1,12 @@
+import Database.CourseDatabase;
+
 import java.util.Scanner;
 
 public class test {
     public static void main(String[] args) {
         getMultiLineInput();
+        CourseDatabase cdb = CourseDatabase.getInstance();
+        cdb.getCourse("ZCourse_001");
     }
     public static String getMultiLineInput(){
         String finalString="";

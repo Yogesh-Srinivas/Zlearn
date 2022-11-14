@@ -15,7 +15,7 @@ public class UserInitializer {
         Creator creator1 = new Creator("1004", "Sivanesh", "123", "Shivaneshwaran");
         Creator creator2 = new Creator("1005","Sathya","123","Sathyanarayanan");
 
-        Admin admin1 = new Admin("ad123", "123");
+        Admin admin1 = new Admin("Adm_123", "123");
 
         userdb.addLearner(learner1);
         userdb.addLearner(learner2);

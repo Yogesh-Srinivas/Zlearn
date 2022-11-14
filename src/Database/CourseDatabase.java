@@ -55,12 +55,13 @@ public class CourseDatabase {
     //********* Setters ************************************************************************
 
     public void addCourse(Course course){
+
         this.courses.add(course);
     }
 
     public void deleteCourse(String courseId,String userId){
         for(Course course : this.courses){
-            if(course.getCreatorId().equals(userId) && course.getCourseId().equals(courseId)){
+            if((userId.contains("adm") || course.getCreatorId().equals(userId)) && course.getCourseId().equals(courseId)){
                 this.courses.remove(course);
                 break;
             }
@@ -69,12 +70,10 @@ public class CourseDatabase {
 
     public void addToAllCategories(String category){
         this.allCategories.add(category);
-        System.out.println(allCategories);
     }
 
     public void removeFromAllCategories(String category){
         this.allCategories.remove(category);
-        System.out.println(allCategories);
     }
 
     public void addComment(String comment, String courseId, String userId){
@@ -89,14 +88,14 @@ public class CourseDatabase {
 
     public void changeCourseName(String newCourseName,String courseId, String userId) {
         int courseIndex = getCourseIndex(courseId);
-        if(this.courses.get(courseIndex).getCreatorId().equals(userId)) {
+        if((userId.contains("Adm") && courseId.contains("ZCourse")) || this.courses.get(courseIndex).getCreatorId().equals(userId)) {
             this.courses.get(courseIndex).changeCourseName(newCourseName);
         }
     }
 
     public void changeCoursePrice(int newPrice, String courseId, String userId) {
         int courseIndex = getCourseIndex(courseId);
-        if(this.courses.get(courseIndex).getCreatorId().equals(userId)){
+        if((userId.contains("Adm") && courseId.contains("ZCourse")) || this.courses.get(courseIndex).getCreatorId().equals(userId)){
             this.courses.get(courseIndex).changePrice(newPrice);
         }
     }
@@ -104,14 +103,14 @@ public class CourseDatabase {
 
     public void addCourseCategory(String category, String courseId, String userId) {
         int courseIndex = getCourseIndex(courseId);
-        if(this.courses.get(courseIndex).getCreatorId().equals(userId)) {
+        if((userId.contains("Adm") && courseId.contains("ZCourse")) || this.courses.get(courseIndex).getCreatorId().equals(userId)) {
             this.courses.get(courseIndex).addCourseCategory(category);
         }
     }
 
     public void removeCourseCategory(String category, String courseId, String userId) {
         int courseIndex = getCourseIndex(courseId);
-        if(this.courses.get(courseIndex).getCreatorId().equals(userId)) {
+        if((userId.contains("Adm") && courseId.contains("ZCourse")) || this.courses.get(courseIndex).getCreatorId().equals(userId)) {
             this.courses.get(courseIndex).removeCourseCategory(category);
         }
     }
@@ -132,28 +131,27 @@ public class CourseDatabase {
         return null;
     }
 
-    public void addCorseContent(String courseId, Chapter courseChapter, String userId) {
+    public void addCourseContent(String courseId, Chapter courseChapter, String userId) {
         int courseIndex = getCourseIndex(courseId);
-        if(this.courses.get(courseIndex).getCreatorId().equals(userId))
+        if((userId.contains("Adm") && courseId.contains("ZCourse")) || this.courses.get(courseIndex).getCreatorId().equals(userId))
             this.courses.get(courseIndex).addContent(courseChapter);
-
     }
 
     public void deleteCourseContent(String courseId, int contentIndex, String userId) {
         int courseIndex = getCourseIndex(courseId);
-        if(this.courses.get(courseIndex).getCreatorId().equals(userId))
+        if((userId.contains("Adm") && courseId.contains("ZCourse")) || this.courses.get(courseIndex).getCreatorId().equals(userId))
             this.courses.get(courseIndex).deleteContent(contentIndex);
 
     }
 
     public void changeCourseChapterName(String newChapterName, String courseId, int chapterIndex, String userId) {
         int courseIndex = getCourseIndex(courseId);
-        if(this.courses.get(courseIndex).getCreatorId().equals(userId))
+        if((userId.contains("Adm") && courseId.contains("ZCourse")) || this.courses.get(courseIndex).getCreatorId().equals(userId))
             this.courses.get(courseIndex).changeChapterName(newChapterName,chapterIndex);
     }
     public void changeCourseLesson(String newLesson, String courseId, int chapterIndex, String userId) {
         int courseIndex = getCourseIndex(courseId);
-        if(this.courses.get(courseIndex).getCreatorId().equals(userId))
+        if((userId.contains("Adm") && courseId.contains("ZCourse")) || this.courses.get(courseIndex).getCreatorId().equals(userId))
             this.courses.get(courseIndex).changeLesson(newLesson,chapterIndex);
     }
 

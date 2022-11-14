@@ -42,14 +42,14 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
     //***** Creator Manager Operations ******************************************************
     @Override
     public void addNewCourse(String courseName, ArrayList<String> courseCategories, ArrayList<Chapter> courseContent, int coursePrice,String creatorId) {
-        String courseId = IdGenerator.getNewCourseId();
+        String courseId = IdGenerator.getNewGeneralCourseId();
         Course newCourse = new Course(courseName,courseId,courseCategories,creatorId,coursePrice,courseContent);
         coursedb.addCourse(newCourse);
     }
 
     @Override
     public void addCourseContent(String courseId, Chapter courseChapter, String userId) {
-        coursedb.addCorseContent(courseId,courseChapter,userId);
+        coursedb.addCourseContent(courseId,courseChapter,userId);
     }
 
     @Override
@@ -141,6 +141,18 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
     @Override
     public void deleteCategoryFromAllCategories(String category) {
         coursedb.removeFromAllCategories(category);
+    }
+
+    @Override
+    public void removeCourse(String courseId,String adminId) {
+        coursedb.deleteCourse(courseId,adminId);
+    }
+
+    @Override
+    public void addNewZCourse(String courseName, ArrayList<String> selectedCategories,
+                              ArrayList<Chapter> courseContent, int coursePrice, String adminId) {
+        String courseId = IdGenerator.getNewZlearnCourseId();
+        coursedb.addCourse(new Course(courseName,courseId,selectedCategories,courseId,coursePrice,courseContent));
     }
 
 

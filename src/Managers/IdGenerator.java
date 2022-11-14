@@ -4,7 +4,8 @@ public class IdGenerator {
     private static int currentLearnerId = 1000;
     private static int currentCreatorId = 1000;
     private static int currentAdminId = 0;
-    private static int currentCourseId = 100;
+    private static int currentGeneralCourseId = 100;
+    private static int currentZlearnCourseId = 100;
     public static String getNewLearnerId(){
         return "Lrn_"+(++currentLearnerId);
     }
@@ -14,8 +15,11 @@ public class IdGenerator {
     public static String getNewAdminId(){
         return "Adm_"+(++currentAdminId);
     }
-    public static String getNewCourseId(){
-        return "Course_"+(++currentCourseId);
+    public static String getNewGeneralCourseId(){
+        return "Course_"+(++currentGeneralCourseId);
+    }
+    public static String getNewZlearnCourseId(){
+        return "ZCourse_"+(++currentZlearnCourseId);
     }
 
 }

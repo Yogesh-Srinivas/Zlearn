@@ -42,7 +42,7 @@ public class CourseInitializer {
         course1.addComment("Add more content like this.","1002");
         course1.addComment("Add more content.","1003");
         coursedb.addCourse(course1);
-        Course course2 = new Course("The Minions 2",  "cs002", category, "1004", 0, content);
+        Course course2 = new Course("The Minions 2",  "ZCourse_001", category, "Adm_001", 0, content);
         course2.addComment("Need More Improvement","1003");
         course2.addComment("Awesome Course","1002");
         course2.addComment("Add more content like this.","1006");

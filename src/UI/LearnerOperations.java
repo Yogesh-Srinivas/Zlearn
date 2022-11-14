@@ -5,6 +5,7 @@ import Core.Course.Comment;
 import Core.Course.Course;
 import Core.Users.Learner;
 import Managers.UIManager;
+import UI.Utilities.CustomScanner;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -16,27 +17,15 @@ public class LearnerOperations {
         this.currentLearner = learner;
     }
     public void learnerDashBoard(){
-        do {
+        while (true) {
             Scanner sc = new Scanner(System.in);
             System.out.println("----Learning never exhausts the mind----");
             System.out.println("1. View Enrolled Courses\n2. Enroll new Course\n0. Log Out");
-            String learnerOperationOption = sc.next();
-            boolean isValidLearnerOperationOption = false;
-            while (!isValidLearnerOperationOption) {
-                if (learnerOperationOption.equals("1")) {
-                    isValidLearnerOperationOption = true;
-                    viewEnrolledCourse();
-                } else if (learnerOperationOption.equals("2")) {
-                    isValidLearnerOperationOption = true;
-                enrollNewCourse();
-                } else if (learnerOperationOption.equals("0")) {
-                    isValidLearnerOperationOption = true;
-                } else {
-                    System.out.println("Invalid Input");
-                }
-            }
-        }while (true);
-        
+            String learnerOperationOption = CustomScanner.getOptions("120");
+            if (learnerOperationOption.equals("1")) viewEnrolledCourse();
+            if (learnerOperationOption.equals("2")) enrollNewCourse();
+            if (learnerOperationOption.equals("0")) break;
+        }
     }
     
     private void viewEnrolledCourse() {

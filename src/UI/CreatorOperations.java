@@ -19,26 +19,19 @@ public class CreatorOperations {
         this.currentCreator = creator;
     }
     public void creatorDashBoard() {
-        do {
+        while (true){
             Scanner sc = new Scanner(System.in);
             System.out.println("----To Teach is to Learn Twice Over----");
             System.out.println("1.View Created Courses\n2. Create New Course\n0. Log Out");
-            boolean isValidCreatorOperationOption = false;
-            while (!isValidCreatorOperationOption) {
-                String creatorOperationOption = sc.next();
-                if (creatorOperationOption.equals("1")) {
-                    isValidCreatorOperationOption = true;
-                    viewCreatedCourse();
-                } else if (creatorOperationOption.equals("2")) {
-                    isValidCreatorOperationOption = true;
-                    createCourse();
-                } else if (creatorOperationOption.equals("0")) {
-                    isValidCreatorOperationOption = true;
-                } else {
-                    System.out.println("Invalid Input");
-                }
+            String creatorOperationOption = CustomScanner.getOptions("120");
+            if (creatorOperationOption.equals("1")) {
+                viewCreatedCourse();
+            } else if (creatorOperationOption.equals("2")) {
+                createCourse();
+            } else if (creatorOperationOption.equals("0")) {
+                break;
             }
-        }while (true);
+        }
     }
 
     private void createCourse() {
@@ -201,27 +194,20 @@ public class CreatorOperations {
         Scanner sc = new Scanner(System.in);
         System.out.println("*****Edit Course*****");
         System.out.println("1. Change Course Name\n2. Add/Remove Category\n3. Change Price\n4. Edit Content\n0. Back");
-        boolean isValidEditOption = false;
-        while (!isValidEditOption){
-            String editOption = sc.next();
-            if(editOption.equals("1")){
-                isValidEditOption=true;
-                changeCourseName(courseId);
-            }else if(editOption.equals("2")){
-                isValidEditOption=true;
-                editCategory(courseId);
-            }else if(editOption.equals("3")){
-                isValidEditOption=true;
-                editCoursePrice(courseId);
-            }else if(editOption.equals("4")){
-                isValidEditOption=true;
-                editCourseContent(courseId);
-            }else if(editOption.equals("5")){
-                isValidEditOption=true;
-            }else {
-                System.out.println("Invalid Option!!");
-            }
+        String editOption = CustomScanner.getOptions("12340");
+        if(editOption.equals("1")){
+            changeCourseName(courseId);
         }
+        if(editOption.equals("2")){
+            editCategory(courseId);
+        }
+        if(editOption.equals("3")){
+            editCoursePrice(courseId);
+        }
+        if(editOption.equals("4")){
+            editCourseContent(courseId);
+        }
+
     }
     private void changeCourseName(String courseId){
         Scanner sc = new Scanner(System.in);

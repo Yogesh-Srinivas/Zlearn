@@ -4,6 +4,7 @@ package Database;
 import Core.Users.Admin;
 import Core.Users.Creator;
 import Core.Users.Learner;
+import UI.AuthStatus;
 
 import java.util.ArrayList;
 
@@ -22,10 +23,10 @@ public class UserDatabase {
         return instance;
     }
     //****************************************************************************
-    public Learner getLearner(String userId) {
+    public Learner getLearner(String userName) {
         Learner learner = null;
         for(Learner l:this.learners){
-            if(l.getUserId().equals(userId)){
+            if(l.getUserName().equals(userName)){
                 learner = l;
                 break;
             }
@@ -33,10 +34,10 @@ public class UserDatabase {
         return learner;
     }
 
-    public Creator getCreator(String userId) {
+    public Creator getCreator(String userName) {
         Creator creator = null;
         for(Creator c:this.creators){
-            if(c.getUserId().equals(userId)){
+            if(c.getUserName().equals(userName)){
                 creator = c;
                 break;
             }
@@ -166,5 +167,47 @@ public class UserDatabase {
             }
         }
         return courseLearners;
+    }
+
+    public AuthStatus learnerAuthentication(String userName, String password) {
+        boolean isUserFound = false;
+        for(Learner learner : this.learners){
+            if(learner.getUserName().equals(userName)){
+                isUserFound = true;
+                if(learner.isCorrectPassword(password)){
+                    return AuthStatus.LOGIN_SUCCESS;
+                }
+            }
+        }
+        if(isUserFound) return AuthStatus.PASSWORD_MISMATCH;
+        return AuthStatus.USERNAME_NOT_FOUND;
+    }
+
+    public AuthStatus creatorAuthentication(String userName, String password) {
+        boolean isUserFound = false;
+        for(Creator creator : this.creators){
+            if(creator.getUserName().equals(userName)){
+                isUserFound = true;
+                if(creator.isCorrectPassword(password)){
+                    return AuthStatus.LOGIN_SUCCESS;
+                }
+            }
+        }
+        if(isUserFound) return AuthStatus.PASSWORD_MISMATCH;
+        return AuthStatus.USERNAME_NOT_FOUND;
+    }
+
+    public AuthStatus adminAuthentication(String adminId, String adminPassword) {
+        boolean isUserFound = false;
+        for(Admin admin : this.admins){
+            if(admin.getAdminId().equals(adminId)){
+                isUserFound = true;
+                if(admin.isCorrectPassword(adminPassword)){
+                    return AuthStatus.LOGIN_SUCCESS;
+                }
+            }
+        }
+        if(isUserFound) return AuthStatus.PASSWORD_MISMATCH;
+        return AuthStatus.ID_NOT_FOUND;
     }
 }

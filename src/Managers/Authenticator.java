@@ -13,7 +13,16 @@ public class Authenticator {
 
     //******** Learner *******************************************************************
     public static AuthStatus learnerAuthentication(String userName, String password){
-        return userdb.learnerAuthentication(userName,password);
+        Learner learner = userdb.getLearner(userName);
+        boolean isUserFound = false;
+        if(learner != null){
+            isUserFound = true;
+            if(learner.isCorrectPassword(password)){
+                return AuthStatus.LOGIN_SUCCESS;
+            }
+        }
+        if(isUserFound) return AuthStatus.PASSWORD_MISMATCH;
+        return AuthStatus.USERNAME_NOT_FOUND;
     }
 
     public static User getLearner(String userName) {
@@ -32,7 +41,16 @@ public class Authenticator {
     //******* Creator ********************************************************************
 
     public static AuthStatus creatorAuthentication(String userName, String password){
-        return userdb.creatorAuthentication(userName,password);
+        boolean isUserFound = false;
+        Creator creator = userdb.getCreator(userName);
+        if(creator != null){
+            isUserFound = true;
+            if(creator.isCorrectPassword(password)){
+                return AuthStatus.LOGIN_SUCCESS;
+            }
+        }
+        if(isUserFound) return AuthStatus.PASSWORD_MISMATCH;
+        return AuthStatus.USERNAME_NOT_FOUND;
     }
 
     public static User getCreator(String userName) {
@@ -51,7 +69,16 @@ public class Authenticator {
     //******* Admin ********************************************************************
 
     public static AuthStatus adminAuthentication(String adminId, String adminPassword){
-        return userdb.adminAuthentication(adminId,adminPassword);
+        boolean isUserFound = false;
+        Admin admin = userdb.getAdmin(adminId);
+        if(admin != null){
+            isUserFound = true;
+            if(admin.isCorrectPassword(adminPassword)){
+                return AuthStatus.LOGIN_SUCCESS;
+            }
+        }
+        if(isUserFound) return AuthStatus.PASSWORD_MISMATCH;
+        return AuthStatus.ID_NOT_FOUND;
     }
 
     public static Admin getAdmin(String adminId) {

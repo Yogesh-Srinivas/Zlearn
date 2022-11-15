@@ -4,7 +4,6 @@ package Database;
 import Core.Users.Admin;
 import Core.Users.Creator;
 import Core.Users.Learner;
-import UI.AuthStatus;
 
 import java.util.ArrayList;
 
@@ -47,13 +46,14 @@ public class UserDatabase implements UserDBOperations{
     }
 
     public String getLearnerName(String commentor) {
-        System.out.println("Commetnor :"+commentor);
         int learnerIndex = getLearnerIndex(commentor);
+        if(learnerIndex==-1) return "NULL";
         return this.learners.get(learnerIndex).getFirstName();
     }
 
     public double getLearnerCurrentProgress(String courseId,String userId){
         int learnerIndex = getLearnerIndex(userId);
+        if(learnerIndex==-1) return -1.0;
         return this.learners.get(learnerIndex).getCourseProgress(courseId);
     }
 
@@ -81,23 +81,9 @@ public class UserDatabase implements UserDBOperations{
 
     public void addCourseToLearner(String userId,String courseId){
         int learnerIndex = getLearnerIndex(userId);
-        this.learners.get(learnerIndex).addEnrolledCourse(courseId);
+        if(learnerIndex != -1)
+            this.learners.get(learnerIndex).addEnrolledCourse(courseId);
     }
-
-    public AuthStatus learnerAuthentication(String userName, String password) {
-        boolean isUserFound = false;
-        for(Learner learner : this.learners){
-            if(learner.getUserName().equals(userName)){
-                isUserFound = true;
-                if(learner.isCorrectPassword(password)){
-                    return AuthStatus.LOGIN_SUCCESS;
-                }
-            }
-        }
-        if(isUserFound) return AuthStatus.PASSWORD_MISMATCH;
-        return AuthStatus.USERNAME_NOT_FOUND;
-    }
-
     public boolean isLearnerExist(String userName) {
         boolean isUserExist = false;
         for(Learner learner:this.learners){
@@ -111,12 +97,14 @@ public class UserDatabase implements UserDBOperations{
 
     public void unenrollCourse(String courseId, String userId) {
         int learnerIndex = getLearnerIndex(userId);
-        this.learners.get(learnerIndex).removeCourse(courseId);
+        if(learnerIndex!=-1)
+            this.learners.get(learnerIndex).removeCourse(courseId);
     }
 
     public void updateUserProgress(String courseId, String userId, double currentProgress){
         int learnerIndex = getLearnerIndex(userId);
-        this.learners.get(learnerIndex).updateProgress(courseId,currentProgress);
+        if(learnerIndex!=-1)
+            this.learners.get(learnerIndex).updateProgress(courseId,currentProgress);
     }
 
     public ArrayList<String> getCourseLearners(String courseId) {
@@ -153,6 +141,7 @@ public class UserDatabase implements UserDBOperations{
 
     public String getCreatorName(String userId){
         int creatorIndex = getCreatorIndex(userId);
+        if(creatorIndex==-1) return "NULL";
         if(userId.contains("Adm")) return "ZLearn";
         return this.creators.get(creatorIndex).getFirstName();
     }
@@ -178,21 +167,6 @@ public class UserDatabase implements UserDBOperations{
             }
         }
     }
-
-    public AuthStatus creatorAuthentication(String userName, String password) {
-        boolean isUserFound = false;
-        for(Creator creator : this.creators){
-            if(creator.getUserName().equals(userName)){
-                isUserFound = true;
-                if(creator.isCorrectPassword(password)){
-                    return AuthStatus.LOGIN_SUCCESS;
-                }
-            }
-        }
-        if(isUserFound) return AuthStatus.PASSWORD_MISMATCH;
-        return AuthStatus.USERNAME_NOT_FOUND;
-    }
-
     public boolean isCreatorExist(String userName) {
         boolean isUserExist = false;
         for(Creator creator:this.creators){
@@ -229,18 +203,5 @@ public class UserDatabase implements UserDBOperations{
         }
     }
 
-    public AuthStatus adminAuthentication(String adminId, String adminPassword) {
-        boolean isUserFound = false;
-        for(Admin admin : this.admins){
-            if(admin.getAdminId().equals(adminId)){
-                isUserFound = true;
-                if(admin.isCorrectPassword(adminPassword)){
-                    return AuthStatus.LOGIN_SUCCESS;
-                }
-            }
-        }
-        if(isUserFound) return AuthStatus.PASSWORD_MISMATCH;
-        return AuthStatus.ID_NOT_FOUND;
-    }
 
 }

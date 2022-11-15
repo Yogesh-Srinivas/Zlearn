@@ -29,6 +29,7 @@ public class CreatorOperations {
                 createCourse();
             }
             if (creatorOperationOption.equals("0")) {
+                System.out.println("Logged Out!");
                 break;
             }
         }
@@ -207,9 +208,10 @@ public class CreatorOperations {
             for(String category:currCourseCategories){
                 availableCategories.remove(category);
             }
-            System.out.print("Course Category\n ");
-            for (String category : currCourseCategories) {
-                System.out.print(category + " | ");
+            System.out.print("Course Category :  ");
+            for(int i=0;i<currCourseCategories.size();i++){
+                System.out.print(currCourseCategories.get(i));
+                if(i!=currCourseCategories.size()-1) System.out.print(", ");
             }
             System.out.println();
             System.out.println();

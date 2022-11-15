@@ -32,6 +32,7 @@ public class AdminOperations {
                 openZlearnCoursesControl();
             }
             if(controlOption.equals("0")){
+                System.out.println("Logged Out!");
                 break;
             }
         }
@@ -41,19 +42,23 @@ public class AdminOperations {
     private void openZlearnCoursesControl() {
         while (true) {
             System.out.println("***** Zlearn Courses *****");
-            System.out.println("1. View Courses\n2. Create Course\n3. Edit Course\n0. back");
-            String options = CustomScanner.getOptions("1230");
+            System.out.println("1. View Courses\n2. Create Course\n3. Edit Course\n4. Delete ZCourse\n0. back");
+            String options = CustomScanner.getOptions("12340");
             if (options.equals("1")) {
                 ArrayList<Course> courses = uiManager.getAllCourses();
                 ArrayList<Course> filteredCourses = new ArrayList<>();
                 for(Course course : courses){
                     if(course.getCourseId().contains("ZCourse")) filteredCourses.add(course);
                 }
-                for(int i=1;i<=filteredCourses.size();i++){
-                    System.out.println("["+i+"] "+filteredCourses.get(i-1).getCourseId()+"  "+filteredCourses.get(i-1).getCourseName());
-                }
-                int courseIndex = CustomScanner.getIntegetInput(1,filteredCourses.size()) - 1;
-                viewCourseDetails(filteredCourses.get(courseIndex));
+                if(filteredCourses.size()!=0) {
+                    for (int i = 1; i <= filteredCourses.size(); i++) {
+                        System.out.println(
+                                "[" + i + "] " + filteredCourses.get(i - 1).getCourseId() + "  " + filteredCourses.get(
+                                        i - 1).getCourseName());
+                    }
+                    int courseIndex = CustomScanner.getIntegetInput(1, filteredCourses.size()) - 1;
+                    viewCourseDetails(filteredCourses.get(courseIndex));
+                }else System.out.println("No ZCourses are here!");
             }
             if (options.equals("2")) {
                 createZCourse();
@@ -70,6 +75,12 @@ public class AdminOperations {
                 int courseIndex = CustomScanner.getIntegetInput(1,filteredCourses.size()) - 1;
                 editZLearnCourses(filteredCourses.get(courseIndex).getCourseId());
 
+            }
+            if(options.equals("4")){
+                System.out.println("Enter Course Id : ");
+                String courseId = new Scanner(System.in).next();
+                if(courseId.contains("ZCourse")) currentAdmin.removeCourse(courseId);
+                else System.out.println("Other than ZCourse, can be deleted here!");
             }
             if (options.equals("0")) {break;
             }
@@ -111,9 +122,10 @@ public class AdminOperations {
             for(String category:currCourseCategories){
                 availableCategories.remove(category);
             }
-            System.out.print("Course Category\n ");
-            for (String category : currCourseCategories) {
-                System.out.print(category + " | ");
+            System.out.print("Course Category :  ");
+            for(int i=0;i<currCourseCategories.size();i++){
+                System.out.print(currCourseCategories.get(i));
+                if(i!=currCourseCategories.size()-1) System.out.print(", ");
             }
             System.out.println();
             System.out.println();
@@ -336,11 +348,17 @@ public class AdminOperations {
                 for(Course course : courses){
                     if(!course.getCourseId().contains("ZCourse")) filteredCourses.add(course);
                 }
-                for(int i=1;i<=filteredCourses.size();i++){
-                    System.out.println("["+i+"] "+filteredCourses.get(i-1).getCourseId()+"  "+filteredCourses.get(i-1).getCourseName());
+                if(filteredCourses.size()!=0) {
+                    for (int i = 1; i <= filteredCourses.size(); i++) {
+                        System.out.println(
+                                "[" + i + "] " + filteredCourses.get(i - 1).getCourseId() + "  " + filteredCourses.get(
+                                        i - 1).getCourseName());
+                    }
+                    int courseIndex = CustomScanner.getIntegetInput(1, filteredCourses.size()) - 1;
+                    viewCourseDetails(filteredCourses.get(courseIndex));
+                }else {
+                    System.out.println("No Courses Available, Now!");
                 }
-                int courseIndex = CustomScanner.getIntegetInput(1,filteredCourses.size()) - 1;
-                viewCourseDetails(filteredCourses.get(courseIndex));
             }
             if(inputOption.equals("2")){
                 System.out.println("Enter new Category : ");
@@ -360,7 +378,8 @@ public class AdminOperations {
             if(inputOption.equals("4")){
                 System.out.println("Enter Course Id : ");
                 String courseId = new Scanner(System.in).next();
-                currentAdmin.removeCourse(courseId);
+                if(!courseId.contains("ZCourse")) currentAdmin.removeCourse(courseId);
+                else System.out.println("ZCourses Can't be delete here");
             }
             if(inputOption.equals("0")){ break; }
         }
@@ -368,7 +387,7 @@ public class AdminOperations {
 
     private void viewCourseDetails(Course course) {
         System.out.println("****** " + course.getCourseName() + " *******");
-        if(!course.getCreatorId().contains("Adm")) System.out.println("Creator :" + uiManager.getCreatorName(course.getCreatorId()));
+        if(!course.getCourseId().contains("ZCourse")) System.out.println("Creator :" + uiManager.getCreatorName(course.getCreatorId()));
         System.out.println("Rating :" + course.getRating());
         System.out.println("Price :" + (course.getPrice() == 0 ? "Free" : course.getPrice()));
         System.out.println("-What You'll Learn-");

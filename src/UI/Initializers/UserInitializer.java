@@ -19,8 +19,6 @@ public class UserInitializer {
 
         Admin admin1 = new Admin(IdGenerator.getNewAdminId(), "123");
 
-
-
         userdb.addLearner(learner1);
         userdb.addLearner(learner2);
         userdb.addLearner(learner3);

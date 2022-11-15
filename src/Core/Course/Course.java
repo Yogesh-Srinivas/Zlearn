@@ -1,5 +1,7 @@
 package Core.Course;
 
+import Utilities.CustomException;
+
 import java.util.ArrayList;
 
 public class Course {
@@ -115,7 +117,7 @@ public class Course {
 
 
     //**************************
-    public Chapter getChapter(int chapterIndex) {
+    public Chapter getChapter(int chapterIndex){
         return this.content.get(chapterIndex);
     }
 

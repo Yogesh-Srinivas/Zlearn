@@ -5,26 +5,28 @@ import Core.Course.Comment;
 import Core.Course.Course;
 import Core.Users.Learner;
 import Managers.UIManager;
-import UI.Utilities.CustomScanner;
+import Utilities.CustomScanner;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class LearnerOperations {
-    private Learner currentLearner;
+    private final Learner currentLearner;
     private final UIManager uiManager = new UIManager();
     public LearnerOperations(Learner learner){
         this.currentLearner = learner;
     }
     public void learnerDashBoard(){
         while (true) {
-            Scanner sc = new Scanner(System.in);
             System.out.println("----Learning never exhausts the mind----");
             System.out.println("1. View Enrolled Courses\n2. Enroll new Course\n0. Log Out");
             String learnerOperationOption = CustomScanner.getOptions("120");
             if (learnerOperationOption.equals("1")) viewEnrolledCourse();
             if (learnerOperationOption.equals("2")) enrollNewCourse();
-            if (learnerOperationOption.equals("0")) break;
+            if (learnerOperationOption.equals("0")) {
+                System.out.println("Logged Out!!");
+                break;
+            }
         }
     }
     
@@ -58,50 +60,53 @@ public class LearnerOperations {
         }
     }
 
-    private void openCourse(String courseId){
-        Scanner sc = new Scanner(System.in);
-        Course currCourse = uiManager.getCourseDetails(courseId);
-        System.out.println("+++++++"+currCourse.getCourseId()+"+++++++");
-        boolean isUserRated = currCourse.isRatedBy(currentLearner.getUserId());
-        if(isUserRated){
-            System.out.println("1. Start Learning\n2. Course Details\n3. Comment Page\n4. Unenroll Course\n0. Back");
-        }else {
-            System.out.println("1. Start Learning\n2. Course Details\n3. Comment Page\n4. Unenroll Course\n5. Rate Course\n0. Back");
-        }
-        String courseOperation = sc.next();
-        boolean isValidCourseOperation = false;
-        while (!isValidCourseOperation){
-            if(courseOperation.equals("1")){
-                isValidCourseOperation=true;
+    private void openCourse(String courseId) {
+        while (true) {
+            Course currCourse = uiManager.getCourseDetails(courseId);
+            System.out.println("+++++++" + currCourse.getCourseName() + "+++++++");
+            boolean isUserRated = currCourse.isRatedBy(currentLearner.getUserId());
+            String courseOperation;
+            if (isUserRated) {
+                System.out.println("1. Start Learning\n2. Course Details\n3. Comment Page\n4. Unenroll Course\n0. Back");
+                courseOperation = CustomScanner.getOptions("12340");
+            } else {
+                System.out.println(
+                        "1. Start Learning\n2. Course Details\n3. Comment Page\n4. Unenroll Course\n5. Rate Course\n0. Back");
+                courseOperation = CustomScanner.getOptions("123450");
+            }
+
+            if (courseOperation.equals("1")) {
                 startLearning(courseId);
-            } else if(courseOperation.equals("2")){
-                isValidCourseOperation=true;
-                System.out.println("+++++++"+currCourse.getCourseId()+"+++++++");
-                System.out.println("Course Name :"+ currCourse.getCourseName());
-                System.out.println("Creator :"+ uiManager.getCreatorName(currCourse.getCreatorId()));
-                System.out.println("Rating :"+currCourse.getRating());
+            }
+            if (courseOperation.equals("2")) {
+                System.out.println("+++++++" + currCourse.getCourseId() + "+++++++");
+                System.out.println("Course Name :" + currCourse.getCourseName());
+                System.out.println("Creator :" + uiManager.getCreatorName(currCourse.getCreatorId()));
+                System.out.println("Rating :" + currCourse.getRating());
                 System.out.println("-What You'll Learn-");
                 ArrayList<String> learnings = currCourse.getCourseLearnings();
-                for(int i=1;i<learnings.size();i++){
-                    System.out.println("["+i+"] "+learnings.get(i-1));
+                for (int i = 1; i < learnings.size(); i++) {
+                    System.out.println("[" + i + "] " + learnings.get(i - 1));
                 }
-            } else if (courseOperation.equals("3")) {
-                isValidCourseOperation=true;
+            }
+            if (courseOperation.equals("3")) {
                 openCommentPage(courseId);
-            } else if (courseOperation.equals("4")) {
-                isValidCourseOperation=true;
+            }
+            if (courseOperation.equals("4")) {
                 currentLearner.unenrollCourse(courseId);
                 System.out.println("Course Unenrolled!!");
-            } else if (courseOperation.equals("0")) {
-                isValidCourseOperation=true;
-            } else if (!isUserRated && courseOperation.equals("5")) {
-                isValidCourseOperation=true;
-                rateCourse(courseId);
+                break;
+            }
+            if (courseOperation.equals("5")) {
+                rateCourse(courseId, currCourse.getCourseName());
                 System.out.println("Rated Successfully!!");
-            } else {
-                System.out.println("Invalid Option");
+            }
+            if (courseOperation.equals("0")) {
+                break;
             }
         }
+
+
     }
     private void startLearning(String courseId) {
         Scanner sc = new Scanner(System.in);
@@ -119,8 +124,10 @@ public class LearnerOperations {
             System.out.println("Lesson: " + lesson.getLesson());
             if (chapterIndex > 0 && chapterIndex < currCourse.getContentLength() - 1)
                 System.out.println("0. back  1. next  2. Exit");
-            else if (chapterIndex == 0) {
+            else if (chapterIndex == 0 && currCourse.getContentLength() > 1) {
                 System.out.println("1. next 2. Exit");
+            }else if (chapterIndex == 0 && currCourse.getContentLength() == 1){
+                System.out.println("2. Exit");
             } else if (chapterIndex == currCourse.getContentLength() - 1) {
                 System.out.println("0. back 2. Exit");
             }
@@ -129,7 +136,7 @@ public class LearnerOperations {
                 if (courseControl.equals("0") && chapterIndex > 0) {
                     chapterIndex -= 1;
                     break;
-                } else if (courseControl.equals("1") && chapterIndex < currCourse.getContentLength() - 1) {
+                } else if (courseControl.equals("1") && chapterIndex < currCourse.getContentLength() - 1 && currCourse.getContentLength() > 1) {
                     chapterIndex += 1;
                     currentLearner.updateCourseProgress(courseId,currCourse.getCourseProgressStepValue());
                     break;
@@ -142,34 +149,11 @@ public class LearnerOperations {
             }
         }
     }
-    private void rateCourse(String courseId){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("****Rate the Course - "+courseId+" ****");
+    private void rateCourse(String courseId,String courseName){
+        System.out.println("****Rate the Course - "+courseName+" ****");
         System.out.println("1.Poor 2.Bad 3.Good 4.Very Good 5.Excellent");
-        boolean isValidRatingOption = false;
-        int rating=0;
-        while (!isValidRatingOption){
-            String ratingOption = sc.next();
-            if(ratingOption.equals("1")){
-                isValidRatingOption=true;
-                rating=1;
-            }else if(ratingOption.equals("2")){
-                isValidRatingOption=true;
-                rating=2;
-            } else if (ratingOption.equals("3")) {
-                isValidRatingOption=true;
-                rating=3;
-            }else if (ratingOption.equals("4")) {
-                isValidRatingOption=true;
-                rating=4;
-            } else if (ratingOption.equals("5")) {
-                isValidRatingOption=true;
-                rating=5;
-            } else {
-                System.out.println("Invalid Option!!");
-            }
-            currentLearner.rateCourse(courseId,rating);
-        }
+        int rating = CustomScanner.getIntegetInput(1,5);
+        currentLearner.rateCourse(courseId,rating);
     }
     private void openCommentPage(String courseId){
         Scanner sc = new Scanner(System.in);
@@ -218,30 +202,49 @@ public class LearnerOperations {
             }
         }
     }
-    private String showCategoriesToEnroll(){
+    public void enrollNewCourse(){
         Scanner sc = new Scanner(System.in);
+        String selectedCourseId = showCategoriesToEnroll();
+        if(!selectedCourseId.equals("No_Courses_Available")) {
+            Course selectedCourse = uiManager.getCourseDetails(selectedCourseId);
+            System.out.println("+++++++" + selectedCourse.getCourseId() + "+++++++");
+            System.out.println("Course Name :" + selectedCourse.getCourseName());
+            System.out.println("Creator :" + uiManager.getCreatorName(selectedCourse.getCreatorId()));
+            System.out.println("Rating :" + selectedCourse.getRating());
+            System.out.println("-What You'll Learn-");
+            ArrayList<String> learnings = selectedCourse.getCourseLearnings();
+            for (int i = 1; i < learnings.size(); i++) {
+                System.out.println("[" + i + "] " + learnings.get(i - 1));
+            }
+            System.out.println("\n1. Enroll  0.Back");
+            boolean isValidEnrollOption = false;
+            while (!isValidEnrollOption) {
+                String enrollOption = sc.next();
+                if (enrollOption.equals("1")) {
+                    currentLearner.enrollNewCourse(selectedCourseId);
+                    System.out.println("Course Enrolled Successfully!!");
+                    isValidEnrollOption = true;
+                } else if (enrollOption.equals("0")) {
+                    isValidEnrollOption = true;
+                } else {
+                    System.out.println("Invalid Option!!");
+                }
+            }
+        }
+
+    }
+    private String showCategoriesToEnroll(){
         int categoryNumber = 0;
-        System.out.println("Select oldFiles.Course Category");
+        System.out.println("Select Course Category");
         ArrayList<String> courseCategories = uiManager.getCategories();
         for (String category : courseCategories){
             System.out.println("["+ (++categoryNumber)+"] "+category);
         }
-        boolean isValidCategoryOption = false;
-        while (!isValidCategoryOption){
-            String categoryOption = sc.next();
-            if(categoryOption.equals("0")) isValidCategoryOption=true;
-            else if (Integer.parseInt(categoryOption) <= courseCategories.size()) {
-                isValidCategoryOption = true;
-                int categoryIndex = Integer.parseInt(categoryOption)-1;
-                return showCoursesBasedOnCategory(courseCategories.get(categoryIndex));
-            }else{
-                System.out.println("Invalid Input!!");
-            }
-        }
-        return "0";
+
+        int categoryIndex = CustomScanner.getIntegetInput(1,courseCategories.size());
+        return showCoursesBasedOnCategory(courseCategories.get(categoryIndex-1));
     }
     private String showCoursesBasedOnCategory(String category){
-        Scanner sc = new Scanner(System.in);
         ArrayList<Course> allCourses = uiManager.getCoursesBasedOnCategory(category);
         ArrayList<Course> userNotEnrolledCourses = new ArrayList<>();
         for(Course course:allCourses){
@@ -259,50 +262,13 @@ public class LearnerOperations {
                 System.out.println("Price: "+course.getPrice()+"      Author:"+uiManager.getCreatorName(course.getCreatorId())+"      Rating: "+course.getRating());
                 System.out.println();
             }
-            boolean isValidCourseOption = false;
-            while (!isValidCourseOption){
-                String courseOption = sc.next();
-                if(courseOption.equals("0")) return "0";
-                if(Integer.parseInt(courseOption) <= userNotEnrolledCourses.size()){
-                    int courseIndex = Integer.parseInt(courseOption)-1;
-                    return userNotEnrolledCourses.get(courseIndex).getCourseId();
-                }
-            }
+            int courseOption = CustomScanner.getIntegetInput(1,userNotEnrolledCourses.size());
+            return userNotEnrolledCourses.get(courseOption-1).getCourseId();
         }
-        return "0";
+        return "No_Courses_Available";
     }
-    public void enrollNewCourse(){
-        Scanner sc = new Scanner(System.in);
-        String selectedCourseId = showCategoriesToEnroll();
-        if(selectedCourseId.equals("0")){
-            System.out.println("Back");
-        }else{
-            Course selectedCourse = uiManager.getCourseDetails(selectedCourseId);
-            System.out.println("+++++++"+selectedCourse.getCourseId()+"+++++++");
-            System.out.println("Course Name :"+ selectedCourse.getCourseName());
-            System.out.println("Creator :"+ uiManager.getCreatorName(selectedCourse.getCreatorId()));
-            System.out.println("Rating :"+selectedCourse.getRating());
-            System.out.println("-What You'll Learn-");
-            ArrayList<String> learnings = selectedCourse.getCourseLearnings();
-            for(int i=1;i<learnings.size();i++){
-                System.out.println("["+i+"] "+learnings.get(i-1));
-            }
-            System.out.println("\n1. Enroll  0.Back");
-            boolean isValidEnrollOption = false;
-            while(!isValidEnrollOption){
-                String enrollOption = sc.next();
-                if(enrollOption.equals("1")){
-                    currentLearner.enrollNewCourse(selectedCourseId);
-                    System.out.println("Course Enrolled Successfully!!");
-                    isValidEnrollOption=true;
-                } else if (enrollOption.equals("0")) {
-                    isValidEnrollOption=true;
-                }else {
-                    System.out.println("Invalid Option!!");
-                }
-            }
-        }
-    }
+
+
 
 
 }

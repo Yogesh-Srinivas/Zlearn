@@ -47,6 +47,7 @@ public class UserDatabase implements UserDBOperations{
     }
 
     public String getLearnerName(String commentor) {
+        System.out.println("Commetnor :"+commentor);
         int learnerIndex = getLearnerIndex(commentor);
         return this.learners.get(learnerIndex).getFirstName();
     }

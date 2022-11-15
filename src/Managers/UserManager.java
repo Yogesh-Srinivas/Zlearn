@@ -63,7 +63,7 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
     @Override
     public void deleteCourse(String courseId, String userId) {
         coursedb.deleteCourse(courseId,userId);
-        //unenroll all users from deleterd course
+        //unenroll all users from deleted course
         UserDatabase userdb = UserDatabase.getInstance();
         ArrayList<String> courseLearners = userdb.getCourseLearners(courseId);
         if(courseLearners.size()!=0){

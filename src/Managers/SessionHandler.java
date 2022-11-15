@@ -3,7 +3,7 @@ package Managers;
 import Core.Users.Admin;
 import Core.Users.User;
 import UI.AuthStatus;
-import UI.Utilities.CustomScanner;
+import Utilities.CustomScanner;
 
 import java.util.Scanner;
 

@@ -4,14 +4,14 @@ import Core.Course.Chapter;
 import Core.Course.Course;
 import Core.Users.Admin;
 import Managers.UIManager;
-import UI.Utilities.CustomScanner;
+import Utilities.CustomScanner;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AdminOperations {
-    private Admin currentAdmin;
-    private UIManager uiManager = new UIManager();
+    private final Admin currentAdmin;
+    private final UIManager uiManager = new UIManager();
 
     AdminOperations(Admin admin){
         this.currentAdmin = admin;
@@ -77,7 +77,6 @@ public class AdminOperations {
     }
 
     private void editZLearnCourses(String courseId){
-        Scanner sc = new Scanner(System.in);
         System.out.println("*****Edit Course*****");
         System.out.println("1. Change Course Name\n2. Add/Remove Category\n3. Change Price\n4. Edit Content\n0. Back");
         String editOption = CustomScanner.getOptions("12340");
@@ -182,7 +181,6 @@ public class AdminOperations {
         }
     }
     private void editCoursePrice(String courseId){
-        Scanner sc = new Scanner(System.in);
         boolean isValidCoursePriceInput = false;
         while(!isValidCoursePriceInput){
             System.out.println("Enter New Price");
@@ -202,9 +200,11 @@ public class AdminOperations {
             String inputOptions = CustomScanner.getOptions("aAdDeEbB");
             if (inputOptions.equals("a") || inputOptions.equals("A")) {
                 currentAdmin.addCourseContent(courseId,getNewChapter());
-            } else if (inputOptions.equals("d") || inputOptions.equals("D")) {
+            }
+            if (inputOptions.equals("d") || inputOptions.equals("D")) {
                 currentAdmin.deleteCourseContent(courseId,getContentIndex(courseId));
-            } else if (inputOptions.equals("e") || inputOptions.equals("E")) {
+            }
+            if (inputOptions.equals("e") || inputOptions.equals("E")) {
                 int contentIndex = getContentIndex(courseId);
                 Chapter selectedChapter = uiManager.getCourseDetails(courseId).getChapter(contentIndex);
                 System.out.println("1. Change Chapter Name\n2.Change Content\n3.back");
@@ -223,7 +223,8 @@ public class AdminOperations {
                     currentAdmin.changeCourseChapterContent(newContent,courseId,contentIndex);
 
                 }
-            } else {
+            }
+            if(inputOptions.equals("b") || inputOptions.equals("B")){
                 break;
             }
         }
@@ -317,13 +318,11 @@ public class AdminOperations {
         return new Chapter(chapterName,lesson);
     }
     private int getContentIndex(String courseId) {
-        int courseIndex = -1;
         ArrayList<Chapter> chapters = uiManager.getCourseDetails(courseId).getContent();
         for(int i=1;i<=chapters.size();i++){
             System.out.println("["+i+"] "+chapters.get(i-1).getChapterName());
         }
-        courseIndex = CustomScanner.getIntegetInput(1,chapters.size()) - 1;
-        return courseIndex;
+        return CustomScanner.getIntegetInput(1,chapters.size()) - 1;
     }
 
 

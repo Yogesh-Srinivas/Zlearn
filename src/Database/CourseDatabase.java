@@ -88,7 +88,7 @@ public class CourseDatabase implements CourseDBOperations{
         int courseIndex = getCourseIndex(courseId);
         if(this.courses.get(courseIndex).getCreatorId().equals(userId))
             return new ArrayList<>(this.courses.get(courseIndex).getComments());
-        return null;
+        return new ArrayList<>();
     }
 
     public void addComment(String comment, String courseId, String userId){

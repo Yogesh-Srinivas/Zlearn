@@ -5,13 +5,13 @@ import Core.Course.Comment;
 import Core.Course.Course;
 import Core.Users.Creator;
 import Managers.UIManager;
-import UI.Utilities.CustomScanner;
+import Utilities.CustomScanner;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CreatorOperations {
-    private Creator currentCreator;
+    private final Creator currentCreator;
     private final UIManager uiManager = new UIManager();
 
     public CreatorOperations(Creator creator){
@@ -19,15 +19,16 @@ public class CreatorOperations {
     }
     public void creatorDashBoard() {
         while (true){
-            Scanner sc = new Scanner(System.in);
             System.out.println("----To Teach is to Learn Twice Over----");
             System.out.println("1.View Created Courses\n2. Create New Course\n0. Log Out");
             String creatorOperationOption = CustomScanner.getOptions("120");
             if (creatorOperationOption.equals("1")) {
                 viewCreatedCourse();
-            } else if (creatorOperationOption.equals("2")) {
+            }
+            if (creatorOperationOption.equals("2")) {
                 createCourse();
-            } else if (creatorOperationOption.equals("0")) {
+            }
+            if (creatorOperationOption.equals("0")) {
                 break;
             }
         }
@@ -121,76 +122,57 @@ public class CreatorOperations {
     }
 
     private void viewCreatedCourse(){
-        Scanner sc = new Scanner(System.in);
         ArrayList<Course> myCourses = currentCreator.getCreatedCourse();
-        if(myCourses.size() != 0) {
+        if (myCourses.size() != 0) {
             System.out.println("-----Created Courses-----");
             int courseNumber = 1;
             for (Course tempCourse : myCourses) {
-                System.out.println("["+courseNumber +"] "+tempCourse.getCourseName());
+                System.out.println("[" + courseNumber + "] " + tempCourse.getCourseName());
                 courseNumber++;
             }
-            System.out.println("0. Back");
-            boolean isValidCourseOption = false;
-            while (!isValidCourseOption){
-                String courseOption = sc.next();
-                if(courseOption.equals("0")) isValidCourseOption=true;
-                else if (Integer.parseInt(courseOption) <= myCourses.size()) {
-                    int courseIndex = Integer.parseInt(courseOption)-1;
-                    openCourse(myCourses.get(courseIndex));
-                    isValidCourseOption = true;
-                }else{
-                    System.out.println("Invalid Option");
-                }
-            }
-
-        }else{
-            //need to add break
+            int courseIndex = CustomScanner.getIntegetInput(1,myCourses.size());
+            openCourse(myCourses.get(courseIndex-1));
+        } else {
             System.out.println("You have not Created any Course,Yet!");
         }
-
     }
 
     private void openCourse(Course currCourse){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("+++++++"+currCourse.getCourseId()+"+++++++");
-        System.out.println("1. View Course\n2. Edit Course\n3. View Comments\n4. Delete Course\n0. Back");
-        String courseOperation = sc.next();
-        boolean isValidCourseOperation = false;
-        while (!isValidCourseOperation){
-            if(courseOperation.equals("1")){
-                isValidCourseOperation=true;
-                System.out.println("+++++++"+currCourse.getCourseId()+"+++++++");
-                System.out.println("Course Name :"+ currCourse.getCourseName());
-                System.out.println("Creator :"+ uiManager.getCreatorName(currCourse.getCreatorId()));
-                System.out.println("Rating :"+currCourse.getRating());
-                if(currCourse.getPrice() == 0) System.out.println("Price: Free");
-                else System.out.println("Price :"+currCourse.getPrice());
+        while (true) {
+            System.out.println("+++++++" + currCourse.getCourseId() + "+++++++");
+            System.out.println("1. View Course\n2. Edit Course\n3. View Comments\n4. Delete Course\n0. Back");
+            String courseOperation = CustomScanner.getOptions("12340");
+            if (courseOperation.equals("1")) {
+                System.out.println("+++++++" + currCourse.getCourseId() + "+++++++");
+                System.out.println("Course Name :" + currCourse.getCourseName());
+                System.out.println("Creator :" + uiManager.getCreatorName(currCourse.getCreatorId()));
+                System.out.println("Rating :" + currCourse.getRating());
+                if (currCourse.getPrice() == 0) System.out.println("Price: Free");
+                else System.out.println("Price :" + currCourse.getPrice());
                 System.out.println("-What You'll Learn-");
                 ArrayList<String> learnings = currCourse.getCourseLearnings();
-                for(int i=1;i<=learnings.size();i++){
-                    System.out.println("["+i+"] "+learnings.get(i-1));
+                for (int i = 1; i <= learnings.size(); i++) {
+                    System.out.println("[" + i + "] " + learnings.get(i - 1));
                 }
-            } else if(courseOperation.equals("2")){
-                isValidCourseOperation=true;
+            }
+            if (courseOperation.equals("2")) {
                 editCourse(currCourse.getCourseId());
-            } else if (courseOperation.equals("3")) {
-                isValidCourseOperation=true;
+            }
+            if (courseOperation.equals("3")) {
                 viewComments(currCourse.getCourseId());
-            } else if (courseOperation.equals("4")) {
-                isValidCourseOperation=true;
+            }
+            if (courseOperation.equals("4")) {
                 currentCreator.deleteCourse(currCourse.getCourseId());
                 System.out.println("Course Deleted!!");
-            } else if (courseOperation.equals("0")) {
-                isValidCourseOperation=true;
-            } else {
-                System.out.println("Invalid Option");
+                break;
+            }
+            if (courseOperation.equals("0")) {
+                break;
             }
         }
     }
 
     private void editCourse(String courseId){
-        Scanner sc = new Scanner(System.in);
         System.out.println("*****Edit Course*****");
         System.out.println("1. Change Course Name\n2. Add/Remove Category\n3. Change Price\n4. Edit Content\n0. Back");
         String editOption = CustomScanner.getOptions("12340");
@@ -295,7 +277,6 @@ public class CreatorOperations {
         }
     }
     private void editCoursePrice(String courseId){
-        Scanner sc = new Scanner(System.in);
         boolean isValidCoursePriceInput = false;
         while(!isValidCoursePriceInput){
             System.out.println("Enter New Price");
@@ -303,6 +284,7 @@ public class CreatorOperations {
                 int coursePrice =new Scanner(System.in).nextInt();
                 isValidCoursePriceInput=true;
                 currentCreator.changeCoursePrice(coursePrice,courseId);
+                System.out.println("Course Price Changed!!");
             }catch (Exception e){
                 System.out.println("Invalid Input");
             }
@@ -315,9 +297,11 @@ public class CreatorOperations {
             String inputOptions = CustomScanner.getOptions("aAdDeEbB");
             if (inputOptions.equals("a") || inputOptions.equals("A")) {
                 currentCreator.addCourseContent(courseId,getNewChapter());
-            } else if (inputOptions.equals("d") || inputOptions.equals("D")) {
+            }
+            if (inputOptions.equals("d") || inputOptions.equals("D")) {
                 currentCreator.deleteCourseContent(courseId,getContentIndex(courseId));
-            } else if (inputOptions.equals("e") || inputOptions.equals("E")) {
+            }
+            if (inputOptions.equals("e") || inputOptions.equals("E")) {
                 int contentIndex = getContentIndex(courseId);
                 Chapter selectedChapter = uiManager.getCourseDetails(courseId).getChapter(contentIndex);
                 System.out.println("1. Change Chapter Name\n2.Change Content\n3.back");
@@ -336,7 +320,8 @@ public class CreatorOperations {
                     currentCreator.changeCourseChapterContent(newContent,courseId,contentIndex);
 
                 }
-            } else {
+            }
+            if(inputOptions.equals("b") || inputOptions.equals("B")){
                 break;
             }
         }
@@ -344,13 +329,11 @@ public class CreatorOperations {
     }
 
     private int getContentIndex(String courseId) {
-        int courseIndex = -1;
         ArrayList<Chapter> chapters = uiManager.getCourseDetails(courseId).getContent();
         for(int i=1;i<=chapters.size();i++){
             System.out.println("["+i+"] "+chapters.get(i-1).getChapterName());
         }
-        courseIndex = CustomScanner.getIntegetInput(1,chapters.size()) - 1;
-        return courseIndex;
+        return CustomScanner.getIntegetInput(1,chapters.size()) - 1;
     }
 
     private void viewComments(String courseId) {

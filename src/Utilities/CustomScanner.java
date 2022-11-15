@@ -1,4 +1,4 @@
-package UI.Utilities;
+package Utilities;
 
 import java.util.Scanner;
 
@@ -20,16 +20,16 @@ public class CustomScanner {
         return integerInput;
     }
     public static String getMultiLineInput(){
-        String finalString="";
-        while (finalString.equals("")) {
+        StringBuilder finalString= new StringBuilder();
+        while (finalString.toString().equals("")) {
             Scanner sc = new Scanner(System.in);
             while (sc.hasNextLine()) {
                 String input = sc.nextLine();
                 if (input.equals("")) break;
-                finalString += input + "\n";
+                finalString.append(input).append("\n");
             }
         }
-        return finalString;
+        return finalString.toString();
     }
 
     public static String getOptions(String inputOptions) {

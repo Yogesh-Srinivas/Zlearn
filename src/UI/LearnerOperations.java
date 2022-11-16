@@ -118,6 +118,7 @@ public class LearnerOperations {
         boolean loopControl = false;
         while (!loopControl) {
             userCurrentProgress = currentLearner.getCourseProgress(courseId);
+            int updateIndex = (int) Math.round(contentLength / (100.0 / userCurrentProgress)) - 1;
             System.out.println("+++++++" + currCourse.getCourseId() + "+++++++   [" + (int) userCurrentProgress + " %]");
             Chapter lesson = currCourse.getChapter(chapterIndex);
             System.out.println("Chapter : " + lesson.getChapterName());
@@ -138,7 +139,7 @@ public class LearnerOperations {
                     break;
                 } else if (courseControl.equals("1") && chapterIndex < currCourse.getContentLength() - 1 && currCourse.getContentLength() > 1) {
                     chapterIndex += 1;
-                    currentLearner.updateCourseProgress(courseId,currCourse.getCourseProgressStepValue());
+                    if(updateIndex<chapterIndex) currentLearner.updateCourseProgress(courseId,currCourse.getCourseProgressStepValue());
                     break;
                 } else if (courseControl.equals("2")) {
                     loopControl = true;

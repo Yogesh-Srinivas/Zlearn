@@ -118,22 +118,22 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
 
     //***** Admin Manager Operations ******************************************************
     @Override
-    public void removeLearner(String userName) {
-        userdb.removeLearner(userName);
+    public boolean removeLearner(String userName) {
+        return userdb.removeLearner(userName);
     }
     @Override
-    public void changeLearnerPassword(String newPassword, String userName) {
-        userdb.changeLearnerPassword(userName,newPassword);
+    public boolean changeLearnerPassword(String newPassword, String userName) {
+        return userdb.changeLearnerPassword(userName,newPassword);
     }
     //**************************************
     @Override
-    public void removeCreator(String userName) {
-        userdb.removeCreator(userName);
+    public boolean removeCreator(String userName) {
+        return userdb.removeCreator(userName);
     }
 
     @Override
-    public void changeCreatorPassword(String newPassword, String userName) {
-        userdb.changeCreatorPassword(userName,newPassword);
+    public boolean changeCreatorPassword(String newPassword, String userName) {
+        return userdb.changeCreatorPassword(userName,newPassword);
     }
     //**************************************
 
@@ -158,12 +158,12 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
     public void addNewZCourse(String courseName, ArrayList<String> selectedCategories,
                               ArrayList<Chapter> courseContent, int coursePrice, String adminId) {
         String courseId = IdGenerator.getNewZlearnCourseId();
-        coursedb.addCourse(new Course(courseName,courseId,selectedCategories,courseId,coursePrice,courseContent));
+        coursedb.addCourse(new Course(courseName,courseId,selectedCategories,adminId,coursePrice,courseContent));
     }
 
     @Override
-    public void removeCourse(String courseId,String adminId) {
-        coursedb.deleteCourse(courseId,adminId);
+    public boolean removeCourse(String courseId,String adminId) {
+        return coursedb.deleteCourse(courseId,adminId);
     }
     //**************************************
 

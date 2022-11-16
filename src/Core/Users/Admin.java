@@ -29,18 +29,18 @@ public class Admin{
 
     public void setAdminPassword(String newPassword) { this.adminPassword = newPassword;}
     //***************************************
-    public void removeLearner(String userName){
-        adminManager.removeLearner(userName);
+    public boolean removeLearner(String userName){
+        return adminManager.removeLearner(userName);
     }
-    public void changeLearnerPassword(String newPassword,String userName){
-        adminManager.changeLearnerPassword(newPassword,userName);
+    public boolean changeLearnerPassword(String newPassword,String userName){
+        return adminManager.changeLearnerPassword(newPassword,userName);
     }
     //***************************************
-    public void removeCreator(String userName){
-        adminManager.removeCreator(userName);
+    public boolean removeCreator(String userName){
+        return adminManager.removeCreator(userName);
     }
-    public void changeCreatorPassword(String newPassword,String userName){
-        adminManager.changeCreatorPassword(newPassword,userName);
+    public boolean changeCreatorPassword(String newPassword,String userName){
+        return adminManager.changeCreatorPassword(newPassword,userName);
     }
     //***************************************
 
@@ -62,8 +62,8 @@ public class Admin{
         adminManager.addNewZCourse(courseName,selectedCategories,courseContent,coursePrice,this.adminId);
     }
 
-    public void removeCourse(String courseId) {
-        adminManager.removeCourse(courseId,this.getAdminId());
+    public boolean removeCourse(String courseId) {
+        return adminManager.removeCourse(courseId,this.getAdminId());
     }
     //***************************************
 

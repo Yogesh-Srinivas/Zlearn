@@ -9,7 +9,7 @@ import UI.Initializers.UserInitializer;
 public class ZLearn {
     public static void main(String[] args) {
         UserInitializer.initiateUsers();
-        CourseInitializer.initiateCourses();
+//        CourseInitializer.initiateCourses();
         while(true) {
             System.out.println("****Welcome to Zlearn****");
             AuthStatus sessionStatus = SessionHandler.authenticate();

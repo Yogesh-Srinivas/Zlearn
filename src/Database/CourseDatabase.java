@@ -34,13 +34,16 @@ public class CourseDatabase implements CourseDBOperations{
         this.courses.add(course);
     }
 
-    public void deleteCourse(String courseId,String userId){
+    public boolean deleteCourse(String courseId,String userId){
+        boolean isCourseDeleted = false;
         for(Course course : this.courses){
             if((userId.contains("Adm") || course.getCreatorId().equals(userId)) && course.getCourseId().equals(courseId)){
                 this.courses.remove(course);
+                isCourseDeleted=true;
                 break;
             }
         }
+        return isCourseDeleted;
     }
 
     //*************************************************************

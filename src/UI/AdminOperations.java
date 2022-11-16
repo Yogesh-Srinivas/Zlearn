@@ -69,17 +69,25 @@ public class AdminOperations {
                 for(Course course : courses){
                     if(course.getCourseId().contains("ZCourse")) filteredCourses.add(course);
                 }
-                for(int i=1;i<=filteredCourses.size();i++){
-                    System.out.println("["+i+"] "+filteredCourses.get(i-1).getCourseId()+"  "+filteredCourses.get(i-1).getCourseName());
-                }
-                int courseIndex = CustomScanner.getIntegetInput(1,filteredCourses.size()) - 1;
-                editZLearnCourses(filteredCourses.get(courseIndex).getCourseId());
+                if(filteredCourses.size()!=0) {
+                    for (int i = 1; i <= filteredCourses.size(); i++) {
+                        System.out.println(
+                                "[" + i + "] " + filteredCourses.get(i - 1).getCourseId() + "  " + filteredCourses.get(
+                                        i - 1).getCourseName());
+                    }
+                    int courseIndex = CustomScanner.getIntegetInput(1, filteredCourses.size()) - 1;
+                    editZLearnCourses(filteredCourses.get(courseIndex).getCourseId());
+                }else System.out.println("No ZCourses are here!");
 
             }
             if(options.equals("4")){
                 System.out.println("Enter Course Id : ");
                 String courseId = new Scanner(System.in).next();
-                if(courseId.contains("ZCourse")) currentAdmin.removeCourse(courseId);
+                if(courseId.contains("ZCourse")){
+                    if(currentAdmin.removeCourse(courseId)){
+                        System.out.println("Course Removed Successfully!!");
+                    }else System.out.println("Course doesn't exist,give valid course Id.");
+                }
                 else System.out.println("Other than ZCourse, can be deleted here!");
             }
             if (options.equals("0")) {break;
@@ -378,7 +386,11 @@ public class AdminOperations {
             if(inputOption.equals("4")){
                 System.out.println("Enter Course Id : ");
                 String courseId = new Scanner(System.in).next();
-                if(!courseId.contains("ZCourse")) currentAdmin.removeCourse(courseId);
+                if(!courseId.contains("ZCourse")){
+                    if(currentAdmin.removeCourse(courseId)){
+                        System.out.println("Course Removed Successfully!!");
+                    }else System.out.println("Course doesn't exist,give valid course Id.");
+                }
                 else System.out.println("ZCourses Can't be delete here");
             }
             if(inputOption.equals("0")){ break; }
@@ -437,7 +449,8 @@ public class AdminOperations {
         String userName = sc.next();
         System.out.println("Enter New Password : ");
         String newPassword = sc.next();
-        currentAdmin.changeCreatorPassword(newPassword,userName);
+        if(currentAdmin.changeCreatorPassword(newPassword,userName)) System.out.println("Password Changed Successfully!!");
+        else System.out.println("Creator doesn't Exist!!");
     }
 
     private void changeLearnerPassword() {
@@ -446,19 +459,22 @@ public class AdminOperations {
         String userName = sc.next();
         System.out.println("Enter New Password : ");
         String newPassword = sc.next();
-        currentAdmin.changeLearnerPassword(newPassword,userName);
+        if(currentAdmin.changeLearnerPassword(newPassword,userName)) System.out.println("Password Changed Successfully!!");
+        else System.out.println("Learner doesn't Exist!!");
     }
 
 
     private void removeCreator() {
         System.out.println("Enter Creator UserName : ");
         String userName = new Scanner(System.in).next();
-        currentAdmin.removeCreator(userName);
+        if(currentAdmin.removeCreator(userName)) System.out.println("Creator Removed Successfully!!");
+        else System.out.println("Creator doesn't exist!!");
     }
 
     private void removeLearner() {
         System.out.println("Enter Learner UserName : ");
         String userName = new Scanner(System.in).next();
-        currentAdmin.removeLearner(userName);
+        if(currentAdmin.removeLearner(userName)) System.out.println("Learner Removed Successfully!!");
+        else System.out.println("Learner doesn't exist!!");
     }
 }

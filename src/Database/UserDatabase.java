@@ -61,22 +61,28 @@ public class UserDatabase implements UserDBOperations{
         this.learners.add(learner);
     }
 
-    public void removeLearner(String userName){
+    public boolean removeLearner(String userName){
+        boolean isUserRemoved = false;
         for(Learner l:this.learners){
             if(l.getUserName().equals(userName)){
                 this.learners.remove(l);
+                isUserRemoved = true;
                 break;
             }
         }
+        return isUserRemoved;
     }
 
-    public void changeLearnerPassword(String userName,String newPassword){
+    public boolean changeLearnerPassword(String userName,String newPassword){
+        boolean isPasswordChanged = false;
         for(Learner l:this.learners){
             if(l.getUserName().equals(userName)){
                 this.learners.get(this.learners.indexOf(l)).changePassword(newPassword);
+                isPasswordChanged = true;
                 break;
             }
         }
+        return isPasswordChanged;
     }
 
     public void addCourseToLearner(String userId,String courseId){
@@ -140,9 +146,9 @@ public class UserDatabase implements UserDBOperations{
     }
 
     public String getCreatorName(String userId){
+        if(userId.contains("Adm")) return "ZLearn";
         int creatorIndex = getCreatorIndex(userId);
         if(creatorIndex==-1) return "NULL";
-        if(userId.contains("Adm")) return "ZLearn";
         return this.creators.get(creatorIndex).getFirstName();
     }
 
@@ -150,22 +156,28 @@ public class UserDatabase implements UserDBOperations{
         this.creators.add(creator);
     }
 
-    public void removeCreator(String userName){
+    public boolean removeCreator(String userName){
+        boolean isUserRemoved = false;
         for(Creator c:this.creators){
             if(c.getUserName().equals(userName)){
                 this.creators.remove(c);
+                isUserRemoved=true;
                 break;
             }
         }
+        return isUserRemoved;
     }
 
-    public void changeCreatorPassword(String userName,String newPassword){
+    public boolean changeCreatorPassword(String userName,String newPassword){
+        boolean isPasswordChanged = false;
         for(Creator c:this.creators){
             if(c.getUserName().equals(userName)){
                 this.creators.get(this.creators.indexOf(c)).changePassword(newPassword);
+                isPasswordChanged=true;
                 break;
             }
         }
+        return isPasswordChanged;
     }
     public boolean isCreatorExist(String userName) {
         boolean isUserExist = false;

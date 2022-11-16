@@ -9,7 +9,7 @@ import java.util.ArrayList;
  public interface CourseDBOperations {
      Course getCourse(String courseId);
      void addCourse(Course course);
-     void deleteCourse(String courseId,String userId);
+     boolean deleteCourse(String courseId,String userId);
      ArrayList<String> getAllCategories();
      void addToAllCategories(String category);
      void removeFromAllCategories(String category);

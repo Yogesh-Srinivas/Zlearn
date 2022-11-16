@@ -1,7 +1,5 @@
 package Core.Course;
 
-import Utilities.CustomException;
-
 import java.util.ArrayList;
 
 public class Course {

@@ -13,9 +13,14 @@ import java.util.Scanner;
 public class LearnerOperations {
     private final Learner currentLearner;
     private final UIManager uiManager = new UIManager();
+
+    //******* Constructor ***************************************************************************
+
     public LearnerOperations(Learner learner){
         this.currentLearner = learner;
     }
+
+    //**********************************************************************************
     public void learnerDashBoard(){
         while (true) {
             System.out.println("----Learning never exhausts the mind----");
@@ -29,7 +34,7 @@ public class LearnerOperations {
             }
         }
     }
-    
+    //*******View Enrolled Course ***************************************************************************
     private void viewEnrolledCourse() {
         Scanner sc = new Scanner(System.in);
         if(currentLearner.getEnrolledCourses().size() != 0) {
@@ -150,12 +155,6 @@ public class LearnerOperations {
             }
         }
     }
-    private void rateCourse(String courseId,String courseName){
-        System.out.println("****Rate the Course - "+courseName+" ****");
-        System.out.println("1.Poor 2.Bad 3.Good 4.Very Good 5.Excellent");
-        int rating = CustomScanner.getIntegetInput(1,5);
-        currentLearner.rateCourse(courseId,rating);
-    }
     private void openCommentPage(String courseId){
         Scanner sc = new Scanner(System.in);
         Course currCourse = uiManager.getCourseDetails(courseId);
@@ -203,6 +202,14 @@ public class LearnerOperations {
             }
         }
     }
+    private void rateCourse(String courseId,String courseName){
+        System.out.println("****Rate the Course - "+courseName+" ****");
+        System.out.println("1.Poor 2.Bad 3.Good 4.Very Good 5.Excellent");
+        int rating = CustomScanner.getIntegetInput(1,5);
+        currentLearner.rateCourse(courseId,rating);
+    }
+
+    //********* Enroll New Course *************************************************************************
     public void enrollNewCourse(){
         Scanner sc = new Scanner(System.in);
         String selectedCourseId = showCategoriesToEnroll();

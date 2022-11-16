@@ -9,10 +9,14 @@ import UI.Initializers.UserInitializer;
 public class ZLearn {
     public static void main(String[] args) {
         UserInitializer.initiateUsers();
-//        CourseInitializer.initiateCourses();
+        CourseInitializer.initiateCourses();
+
+
         while(true) {
             System.out.println("****Welcome to Zlearn****");
             AuthStatus sessionStatus = SessionHandler.authenticate();
+
+
             if (sessionStatus.equals(AuthStatus.LOGIN_SUCCESS)) {
                 if (SessionHandler.getCurrentUser() != null) {
                     if (SessionHandler.getCurrentUser().getRole().equals(ROLE.LEARNER)) {

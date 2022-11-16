@@ -14,9 +14,12 @@ public class CreatorOperations {
     private final Creator currentCreator;
     private final UIManager uiManager = new UIManager();
 
+    //********* Constructor *************************************************************************
     public CreatorOperations(Creator creator){
         this.currentCreator = creator;
     }
+
+    //**********************************************************************************
     public void creatorDashBoard() {
         while (true){
             System.out.println("----To Teach is to Learn Twice Over----");
@@ -34,94 +37,7 @@ public class CreatorOperations {
             }
         }
     }
-
-    private void createCourse() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter Your Course Name");
-        String courseName = sc.nextLine();
-        ArrayList<String> selectedCategories = getNewCourseCategories();
-        ArrayList<Chapter> courseContent = getCourseChapters();
-        System.out.println("Enter Course Price");
-        int coursePrice = CustomScanner.getIntegetInput(0,100000);
-        currentCreator.addNewCourse(courseName,selectedCategories,courseContent,coursePrice);
-    }
-    private ArrayList<String> getNewCourseCategories(){
-        Scanner sc = new Scanner(System.in);
-        ArrayList<String> selectedCategories = new ArrayList<>();
-        ArrayList<String> availableCategories = uiManager.getCategories();
-        boolean notConfirm=true;
-        while(notConfirm) {
-            System.out.print("Selected Category : ");
-            for (int i = 0; i < selectedCategories.size(); i++) {
-                System.out.print(selectedCategories.get(i));
-                if (i != selectedCategories.size() - 1) System.out.print(", ");
-            }
-            System.out.println();
-            if(availableCategories.size() != 0) System.out.print("[A]dd ");
-            if(selectedCategories.size() != 0) System.out.print("[D]elete [C]onfirm");
-            System.out.println();
-            String operationChoice = sc.next();
-            if(availableCategories.size()!=0 && (operationChoice.equals("A") || operationChoice.equals("a"))){
-                for(int ind=1;ind<=availableCategories.size();ind++){
-                    System.out.println("["+ind+"] "+availableCategories.get(ind-1));
-                }
-                int categoryIndex = CustomScanner.getIntegetInput(1,availableCategories.size());
-                selectedCategories.add(availableCategories.get(categoryIndex-1));
-                availableCategories.remove(categoryIndex-1);
-            }else if(selectedCategories.size()!=0 && (operationChoice.equals("D") || operationChoice.equals("d"))){
-                for(int ind=1;ind<=selectedCategories.size();ind++){
-                    System.out.println("["+ind+"] "+selectedCategories.get(ind-1));
-                }
-                int categoryIndex = CustomScanner.getIntegetInput(1,selectedCategories.size());
-                availableCategories.add(selectedCategories.get(categoryIndex-1));
-                selectedCategories.remove(categoryIndex-1);
-            }else if(selectedCategories.size()!=0 && (operationChoice.equals("C") || operationChoice.equals("c"))){
-                notConfirm = false;
-            }else {
-                System.out.println("Invalid Input!!");
-            }
-
-        }
-        return selectedCategories;
-    }
-
-    private ArrayList<Chapter> getCourseChapters(){
-        Scanner sc = new Scanner(System.in);
-        ArrayList<Chapter> chapters = new ArrayList<>();
-        boolean isConfirm = false;
-        while (!isConfirm){
-            System.out.println("*******Add Course Content*********");
-            System.out.println("Current Chapters :-");
-            for (int i=1;i<=chapters.size();i++){
-                System.out.println("["+i+"] "+chapters.get(i-1).getChapterName());
-            }
-
-            System.out.print("[A]dd ");
-            if(chapters.size()!=0) System.out.print(" [C]onfirm");
-            System.out.println();
-            String options = sc.next();
-
-            if(options.equals("A") || options.equals("a")){
-                chapters.add(getNewChapter());
-            }else if (chapters.size()!=0 && (options.equals("c") || options.equals("C"))){
-                isConfirm = true;
-            }
-        }
-        return  chapters;
-    }
-
-    private Chapter getNewChapter() {
-        Scanner sc = new Scanner(System.in);
-        String chapterName;
-        String lesson;
-        System.out.println("Enter Chapter Name");
-        chapterName = sc.nextLine();
-        System.out.println("Enter Chapter Content");
-        lesson = CustomScanner.getMultiLineInput();
-        System.out.println(lesson);
-        return new Chapter(chapterName,lesson);
-    }
-
+    //********* View Created Course ************************************************************************
     private void viewCreatedCourse(){
         ArrayList<Course> myCourses = currentCreator.getCreatedCourse();
         if (myCourses.size() != 0) {
@@ -138,6 +54,7 @@ public class CreatorOperations {
         }
     }
 
+    //*********** open Course ******************************
     private void openCourse(Course currCourse){
         while (true) {
             System.out.println("+++++++" + currCourse.getCourseId() + "+++++++");
@@ -173,6 +90,7 @@ public class CreatorOperations {
         }
     }
 
+    //*********** Edit Course ******************************
     private void editCourse(String courseId){
         System.out.println("*****Edit Course*****");
         System.out.println("1. Change Course Name\n2. Add/Remove Category\n3. Change Price\n4. Edit Content\n0. Back");
@@ -191,6 +109,7 @@ public class CreatorOperations {
         }
 
     }
+
     private void changeCourseName(String courseId){
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter New Course Name");
@@ -198,6 +117,7 @@ public class CreatorOperations {
         currentCreator.changeCourseName(newCourseName,courseId);
         System.out.println("Course Name Updated!!");
     }
+
     private void editCategory(String courseId){
         Scanner sc = new Scanner(System.in);
         boolean exitEdit = false;
@@ -278,6 +198,7 @@ public class CreatorOperations {
             }
         }
     }
+
     private void editCoursePrice(String courseId){
         boolean isValidCoursePriceInput = false;
         while(!isValidCoursePriceInput){
@@ -292,6 +213,7 @@ public class CreatorOperations {
             }
         }
     }
+
     private void editCourseContent(String courseId){
         while (true) {
             System.out.println("********Edit Course Content******");
@@ -329,7 +251,6 @@ public class CreatorOperations {
         }
 
     }
-
     private int getContentIndex(String courseId) {
         ArrayList<Chapter> chapters = uiManager.getCourseDetails(courseId).getContent();
         for(int i=1;i<=chapters.size();i++){
@@ -337,7 +258,7 @@ public class CreatorOperations {
         }
         return CustomScanner.getIntegetInput(1,chapters.size()) - 1;
     }
-
+    //******************************************************
     private void viewComments(String courseId) {
         Scanner sc = new Scanner(System.in);
         while(true) {
@@ -355,5 +276,92 @@ public class CreatorOperations {
                 System.out.println("Invalid option!!");
             }
         }
+    }
+
+    //******* Create New Course ***************************************************************************
+    private void createCourse() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter Your Course Name");
+        String courseName = sc.nextLine();
+        ArrayList<String> selectedCategories = getNewCourseCategories();
+        ArrayList<Chapter> courseContent = getCourseChapters();
+        System.out.println("Enter Course Price");
+        int coursePrice = CustomScanner.getIntegetInput(0,100000);
+        currentCreator.addNewCourse(courseName,selectedCategories,courseContent,coursePrice);
+    }
+
+    private ArrayList<String> getNewCourseCategories(){
+        Scanner sc = new Scanner(System.in);
+        ArrayList<String> selectedCategories = new ArrayList<>();
+        ArrayList<String> availableCategories = uiManager.getCategories();
+        boolean notConfirm=true;
+        while(notConfirm) {
+            System.out.print("Selected Category : ");
+            for (int i = 0; i < selectedCategories.size(); i++) {
+                System.out.print(selectedCategories.get(i));
+                if (i != selectedCategories.size() - 1) System.out.print(", ");
+            }
+            System.out.println();
+            if(availableCategories.size() != 0) System.out.print("[A]dd ");
+            if(selectedCategories.size() != 0) System.out.print("[D]elete [C]onfirm");
+            System.out.println();
+            String operationChoice = sc.next();
+            if(availableCategories.size()!=0 && (operationChoice.equals("A") || operationChoice.equals("a"))){
+                for(int ind=1;ind<=availableCategories.size();ind++){
+                    System.out.println("["+ind+"] "+availableCategories.get(ind-1));
+                }
+                int categoryIndex = CustomScanner.getIntegetInput(1,availableCategories.size());
+                selectedCategories.add(availableCategories.get(categoryIndex-1));
+                availableCategories.remove(categoryIndex-1);
+            }else if(selectedCategories.size()!=0 && (operationChoice.equals("D") || operationChoice.equals("d"))){
+                for(int ind=1;ind<=selectedCategories.size();ind++){
+                    System.out.println("["+ind+"] "+selectedCategories.get(ind-1));
+                }
+                int categoryIndex = CustomScanner.getIntegetInput(1,selectedCategories.size());
+                availableCategories.add(selectedCategories.get(categoryIndex-1));
+                selectedCategories.remove(categoryIndex-1);
+            }else if(selectedCategories.size()!=0 && (operationChoice.equals("C") || operationChoice.equals("c"))){
+                notConfirm = false;
+            }else {
+                System.out.println("Invalid Input!!");
+            }
+
+        }
+        return selectedCategories;
+    }
+    private ArrayList<Chapter> getCourseChapters(){
+        Scanner sc = new Scanner(System.in);
+        ArrayList<Chapter> chapters = new ArrayList<>();
+        boolean isConfirm = false;
+        while (!isConfirm){
+            System.out.println("*******Add Course Content*********");
+            System.out.println("Current Chapters :-");
+            for (int i=1;i<=chapters.size();i++){
+                System.out.println("["+i+"] "+chapters.get(i-1).getChapterName());
+            }
+
+            System.out.print("[A]dd ");
+            if(chapters.size()!=0) System.out.print(" [C]onfirm");
+            System.out.println();
+            String options = sc.next();
+
+            if(options.equals("A") || options.equals("a")){
+                chapters.add(getNewChapter());
+            }else if (chapters.size()!=0 && (options.equals("c") || options.equals("C"))){
+                isConfirm = true;
+            }
+        }
+        return  chapters;
+    }
+    private Chapter getNewChapter() {
+        Scanner sc = new Scanner(System.in);
+        String chapterName;
+        String lesson;
+        System.out.println("Enter Chapter Name");
+        chapterName = sc.nextLine();
+        System.out.println("Enter Chapter Content");
+        lesson = CustomScanner.getMultiLineInput();
+        System.out.println(lesson);
+        return new Chapter(chapterName,lesson);
     }
 }

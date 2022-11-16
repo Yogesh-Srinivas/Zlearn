@@ -126,8 +126,11 @@ public class AdminOperations {
                                 "[" + i + "] " + filteredCourses.get(i - 1).getCourseId() + "  " + filteredCourses.get(
                                         i - 1).getCourseName());
                     }
-                    int courseIndex = CustomScanner.getIntegetInput(1, filteredCourses.size()) - 1;
-                    viewCourseDetails(filteredCourses.get(courseIndex));
+                    System.out.println();
+                    System.out.println("0. back");
+                    int courseIndex = CustomScanner.getIntegerInput(0, filteredCourses.size());
+                    if(courseIndex==0) continue;
+                    viewCourseDetails(filteredCourses.get(courseIndex-1));
                 }else {
                     System.out.println("No Courses Available, Now!");
                 }
@@ -144,7 +147,10 @@ public class AdminOperations {
                 for(int i=1;i<=categories.size();i++){
                     System.out.println("["+i+"] "+categories.get(i-1));
                 }
-                int categoryIndex = CustomScanner.getIntegetInput(1,categories.size());
+                System.out.println();
+                System.out.println("0. back");
+                int categoryIndex = CustomScanner.getIntegerInput(0, categories.size());
+                if(categoryIndex==0) continue;
                 currentAdmin.deleteCategoryFromAllCategories(categories.get(categoryIndex-1));
             }
             if(inputOption.equals("4")){
@@ -204,18 +210,12 @@ public class AdminOperations {
                         for (String category : availableCategories) {
                             System.out.println("[" + (++categoryCount) + "] " + category);
                         }
-                        while (true) {
-                            String categoryInput = sc.next();
-                            if (Integer.parseInt(categoryInput) > 0 && Integer.parseInt(
-                                    categoryInput) <= availableCategories.size()) {
-                                int categoryIndex = Integer.parseInt(categoryInput) - 1;
-                                String catergoryToadd = availableCategories.get(categoryIndex);
-                                currentAdmin.addCourseCategory(catergoryToadd,courseId);
-                                break;
-                            } else {
-                                System.out.println("Invalid input");
-                            }
-                        }
+                        System.out.println();
+                        System.out.println("0. back");
+                        int categoryIndex = CustomScanner.getIntegerInput(0,availableCategories.size());
+                        if(categoryIndex==0) return;
+                        String catergoryToadd = availableCategories.get(categoryIndex-1);
+                        currentAdmin.addCourseCategory(catergoryToadd,courseId);
                     }else {
                         System.out.println("No Categories Left.");
                         break;
@@ -228,18 +228,12 @@ public class AdminOperations {
                         for (String category : currCourseCategories) {
                             System.out.println("[" + (++categoryCount) + "] " + category);
                         }
-                        while (true) {
-                            String categoryInput = sc.next();
-                            if (Integer.parseInt(categoryInput) > 0 && Integer.parseInt(
-                                    categoryInput) <= currCourseCategories.size()) {
-                                int categoryIndex = Integer.parseInt(categoryInput) - 1;
-                                String categoryToRemove = currCourseCategories.get(categoryIndex);
-                                currentAdmin.removeCourseCategory(categoryToRemove,courseId);
-                                break;
-                            } else {
-                                System.out.println("Invalid input");
-                            }
-                        }
+                        System.out.println();
+                        System.out.println("0. back");
+                        int categoryIndex = CustomScanner.getIntegerInput(0,currCourseCategories.size());
+                        if(categoryIndex==0) return;
+                        String categoryToRemove = currCourseCategories.get(categoryIndex);
+                        currentAdmin.removeCourseCategory(categoryToRemove,courseId);
                     }else {
                         System.out.println("Course Must Contain One Category.");
                         break;
@@ -273,8 +267,11 @@ public class AdminOperations {
                                 "[" + i + "] " + filteredCourses.get(i - 1).getCourseId() + "  " + filteredCourses.get(
                                         i - 1).getCourseName());
                     }
-                    int courseIndex = CustomScanner.getIntegetInput(1, filteredCourses.size()) - 1;
-                    viewCourseDetails(filteredCourses.get(courseIndex));
+                    System.out.println();
+                    System.out.println("0. back");
+                    int courseIndex = CustomScanner.getIntegerInput(0, filteredCourses.size());
+                    if(courseIndex==0) continue;
+                    viewCourseDetails(filteredCourses.get(courseIndex-1));
                 }else System.out.println("No ZCourses are here!");
             }
             if (options.equals("2")) {
@@ -292,8 +289,11 @@ public class AdminOperations {
                                 "[" + i + "] " + filteredCourses.get(i - 1).getCourseId() + "  " + filteredCourses.get(
                                         i - 1).getCourseName());
                     }
-                    int courseIndex = CustomScanner.getIntegetInput(1, filteredCourses.size()) - 1;
-                    editZLearnCourses(filteredCourses.get(courseIndex).getCourseId());
+                    System.out.println();
+                    System.out.println("0. back");
+                    int courseIndex = CustomScanner.getIntegerInput(0, filteredCourses.size());
+                    if(courseIndex==0) continue;
+                    editZLearnCourses(filteredCourses.get(courseIndex-1).getCourseId());
                 }else System.out.println("No ZCourses are here!");
 
             }
@@ -317,9 +317,13 @@ public class AdminOperations {
         System.out.println("Enter Your Course Name");
         String courseName = sc.nextLine();
         ArrayList<String> selectedCategories = getNewCourseCategories();
+        if(selectedCategories.size()==0){
+            System.out.println("No Categories Available for courses now.Currently Cant able to create any course.\nContact Application Admin!");
+            return;
+        }
         ArrayList<Chapter> courseContent = getCourseChapters();
         System.out.println("Enter Course Price");
-        int coursePrice = CustomScanner.getIntegetInput(0,100000);
+        int coursePrice = CustomScanner.getIntegerInput(0, 100000);
         currentAdmin.addNewCourse(courseName,selectedCategories,courseContent,coursePrice);
     }
     private ArrayList<String> getNewCourseCategories(){
@@ -342,14 +346,14 @@ public class AdminOperations {
                 for(int ind=1;ind<=availableCategories.size();ind++){
                     System.out.println("["+ind+"] "+availableCategories.get(ind-1));
                 }
-                int categoryIndex = CustomScanner.getIntegetInput(1,availableCategories.size());
+                int categoryIndex = CustomScanner.getIntegerInput(1, availableCategories.size());
                 selectedCategories.add(availableCategories.get(categoryIndex-1));
                 availableCategories.remove(categoryIndex-1);
             }else if(selectedCategories.size()!=0 && (operationChoice.equals("D") || operationChoice.equals("d"))){
                 for(int ind=1;ind<=selectedCategories.size();ind++){
                     System.out.println("["+ind+"] "+selectedCategories.get(ind-1));
                 }
-                int categoryIndex = CustomScanner.getIntegetInput(1,selectedCategories.size());
+                int categoryIndex = CustomScanner.getIntegerInput(1, selectedCategories.size());
                 availableCategories.add(selectedCategories.get(categoryIndex-1));
                 selectedCategories.remove(categoryIndex-1);
             }else if(selectedCategories.size()!=0 && (operationChoice.equals("C") || operationChoice.equals("c"))){
@@ -401,7 +405,7 @@ public class AdminOperations {
         for(int i=1;i<=chapters.size();i++){
             System.out.println("["+i+"] "+chapters.get(i-1).getChapterName());
         }
-        return CustomScanner.getIntegetInput(1,chapters.size()) - 1;
+        return CustomScanner.getIntegerInput(1, chapters.size()) - 1;
     }
 
     //******************************************************

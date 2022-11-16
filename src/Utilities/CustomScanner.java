@@ -3,7 +3,7 @@ package Utilities;
 import java.util.Scanner;
 
 public class CustomScanner {
-    public static int getIntegetInput(int minValue, int maxValue){
+    public static int getIntegerInput(int minValue, int maxValue){
         int integerInput=-1;
         boolean isValidIntegerInput = false;
         while (!isValidIntegerInput){

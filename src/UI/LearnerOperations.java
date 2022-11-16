@@ -36,7 +36,6 @@ public class LearnerOperations {
     }
     //*******View Enrolled Course ***************************************************************************
     private void viewEnrolledCourse() {
-        Scanner sc = new Scanner(System.in);
         if(currentLearner.getEnrolledCourses().size() != 0) {
             System.out.println("-----Enrolled Courses-----");
             int courseNumber = 1;
@@ -45,20 +44,11 @@ public class LearnerOperations {
                 System.out.println("["+courseNumber +"] "+tempCourse.getCourseName());
                 courseNumber++;
             }
+            System.out.println();
             System.out.println("0. Back");
-            boolean isValidCourseOption = false;
-            while (!isValidCourseOption){
-                String courseOption = sc.next();
-                if(courseOption.equals("0")) isValidCourseOption=true;
-                else if (Integer.parseInt(courseOption) <= currentLearner.getEnrolledCourses().size()) {
-                    int courseIndex = Integer.parseInt(courseOption)-1;
-                    openCourse(currentLearner.getEnrolledCourses().get(courseIndex));
-                    isValidCourseOption = true;
-                }else{
-                    System.out.println("Invalid Option");
-                }
-            }
-
+            int courseOption = CustomScanner.getIntegerInput(0, currentLearner.getEnrolledCourses().size());
+            if(courseOption==0) return;
+            openCourse(currentLearner.getEnrolledCourses().get(courseOption-1));
         }else{
             //need to add back to this
             System.out.println("You have not enrolled any course Yet!");
@@ -205,14 +195,15 @@ public class LearnerOperations {
     private void rateCourse(String courseId,String courseName){
         System.out.println("****Rate the Course - "+courseName+" ****");
         System.out.println("1.Poor 2.Bad 3.Good 4.Very Good 5.Excellent");
-        int rating = CustomScanner.getIntegetInput(1,5);
+        int rating = CustomScanner.getIntegerInput(1, 5);
         currentLearner.rateCourse(courseId,rating);
     }
 
     //********* Enroll New Course *************************************************************************
     public void enrollNewCourse(){
-        Scanner sc = new Scanner(System.in);
         String selectedCourseId = showCategoriesToEnroll();
+        if(selectedCourseId == null) return;
+
         if(!selectedCourseId.equals("No_Courses_Available")) {
             Course selectedCourse = uiManager.getCourseDetails(selectedCourseId);
             System.out.println("+++++++" + selectedCourse.getCourseId() + "+++++++");
@@ -224,19 +215,12 @@ public class LearnerOperations {
             for (int i = 1; i < learnings.size(); i++) {
                 System.out.println("[" + i + "] " + learnings.get(i - 1));
             }
-            System.out.println("\n1. Enroll  0.Back");
-            boolean isValidEnrollOption = false;
-            while (!isValidEnrollOption) {
-                String enrollOption = sc.next();
-                if (enrollOption.equals("1")) {
-                    currentLearner.enrollNewCourse(selectedCourseId);
-                    System.out.println("Course Enrolled Successfully!!");
-                    isValidEnrollOption = true;
-                } else if (enrollOption.equals("0")) {
-                    isValidEnrollOption = true;
-                } else {
-                    System.out.println("Invalid Option!!");
-                }
+            System.out.println();
+            System.out.println("\n1. Enroll  0. Back");
+            String enrollOption = CustomScanner.getOptions("10");
+            if(enrollOption.equals("1")) {
+                currentLearner.enrollNewCourse(selectedCourseId);
+                System.out.println("Course Enrolled Successfully!!");
             }
         }
 
@@ -245,11 +229,19 @@ public class LearnerOperations {
         int categoryNumber = 0;
         System.out.println("Select Course Category");
         ArrayList<String> courseCategories = uiManager.getCategories();
+
+        if(courseCategories.size()==0){
+            System.out.println("No Categories Available Now.");
+            return null;
+        }
+
         for (String category : courseCategories){
             System.out.println("["+ (++categoryNumber)+"] "+category);
         }
-
-        int categoryIndex = CustomScanner.getIntegetInput(1,courseCategories.size());
+        System.out.println();
+        System.out.println("0. back");
+        int categoryIndex = CustomScanner.getIntegerInput(0, courseCategories.size());
+        if(categoryIndex==0) return null;
         return showCoursesBasedOnCategory(courseCategories.get(categoryIndex-1));
     }
     private String showCoursesBasedOnCategory(String category){
@@ -270,7 +262,10 @@ public class LearnerOperations {
                 System.out.println("Price: "+course.getPrice()+"      Author:"+uiManager.getCreatorName(course.getCreatorId())+"      Rating: "+course.getRating());
                 System.out.println();
             }
-            int courseOption = CustomScanner.getIntegetInput(1,userNotEnrolledCourses.size());
+            System.out.println();
+            System.out.println("0. back");
+            int courseOption = CustomScanner.getIntegerInput(0, userNotEnrolledCourses.size());
+            if(courseOption==0) return null;
             return userNotEnrolledCourses.get(courseOption-1).getCourseId();
         }
         return "No_Courses_Available";

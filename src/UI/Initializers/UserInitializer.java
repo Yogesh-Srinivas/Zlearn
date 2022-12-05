@@ -17,7 +17,8 @@ public class UserInitializer {
         Creator creator1 = new Creator(IdGenerator.getNewCreatorId(), "Sivanesh", "123", "Shivaneshwaran");
         Creator creator2 = new Creator(IdGenerator.getNewCreatorId(),"Sathya","123","Sathyanarayanan");
 
-        Admin admin1 = new Admin(IdGenerator.getNewAdminId(), "123");
+        Admin admin1 = new Admin(IdGenerator.getNewAdminId(), "123","Rahul");
+        System.out.println(admin1.getUserId());
 
         userdb.addLearner(learner1);
         userdb.addLearner(learner2);

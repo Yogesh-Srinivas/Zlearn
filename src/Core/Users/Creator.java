@@ -10,14 +10,18 @@ import java.util.ArrayList;
 
 public class Creator extends User{
     private final CreatorManager creatorManager = new UserManager();
+    private final ROLE role = ROLE.CREATOR;
 
     //******* Constructor ***************************************************************************
 
     public Creator(String userId,String userName,String password,String firstName){
-        super(userId,userName,password,firstName,ROLE.CREATOR);
+        super(userId,userName,password,firstName);
     }
 
     //******* Getters and Setters ********************************************************************
+    public ROLE getRole() {
+        return role;
+    }
 
     public ArrayList<Comment> getCourseComments(String courseId) {
         return  new ArrayList<>(creatorManager.getCourseComments(courseId,this.getUserId()));

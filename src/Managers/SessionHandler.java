@@ -1,6 +1,5 @@
 package Managers;
 
-import Core.Users.Admin;
 import Core.Users.User;
 import UI.AuthStatus;
 import Utilities.CustomScanner;
@@ -9,13 +8,11 @@ import java.util.Scanner;
 
 public class SessionHandler {
     private static User currentUser = null;
-    private static Admin currentAdmin =null;
 
     //***************************************************************************
     public static User getCurrentUser() {
         return currentUser;
     }
-    public static Admin getCurrentAdmin(){ return currentAdmin;}
 
     //******** Auth *******************************************************************
 
@@ -62,7 +59,7 @@ public class SessionHandler {
             System.out.println("Enter Password ");
             String adminPassword = sc.next();
             authStatus = Authenticator.adminAuthentication(adminId,adminPassword);
-            if(authStatus.equals(AuthStatus.LOGIN_SUCCESS)) currentAdmin = Authenticator.getAdmin(adminId);
+            if(authStatus.equals(AuthStatus.LOGIN_SUCCESS)) currentUser = Authenticator.getAdmin(adminId);
         }
 
         if(authStatus.equals(AuthStatus.USERNAME_NOT_FOUND)) System.out.println("User Name Not Found");
@@ -149,9 +146,5 @@ public class SessionHandler {
     //*********** Log Out **********************************************************
     public static void logOutUser() {
         currentUser = null;
-    }
-
-    public static void logOutAdmin() {
-        currentAdmin =null;
     }
 }

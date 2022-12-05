@@ -5,15 +5,13 @@ public abstract class User {
     private final String userName;
     private String password;
     private final String firstName;
-    private final ROLE role;
     //******* Constructor ***************************************************************************
 
-     User(String userId,String userName,String password,String firstName,ROLE role){
+     User(String userId,String userName,String password,String firstName){
         this.userId = userId;
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
-        this.role = role;
     }
     //******* Getters and Setters ********************************************************************
 
@@ -37,8 +35,5 @@ public abstract class User {
         return firstName;
     }
 
-    public ROLE getRole() {
-        return role;
-    }
 
 }

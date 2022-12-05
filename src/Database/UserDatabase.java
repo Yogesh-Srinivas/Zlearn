@@ -194,7 +194,7 @@ public class UserDatabase implements UserDBOperations{
     public Admin getAdmin(String adminId) {
         Admin admin = null;
         for(Admin a:this.admins){
-            if(a.getAdminId().equals(adminId)){
+            if(a.getUserId().equals(adminId)){
                 admin = a;
                 break;
             }
@@ -208,7 +208,7 @@ public class UserDatabase implements UserDBOperations{
 
     public void removeAdmin(String adminId){
         for(Admin a:this.admins){
-            if(a.getAdminId().equals(adminId)){
+            if(a.getUserId().equals(adminId)){
                 this.admins.remove(a);
                 break;
             }

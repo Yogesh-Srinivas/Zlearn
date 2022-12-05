@@ -8,14 +8,18 @@ import java.util.HashMap;
 public class Learner extends User{
     private final HashMap<String,Double> enrolledCourses = new HashMap<>();
     private final LearnerManager learnerManager = new UserManager() ;
+
+    private final ROLE role = ROLE.LEARNER;
     //******* Constructor ***************************************************************************
 
     public Learner(String userId,String userName,String password,String firstName){
-        super(userId,userName,password,firstName,ROLE.LEARNER);
+        super(userId,userName,password,firstName);
     }
 
     //******* Getters and Setters ********************************************************************
-
+    public ROLE getRole() {
+        return role;
+    }
     public ArrayList<String> getEnrolledCourses(){
         return new ArrayList<>(this.enrolledCourses.keySet());
     }

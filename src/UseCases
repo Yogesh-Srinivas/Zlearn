@@ -1,0 +1,26 @@
+Use Cases :
+
+Learner:
+ - update course progress
+ - view course details
+ - add,view comments
+ - unenroll course
+ - rate course
+ - enroll new course
+
+Creator:
+ - view created courses
+ - change course name
+ - change course price
+ - add/remove course category
+ - edit course content
+ - view comments
+ - delete course
+ - add new course
+
+Admin:
+ - remove learner/creator
+ - change learner/creator/admin password
+ - add/remove Zcourse Courses categories
+ - view all courses
+ - delete any course

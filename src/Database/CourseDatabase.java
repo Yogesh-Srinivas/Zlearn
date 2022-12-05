@@ -168,5 +168,4 @@ public class CourseDatabase implements CourseDBOperations{
         if(courseIndex!=-1 && (userId.contains("Adm") && courseId.contains("ZCourse")) || this.courses.get(courseIndex).getCreatorId().equals(userId))
             this.courses.get(courseIndex).changeLesson(newLesson,chapterIndex);
     }
-
 }

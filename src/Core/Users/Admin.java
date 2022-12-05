@@ -18,7 +18,6 @@ public class Admin extends Creator{
     public ROLE getRole() {
         return role;
     }
-    //***************************************
 
     //***************************************
 
@@ -56,42 +55,42 @@ public class Admin extends Creator{
     }
 
     public boolean removeCourse(String courseId) {
-        return adminManager.removeCourse(courseId,this.getUserId());
+        return creatorManager.deleteCourse(courseId,this.getUserId());
     }
     //***************************************
 
     public void addCourseContent(String courseId, Chapter newChapter) {
-        adminManager.addCourseContent(courseId,newChapter,this.getUserId());
+        creatorManager.addCourseContent(courseId,newChapter,this.getUserId());
     }
 
     public void deleteCourseContent(String courseId, int contentIndex) {
-        adminManager.deleteCourseContent(courseId,contentIndex,this.getUserId());
+        creatorManager.deleteCourseContent(courseId,contentIndex,this.getUserId());
     }
     //***************************************
 
 
     public void changeCourseName(String newCourseName, String courseId) {
-        adminManager.changeCourseName(newCourseName,courseId,this.getUserId());
+        creatorManager.changeCourseName(newCourseName,courseId,this.getUserId());
     }
     public void changeCoursePrice(int coursePrice, String courseId) {
-        adminManager.changeCoursePrice(coursePrice,courseId,this.getUserId());
+        creatorManager.changeCoursePrice(coursePrice,courseId,this.getUserId());
     }
 
     //***************************************
     public void changeCourseChapterName(String newChapterName, String courseId, int contentIndex) {
-        adminManager.changeCourseChapterName(newChapterName,courseId,contentIndex,this.getUserId());
+        creatorManager.changeCourseChapterName(newChapterName,courseId,contentIndex,this.getUserId());
     }
     public void changeCourseChapterContent(String newContent, String courseId, int contentIndex) {
-        adminManager.changeCourseChapterContent(newContent,courseId,contentIndex,this.getUserId());
+        creatorManager.changeCourseChapterContent(newContent,courseId,contentIndex,this.getUserId());
     }
 
     //***************************************
 
     public void removeCourseCategory(String categoryToRemove, String courseId) {
-        adminManager.removeCourseCategory(categoryToRemove,courseId,this.getUserId());
+        creatorManager.removeCourseCategory(categoryToRemove,courseId,this.getUserId());
     }
 
     public void addCourseCategory(String catergoryToadd, String courseId) {
-        adminManager.addCourseCategory(catergoryToadd,courseId,this.getUserId());
+        creatorManager.addCourseCategory(catergoryToadd,courseId,this.getUserId());
     }
 }

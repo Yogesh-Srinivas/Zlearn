@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public interface CreatorManager {
 
-    void deleteCourse(String courseId, String userId);
+    boolean deleteCourse(String courseId, String userId);
 
     void changeCourseName(String newCourseName,String courseId,String userId);
 

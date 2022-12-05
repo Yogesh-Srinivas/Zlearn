@@ -9,7 +9,7 @@ import Managers.UserManager;
 import java.util.ArrayList;
 
 public class Creator extends User{
-    private final CreatorManager creatorManager = new UserManager();
+    protected final CreatorManager creatorManager = new UserManager();
     private final ROLE role = ROLE.CREATOR;
 
     //******* Constructor ***************************************************************************

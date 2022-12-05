@@ -61,8 +61,7 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
     }
 
     @Override
-    public void deleteCourse(String courseId, String userId) {
-        coursedb.deleteCourse(courseId,userId);
+    public boolean deleteCourse(String courseId, String userId) {
         //unenroll all users from deleted course
         UserDatabase userdb = UserDatabase.getInstance();
         ArrayList<String> courseLearners = userdb.getCourseLearners(courseId);
@@ -70,6 +69,7 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
             for(String learnerId : courseLearners)
                 userdb.unenrollCourse(courseId,learnerId);
         }
+        return coursedb.deleteCourse(courseId,userId);
     }
     //**************************************
 
@@ -161,10 +161,6 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
         coursedb.addCourse(new Course(courseName,courseId,selectedCategories,adminId,coursePrice,courseContent));
     }
 
-    @Override
-    public boolean removeCourse(String courseId,String adminId) {
-        return coursedb.deleteCourse(courseId,adminId);
-    }
     //**************************************
 
 

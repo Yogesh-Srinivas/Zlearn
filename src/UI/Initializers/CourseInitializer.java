@@ -35,24 +35,24 @@ public class CourseInitializer {
             }
         };
         Course course1 = new Course("The Minions", "cs001",  category,"Ctr_1002", 200, content);
-        course1.addComment("Nice Course","Lrn_1001");
-        course1.addComment("Awesome Course","Lrn_1002");
-        course1.addComment("Need More Improvement","Lrn_1003");
-        course1.addComment("Add more content like this.","Lrn_1001");
-        course1.addComment("Add more content like this.","Lrn_1102");
-        course1.addComment("Add more content.","Lrn_1003");
+        coursedb.addComment("Nice Course","cs001","Lrn_1001");
+        coursedb.addComment("Awesome Course","cs001","Lrn_1002");
+        coursedb.addComment("Need More Improvement","cs001","Lrn_1003");
+        coursedb.addComment("Add more content like this.","cs001","Lrn_1001");
+        coursedb.addComment("Add more content like this.","cs001","Lrn_1102");
+        coursedb.addComment("Add more content.","cs001","Lrn_1003");
         coursedb.addCourse(course1);
         Course course2 = new Course("The Minions 2",  "ZCourse_001", category, "Adm_001", 0, content);
-        course2.addComment("Need More Improvement","Lrn_1001");
-        course2.addComment("Awesome Course","Lrn_1002");
-        course2.addComment("Add more content like this.","Lrn_1003");
-        course2.addComment("Nice Course","Lrn_1002");
+        coursedb.addComment("Need More Improvement","ZCourse_001","Lrn_1001");
+        coursedb.addComment("Awesome Course","ZCourse_001","Lrn_1002");
+        coursedb.addComment("Add more content like this.","ZCourse_001","Lrn_1003");
+        coursedb.addComment("Nice Course","ZCourse_001","Lrn_1002");
         coursedb.addCourse(course2);
         Course course3 = new Course("The Business School",  "bs001", category, "Ctr_1002", 5000, content);
-        course3.addComment("Need More Improvement","Lrn_1003");
-        course3.addComment("Awesome Course","Lrn_1002");
-        course3.addComment("Add more content like this.","Lrn_1001");
-        course3.addComment("Nice Course","Lrn_1003");
+        coursedb.addComment("Need More Improvement","bs001","Lrn_1003");
+        coursedb.addComment("Awesome Course","bs001","Lrn_1002");
+        coursedb.addComment("Add more content like this.","bs001","Lrn_1001");
+        coursedb.addComment("Nice Course","bs001","Lrn_1003");
         coursedb.addCourse(course3);
         
     }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
  public interface CourseDBOperations {
      Course getCourse(String courseId);
-     void addCourse(Course course);
+     void addCourse(Course course,ArrayList<Chapter> content);
      boolean deleteCourse(String courseId,String userId);
      ArrayList<String> getAllCategories();
      void addToAllCategories(String category);
@@ -27,4 +27,5 @@ import java.util.ArrayList;
      void deleteCourseContent(String courseId, int contentIndex, String userId);
      void changeCourseChapterName(String newChapterName, String courseId, int chapterIndex, String userId);
      void changeCourseLesson(String newLesson, String courseId, int chapterIndex, String userId);
+     ArrayList<Chapter> getCourseContent(String courseId);
 }

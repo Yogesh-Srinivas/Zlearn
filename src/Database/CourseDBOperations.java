@@ -3,6 +3,7 @@ package Database;
 import Core.Course.Chapter;
 import Core.Course.Comment;
 import Core.Course.Course;
+import Core.Course.CourseCategory;
 
 import java.util.ArrayList;
 
@@ -28,4 +29,10 @@ import java.util.ArrayList;
      void changeCourseChapterName(String newChapterName, String courseId, int chapterIndex, String userId);
      void changeCourseLesson(String newLesson, String courseId, int chapterIndex, String userId);
      ArrayList<Chapter> getCourseContent(String courseId);
+     Chapter getChapter(String courseId,int chapterIndex);
+     ArrayList<String> getCourseLearnings(String courseId);
+     ArrayList<String> getCourseCategories(String courseId);
+     int getCourseChapterCount(String courseId);
+     boolean isRatedBy(String userId,String courseId);
+
 }

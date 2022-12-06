@@ -56,8 +56,13 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
     @Override
     public void addNewCourse(String courseName, ArrayList<String> courseCategories, ArrayList<Chapter> courseContent, int coursePrice,String creatorId) {
         String courseId = IdGenerator.getNewGeneralCourseId();
-        Course newCourse = new Course(courseName,courseId,courseCategories,creatorId,coursePrice,courseContent);
-        coursedb.addCourse(newCourse);
+        //replacing null with courseId in courseContent
+        for(int chInd=0;chInd<courseContent.size();chInd++){
+            courseContent.get(chInd).setCourseId(courseId);
+        }
+        for (String category:courseCategories)
+            coursedb.addCourseCategory(category,courseId,creatorId);
+        coursedb.addCourse(new Course(courseName,courseId,creatorId,coursePrice),courseContent);
     }
 
     @Override
@@ -68,6 +73,7 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
         if(courseLearners.size()!=0){
             for(String learnerId : courseLearners)
                 userdb.unenrollCourse(courseId,learnerId);
+
         }
         return coursedb.deleteCourse(courseId,userId);
     }
@@ -155,10 +161,16 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
     //**************************************
 
     @Override
-    public void addNewZCourse(String courseName, ArrayList<String> selectedCategories,
-                              ArrayList<Chapter> courseContent, int coursePrice, String adminId) {
+    public void addNewZCourse(String courseName, ArrayList<String> selectedCategories,ArrayList<Chapter> courseContent, int coursePrice, String adminId) {
         String courseId = IdGenerator.getNewZlearnCourseId();
-        coursedb.addCourse(new Course(courseName,courseId,selectedCategories,adminId,coursePrice,courseContent));
+        //replacing null with courseId in courseContent
+        for(int chInd=0;chInd<courseContent.size();chInd++){
+            courseContent.get(chInd).setCourseId(courseId);
+        }
+
+        coursedb.addCourse(new Course(courseName,courseId,adminId,coursePrice),courseContent);
+        for(String category:selectedCategories)
+            coursedb.addCourseCategory(category,courseId,adminId);
     }
 
     //**************************************

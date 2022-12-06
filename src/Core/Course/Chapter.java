@@ -3,7 +3,7 @@ package Core.Course;
 public class Chapter {
     private String chapterName;
     private String lesson;
-    private final String courseId;
+    private String courseId;
     private int lessonNo;
 
     public Chapter(String chapterName,String lesson,String courseId,int lessonNo){
@@ -39,5 +39,9 @@ public class Chapter {
 
     public void setLessonNo(int lessonNo) {
         this.lessonNo = lessonNo;
+    }
+
+    public void setCourseId(String courseId){
+        this.courseId = courseId;
     }
 }

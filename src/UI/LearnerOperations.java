@@ -59,7 +59,7 @@ public class LearnerOperations {
         while (true) {
             Course currCourse = uiManager.getCourseDetails(courseId);
             System.out.println("+++++++" + currCourse.getCourseName() + "+++++++");
-            boolean isUserRated = currCourse.isRatedBy(currentLearner.getUserId());
+            boolean isUserRated = uiManager.isRatedBy(currentLearner.getUserId(),courseId);
             String courseOperation;
             if (isUserRated) {
                 System.out.println("1. Start Learning\n2. Course Details\n3. Comment Page\n4. Unenroll Course\n0. Back");
@@ -79,7 +79,7 @@ public class LearnerOperations {
                 System.out.println("Creator :" + uiManager.getCreatorName(currCourse.getCreatorId()));
                 System.out.println("Rating :" + currCourse.getRating());
                 System.out.println("-What You'll Learn-");
-                ArrayList<String> learnings = currCourse.getCourseLearnings();
+                ArrayList<String> learnings = uiManager.getCourseLearnings(courseId);
                 for (int i = 1; i < learnings.size(); i++) {
                     System.out.println("[" + i + "] " + learnings.get(i - 1));
                 }
@@ -115,7 +115,7 @@ public class LearnerOperations {
             userCurrentProgress = currentLearner.getCourseProgress(courseId);
             int updateIndex = (int) Math.round(contentLength / (100.0 / userCurrentProgress)) - 1;
             System.out.println("+++++++" + currCourse.getCourseId() + "+++++++   [" + (int) userCurrentProgress + " %]");
-            Chapter lesson = currCourse.getChapter(chapterIndex);
+            Chapter lesson = uiManager.getChapter(courseId,chapterIndex);
             System.out.println("Chapter : " + lesson.getChapterName());
             System.out.println("Lesson: " + lesson.getLesson());
             if (chapterIndex > 0 && chapterIndex < currCourse.getContentLength() - 1)
@@ -151,7 +151,7 @@ public class LearnerOperations {
         boolean closeCommentPage = false;
         while (!closeCommentPage) {
             boolean isCurrentUserCommented = false;
-            for (Comment comment : currCourse.getComments()) {
+            for (Comment comment : uiManager.getComments(courseId,currentLearner.getUserId())) {
                 if (comment.getCommentor().equals(currentLearner.getUserId())) {
                     isCurrentUserCommented = true;
                     break;
@@ -161,14 +161,14 @@ public class LearnerOperations {
             System.out.println("-------------------------------");
             if (isCurrentUserCommented) {
                 System.out.println("++++++++++Your Comment+++++++++");
-                for (Comment comment : currCourse.getComments()) {
+                for (Comment comment : uiManager.getComments(courseId, currentLearner.getUserId())) {
                     if (comment.getCommentor().equals(currentLearner.getUserId())){
                         System.out.println(" * " + comment.getComment());
                     }
                 }
             }
             System.out.println("-------------------------------");
-            for (Comment comment : currCourse.getComments()) {
+            for (Comment comment : uiManager.getComments(courseId,currentLearner.getUserId())) {
                 if (!comment.getCommentor().equals(currentLearner.getUserId())) {
                     System.out.println(uiManager.getLearnerName(comment.getCommentor()) + " : " + comment.getComment());
                 }
@@ -211,7 +211,7 @@ public class LearnerOperations {
             System.out.println("Creator :" + uiManager.getCreatorName(selectedCourse.getCreatorId()));
             System.out.println("Rating :" + selectedCourse.getRating());
             System.out.println("-What You'll Learn-");
-            ArrayList<String> learnings = selectedCourse.getCourseLearnings();
+            ArrayList<String> learnings = uiManager.getCourseLearnings(selectedCourseId);
             for (int i = 1; i < learnings.size(); i++) {
                 System.out.println("[" + i + "] " + learnings.get(i - 1));
             }

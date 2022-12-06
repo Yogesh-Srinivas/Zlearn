@@ -1,12 +1,9 @@
 package Core.Course;
 
-import java.util.ArrayList;
-
 public class Course {
     private String courseName;
     private final String courseId;
     private double rating;
-    private final ArrayList<String> ratedBy = new ArrayList<>();
     private final String creatorId;
     private int price;
     private int numberOfChapters;
@@ -32,9 +29,6 @@ public class Course {
         return 100.0 / numberOfChapters;
     }
 
-    public boolean isRatedBy(String userId){
-        return this.ratedBy.contains(userId);
-    }
 
     //**************************
 
@@ -51,14 +45,10 @@ public class Course {
         return rating;
     }
 
-    public void updateRating(double rating,String userId){
-        if(!this.ratedBy.contains(userId)){
-            int ratedUserCount = this.ratedBy.size();
-            double newRating =  ((rating*ratedUserCount) + rating) / (ratedUserCount+1);
-            this.rating = Double.parseDouble(String.format("%.1f",newRating));
-            this.ratedBy.add(userId);
-        }
+    public void setRating(double newRating){
+        this.rating = newRating;
     }
+
 
     //**************************
     public int getPrice() {

@@ -1,20 +1,17 @@
 package Database;
 
-import Core.Course.Chapter;
-import Core.Course.Comment;
-import Core.Course.Course;
-import Core.Course.CourseCategory;
+import Core.Course.*;
 
 import java.util.ArrayList;
-import java.util.Locale;
-
 public class CourseDatabase implements CourseDBOperations{
     private final ArrayList<Course> courses = new ArrayList<>();
     private final ArrayList<String> allCategories = new ArrayList<>();
     private final ArrayList<Comment> comments = new ArrayList<>();
     private final ArrayList<Chapter> courseContents = new ArrayList<>();
+    private final ArrayList<RatedUser> ratedBy = new ArrayList<>();
 
-    private final ArrayList<CourseCategory> courseCategories = new ArrayList<CourseCategory>();
+
+    private final ArrayList<CourseCategory> courseCategories = new ArrayList<>();
 
 
     //******** Constructor *********************************************************************
@@ -39,8 +36,7 @@ public class CourseDatabase implements CourseDBOperations{
 
     public void addCourse(Course course,ArrayList<Chapter> content){
         this.courses.add(course);
-        for(Chapter ch:content)
-            courseContents.add(ch);
+        courseContents.addAll(content);
     }
 
     public boolean deleteCourse(String courseId,String userId){
@@ -114,11 +110,6 @@ public class CourseDatabase implements CourseDBOperations{
     }
 
     //*************************************************************
-    public void rateCourse(String courseId, int rating, String userId) {
-        int courseIndex = getCourseIndex(courseId);
-        if(courseIndex!=-1)
-            this.courses.get(courseIndex).updateRating(rating,userId);
-    }
 
     public void changeCourseName(String newCourseName,String courseId, String userId) {
         int courseIndex = getCourseIndex(courseId);
@@ -137,9 +128,9 @@ public class CourseDatabase implements CourseDBOperations{
     public void addCourseContent(String courseId, Chapter courseChapter, String userId) {
         int courseIndex = getCourseIndex(courseId);
         if(courseIndex!=-1 && (userId.contains("Adm") && courseId.contains("ZCourse")) || this.courses.get(courseIndex).getCreatorId().equals(userId)) {
-            int currentNumber = this.courses.get(courseIndex).getNumberOfChapters();
+            int currentNumber = getCourseChapterCount(courseId);
             this.courseContents.add(courseChapter);
-            updateNumberOfChapers(courseId,currentNumber+1);
+            updateNumberOfChapters(courseId,currentNumber+1);
         }
     }
 
@@ -147,11 +138,11 @@ public class CourseDatabase implements CourseDBOperations{
         int courseIndex = getCourseIndex(courseId);
         int chapterIndex = getCourseContentIndex(courseId,contentIndex);
         if(courseIndex!=-1 && (userId.contains("Adm") && courseId.contains("ZCourse")) || this.courses.get(courseIndex).getCreatorId().equals(userId)) {
-            int currentNumber = this.courses.get(courseIndex).getNumberOfChapters();
+            int currentNumber = getCourseChapterCount(courseId);
             if (chapterIndex != -1) {
                 this.courseContents.remove(chapterIndex);
                 updateChapterIndexAfterDelete(courseId,contentIndex);
-                updateNumberOfChapers(courseId,currentNumber-1);
+                updateNumberOfChapters(courseId,currentNumber-1);
             }
         }
     }
@@ -223,7 +214,7 @@ public class CourseDatabase implements CourseDBOperations{
         ArrayList<String> learnings = new ArrayList<>();
         int courseInd = getCourseIndex(courseId);
         if(courseInd!=-1) {
-            int numberOfChapters = this.courses.get(courseInd).getNumberOfChapters();
+            int numberOfChapters = getCourseChapterCount(courseId);
             for(int i=0;i<numberOfChapters;i++) {
                 for (Chapter ch : this.courseContents) {
                     if (ch.getCourseId().equals(courseId) && ch.getLessonNo() == i+1){
@@ -236,7 +227,7 @@ public class CourseDatabase implements CourseDBOperations{
         return learnings;
     }
 
-    private void updateNumberOfChapers(String courseId,int newNumber){
+    private void updateNumberOfChapters(String courseId,int newNumber){
         int courseIndex = getCourseIndex(courseId);
         if(courseIndex!=-1){
             this.courses.get(courseIndex).setNumberOfChapters(newNumber);
@@ -254,17 +245,17 @@ public class CourseDatabase implements CourseDBOperations{
         return new ArrayList<>(courseCategories);
     }
 
-    public void addCourseCategory(CourseCategory category,String courseId,String userId){
+    public void addCourseCategory(String category,String courseId,String userId){
         int courseIndex = getCourseIndex(courseId);
         if(courseIndex!=-1 && (userId.contains("Adm") && courseId.contains("ZCourse")) || this.courses.get(courseIndex).getCreatorId().equals(userId)) {
-            this.courseCategories.add(category);
+            this.courseCategories.add(new CourseCategory(courseId,category));
         }
     }
 
-    public void removeCourseCategory(String category,String courseId){
-        int categoryIndex = -1;
+    public void removeCourseCategory(String category,String courseId,String userId){
+        int courseIndex = getCourseIndex(courseId);
         if(courseIndex!=-1 && (userId.contains("Adm") && courseId.contains("ZCourse")) || this.courses.get(courseIndex).getCreatorId().equals(userId)) {
-            int courseIndex = getCourseIndex(courseId);
+            int categoryIndex = -1;
             for (int i = 0; i < this.courseCategories.size(); i++) {
                 if (this.courseCategories.get(i).getCourseId().equals(courseId) && this.courseCategories.get(
                         i).getCategory().equals(category)) {
@@ -284,12 +275,47 @@ public class CourseDatabase implements CourseDBOperations{
         return filteredCourses;
     }
 
-    public void removeCourseCategory(String category, String courseId, String userId) {
+    //********* Rated By *************************
+    public boolean isRatedBy(String userId,String courseId){
+        for(RatedUser ratedUser:this.ratedBy){
+            if(ratedUser.getUserId().equals(userId) && ratedUser.getCourseId().equals(courseId)){
+                return true;
+            }
+        }
+        return false;
+    }
 
-            this.courses.get(courseIndex).removeCourseCategory(category);
+    private int getRatedUserCount(String courseId){
+        int ratedCount=0;
+        for(RatedUser ratedUser:this.ratedBy){
+            if(ratedUser.getCourseId().equals(courseId)){
+                ratedCount++;
+            }
+        }
+        return ratedCount;
+    }
+
+    public void rateCourse(String courseId, int rating, String userId) {
+        int courseIndex = getCourseIndex(courseId);
+        if(courseIndex!=-1){
+            if(!isRatedBy(userId,courseId)){
+                int ratedUserCount = getRatedUserCount(courseId);
+                double newRating =  ((rating*ratedUserCount) + rating) / (double)(ratedUserCount+1);
+                newRating = Double.parseDouble(String.format("%.1f",newRating));
+                this.courses.get(courseIndex).setRating(newRating);
+                this.ratedBy.add(new RatedUser(courseId,userId));
+            }
         }
     }
 
+    public int getCourseChapterCount(String courseId){
+        int numberOfChapters = 0;
+        int courseInd = getCourseIndex(courseId);
+        if(courseInd!=-1){
+            numberOfChapters = this.courses.get(courseInd).getNumberOfChapters();
+        }
+        return numberOfChapters;
+    }
 
 
 

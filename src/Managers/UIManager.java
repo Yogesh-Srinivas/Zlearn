@@ -62,8 +62,8 @@ public class UIManager {
         return coursedb.getChapter(courseId,contentIndex);
     }
 
-    public ArrayList<Comment> getComments(String courseId, String userId) {
-        return coursedb.getCourseComments(courseId,userId);
+    public ArrayList<Comment> getComments(String courseId) {
+        return coursedb.getCourseComments(courseId);
     }
 
     public boolean isRatedBy(String userId, String courseId) {

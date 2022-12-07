@@ -115,7 +115,8 @@ public class LearnerOperations {
             userCurrentProgress = currentLearner.getCourseProgress(courseId);
             int updateIndex = (int) Math.round(contentLength / (100.0 / userCurrentProgress)) - 1;
             System.out.println("+++++++" + currCourse.getCourseId() + "+++++++   [" + (int) userCurrentProgress + " %]");
-            Chapter lesson = uiManager.getChapter(courseId,chapterIndex);
+            int lessontnumber = chapterIndex+1;
+            Chapter lesson = uiManager.getChapter(courseId,lessontnumber);
             System.out.println("Chapter : " + lesson.getChapterName());
             System.out.println("Lesson: " + lesson.getLesson());
             if (chapterIndex > 0 && chapterIndex < currCourse.getContentLength() - 1)
@@ -151,7 +152,7 @@ public class LearnerOperations {
         boolean closeCommentPage = false;
         while (!closeCommentPage) {
             boolean isCurrentUserCommented = false;
-            for (Comment comment : uiManager.getComments(courseId,currentLearner.getUserId())) {
+            for (Comment comment : uiManager.getComments(courseId)) {
                 if (comment.getCommentor().equals(currentLearner.getUserId())) {
                     isCurrentUserCommented = true;
                     break;
@@ -161,14 +162,14 @@ public class LearnerOperations {
             System.out.println("-------------------------------");
             if (isCurrentUserCommented) {
                 System.out.println("++++++++++Your Comment+++++++++");
-                for (Comment comment : uiManager.getComments(courseId, currentLearner.getUserId())) {
+                for (Comment comment : uiManager.getComments(courseId)) {
                     if (comment.getCommentor().equals(currentLearner.getUserId())){
                         System.out.println(" * " + comment.getComment());
                     }
                 }
             }
             System.out.println("-------------------------------");
-            for (Comment comment : uiManager.getComments(courseId,currentLearner.getUserId())) {
+            for (Comment comment : uiManager.getComments(courseId)) {
                 if (!comment.getCommentor().equals(currentLearner.getUserId())) {
                     System.out.println(uiManager.getLearnerName(comment.getCommentor()) + " : " + comment.getComment());
                 }

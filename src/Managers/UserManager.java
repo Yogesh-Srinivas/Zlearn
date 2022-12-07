@@ -54,8 +54,9 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
     //**************************************
 
     @Override
-    public void addNewCourse(String courseName, ArrayList<String> courseCategories, ArrayList<Chapter> courseContent, int coursePrice,String creatorId) {
+    public void addNewCourse(String courseName, ArrayList<String> courseCategories, ArrayList<Chapter> content, int coursePrice,String creatorId) {
         String courseId;
+        ArrayList<Chapter> courseContent = new ArrayList<>(content);
         if(creatorId.contains("Adm"))  courseId = IdGenerator.getNewZlearnCourseId();
         else  courseId = IdGenerator.getNewGeneralCourseId();
         //replacing null with courseId in courseContent
@@ -77,28 +78,37 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
                 userdb.unenrollCourse(courseId,learnerId);
 
         }
+        //delete course comments
+        coursedb.deleteCourseComments(courseId,userId);
+        //delete course chapters
+        coursedb.deleteCourseContent(courseId,userId);
+        //delete Rated by
+        coursedb.deleteCourseRatedBy(courseId,userId);
+        //delete course category
+        coursedb.deleteCourseCategory(courseId,userId);
         return coursedb.deleteCourse(courseId,userId);
     }
     //**************************************
 
     @Override
     public void addCourseContent(String courseId, Chapter courseChapter, String userId) {
+        courseChapter.setCourseId(courseId);
         coursedb.addCourseContent(courseId,courseChapter,userId);
     }
 
     @Override
-    public void deleteCourseContent(String courseId, int contentIndex, String userId) {
-        coursedb.deleteCourseContent(courseId,contentIndex,userId);
+    public void deleteCourseContent(String courseId, int lessonNo, String userId) {
+        coursedb.deleteCourseContent(courseId,lessonNo,userId);
     }
     //**************************************
     @Override
-    public void changeCourseChapterName(String newChapterName, String courseId, int contentIndex, String userId) {
-        coursedb.changeCourseChapterName(newChapterName,courseId,contentIndex,userId);
+    public void changeCourseChapterName(String newChapterName, String courseId, int lessonNo, String userId) {
+        coursedb.changeCourseChapterName(newChapterName,courseId,lessonNo,userId);
     }
 
     @Override
-    public void changeCourseChapterContent(String newContent, String courseId, int contentIndex, String userId) {
-        coursedb.changeCourseLesson(newContent,courseId,contentIndex,userId);
+    public void changeCourseChapterContent(String newContent, String courseId, int lessonNo, String userId) {
+        coursedb.changeCourseLesson(newContent,courseId,lessonNo,userId);
     }
 
     //**************************************
@@ -120,8 +130,8 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
     }
 
     @Override
-    public ArrayList<Comment> getCourseComments(String courseId, String userId) {
-        return coursedb.getCourseComments(courseId,userId);
+    public ArrayList<Comment> getCourseComments(String courseId) {
+        return coursedb.getCourseComments(courseId);
     }
 
     //***** Admin Manager Operations ******************************************************

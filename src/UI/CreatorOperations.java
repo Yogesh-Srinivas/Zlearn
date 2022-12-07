@@ -211,22 +211,22 @@ public class CreatorOperations {
                 currentCreator.deleteCourseContent(courseId,getContentIndex(courseId));
             }
             if (inputOptions.equals("e") || inputOptions.equals("E")) {
-                int contentIndex = getContentIndex(courseId);
-                Chapter selectedChapter = uiManager.getChapter(courseId,contentIndex);
-                System.out.println("1. Change Chapter Name\n2.Change Content\n3.back");
-                String editOption = CustomScanner.getOptions("123");
+                int lessonNo = getContentIndex(courseId);
+                Chapter selectedChapter = uiManager.getChapter(courseId,lessonNo);
+                System.out.println("1. Change Chapter Name\n2. Change Content\n0. back");
+                String editOption = CustomScanner.getOptions("120");
                 if(editOption.equals("1")){
-                    System.out.println("Current Chapter Name : "+selectedChapter.getChapterName());
-                    System.out.println("Enter New Chapter Name");
+;                    System.out.println("Current Chapter Name : "+selectedChapter.getChapterName());
+ ;                   System.out.println("Enter New Chapter Name");
                     String newChapterName = new Scanner(System.in).nextLine();
-                    currentCreator.changeCourseChapterName(newChapterName,courseId,contentIndex);
+                    currentCreator.changeCourseChapterName(newChapterName,courseId,lessonNo);
                 }
                 if(editOption.equals("2")){
                     System.out.println("***** Current Lesson ***** \n"+selectedChapter.getLesson());
                     System.out.println("**************************");
                     System.out.println("Enter New Content");
                     String newContent = CustomScanner.getMultiLineInput();
-                    currentCreator.changeCourseChapterContent(newContent,courseId,contentIndex);
+                    currentCreator.changeCourseChapterContent(newContent,courseId,lessonNo);
 
                 }
             }
@@ -241,7 +241,7 @@ public class CreatorOperations {
         for(int i=1;i<=chapters.size();i++){
             System.out.println("["+i+"] "+chapters.get(i-1).getChapterName());
         }
-        return CustomScanner.getIntegerInput(1, chapters.size()) - 1;
+        return CustomScanner.getIntegerInput(1, chapters.size());
     }
     //******************************************************
     private void viewComments(String courseId) {
@@ -352,7 +352,6 @@ public class CreatorOperations {
         chapterName = sc.nextLine();
         System.out.println("Enter Chapter Content");
         lesson = CustomScanner.getMultiLineInput();
-        System.out.println(lesson);
-        return new Chapter(chapterName,lesson,null,lessonNumber);
+        return new Chapter(chapterName,lesson,null,lessonNumber+1);
     }
 }

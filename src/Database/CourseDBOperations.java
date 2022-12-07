@@ -3,7 +3,6 @@ package Database;
 import Core.Course.Chapter;
 import Core.Course.Comment;
 import Core.Course.Course;
-import Core.Course.CourseCategory;
 
 import java.util.ArrayList;
 
@@ -17,7 +16,7 @@ import java.util.ArrayList;
      ArrayList<Course> getCoursesBasedOnCategory(String category);
      void addCourseCategory(String category, String courseId, String userId);
      void removeCourseCategory(String category, String courseId, String userId);
-     ArrayList<Comment> getCourseComments(String courseId, String userId);
+     ArrayList<Comment> getCourseComments(String courseId);
      void addComment(String comment, String courseId, String userId);
      ArrayList<Course> getCreatedCourses(String userId);
      ArrayList<Course> getAllCourses();
@@ -25,14 +24,20 @@ import java.util.ArrayList;
      void changeCourseName(String newCourseName,String courseId, String userId);
      void changeCoursePrice(int newPrice, String courseId, String userId);
      void addCourseContent(String courseId, Chapter courseChapter, String userId);
-     void deleteCourseContent(String courseId, int contentIndex, String userId);
-     void changeCourseChapterName(String newChapterName, String courseId, int chapterIndex, String userId);
-     void changeCourseLesson(String newLesson, String courseId, int chapterIndex, String userId);
+     void deleteCourseContent(String courseId, int lessonNo, String userId);
+     void deleteCourseContent(String courseId, String userId);
+     void changeCourseChapterName(String newChapterName, String courseId, int lessonNo, String userId);
+     void changeCourseLesson(String newLesson, String courseId, int lessonNo, String userId);
      ArrayList<Chapter> getCourseContent(String courseId);
-     Chapter getChapter(String courseId,int chapterIndex);
+     Chapter getChapter(String courseId,int lessonNo);
      ArrayList<String> getCourseLearnings(String courseId);
      ArrayList<String> getCourseCategories(String courseId);
      int getCourseChapterCount(String courseId);
      boolean isRatedBy(String userId,String courseId);
 
-}
+     void deleteCourseComments(String courseId, String userId);
+
+     void deleteCourseRatedBy(String courseId, String userId);
+
+     void deleteCourseCategory(String courseId, String userId);
+ }

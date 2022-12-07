@@ -30,7 +30,7 @@ public class Creator extends User{
     }
 
     public ArrayList<Comment> getCourseComments(String courseId) {
-        return  new ArrayList<>(creatorManager.getCourseComments(courseId,this.getUserId()));
+        return  new ArrayList<>(creatorManager.getCourseComments(courseId));
     }
 
     public ArrayList<Course> getCreatedCourse(){

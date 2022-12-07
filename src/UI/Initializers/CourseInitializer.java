@@ -1,14 +1,18 @@
 package UI.Initializers;
 
 import Core.Course.Chapter;
-import Core.Course.Course;
 import Database.CourseDatabase;
+import Managers.CreatorManager;
+import Managers.LearnerManager;
+import Managers.UserManager;
 
 import java.util.ArrayList;
 
 public class CourseInitializer {
     public static void initiateCourses(){
         CourseDatabase coursedb = CourseDatabase.getInstance();
+        CreatorManager creatorManager = new UserManager();
+        LearnerManager learnerManager = new UserManager();
         ArrayList<String> category = new ArrayList<String>(){
             {
                 add("Finance");
@@ -23,37 +27,36 @@ public class CourseInitializer {
 
         ArrayList<Chapter> content = new ArrayList<Chapter>(){
             {
-                add(new Chapter("Lesson 1", "Yellow is new black"));
-                add(new Chapter("Lesson 2","This is minions, they have yellow skin color with round eyes!"));
-                add(new Chapter("Lesson 3","Minions appears in despicable me movie and owns its franchises"));
-                add(new Chapter("Lesson 4","Minions appears in despicable me movie and owns its franchises"));
-                add(new Chapter("Lesson 5","Minions appears in despicable me movie and owns its franchises"));
-                add(new Chapter("Lesson 6","Minions appears in despicable me movie and owns its franchises"));
-                add(new Chapter("Lesson 7","Minions appears in despicable me movie and owns its franchises"));
-                add(new Chapter("Lesson 8","Minions appears in despicable me movie and owns its franchises"));
+                add(new Chapter("Lesson 1", "Yellow is new black",null,1));
+                add(new Chapter("Lesson 2","This is minions, they have yellow skin color with round eyes!",null,2));
+                add(new Chapter("Lesson 3","Minions appears in despicable me movie and owns its franchises",null,3));
+                add(new Chapter("Lesson 4","Minions appears in despicable me movie and owns its franchises",null,4));
+                add(new Chapter("Lesson 5","Minions appears in despicable me movie and owns its franchises",null,5));
+                add(new Chapter("Lesson 6","Minions appears in despicable me movie and owns its franchises",null,6));
+                add(new Chapter("Lesson 7","Minions appears in despicable me movie and owns its franchises",null,7));
+                add(new Chapter("Lesson 8","Minions appears in despicable me movie and owns its franchises",null,8));
 
             }
         };
-        Course course1 = new Course("The Minions", "cs001",  category,"Ctr_1002", 200, content);
-        coursedb.addComment("Nice Course","cs001","Lrn_1001");
-        coursedb.addComment("Awesome Course","cs001","Lrn_1002");
-        coursedb.addComment("Need More Improvement","cs001","Lrn_1003");
-        coursedb.addComment("Add more content like this.","cs001","Lrn_1001");
-        coursedb.addComment("Add more content like this.","cs001","Lrn_1102");
-        coursedb.addComment("Add more content.","cs001","Lrn_1003");
-        coursedb.addCourse(course1);
-        Course course2 = new Course("The Minions 2",  "ZCourse_001", category, "Adm_001", 0, content);
-        coursedb.addComment("Need More Improvement","ZCourse_001","Lrn_1001");
-        coursedb.addComment("Awesome Course","ZCourse_001","Lrn_1002");
-        coursedb.addComment("Add more content like this.","ZCourse_001","Lrn_1003");
-        coursedb.addComment("Nice Course","ZCourse_001","Lrn_1002");
-        coursedb.addCourse(course2);
-        Course course3 = new Course("The Business School",  "bs001", category, "Ctr_1002", 5000, content);
-        coursedb.addComment("Need More Improvement","bs001","Lrn_1003");
-        coursedb.addComment("Awesome Course","bs001","Lrn_1002");
-        coursedb.addComment("Add more content like this.","bs001","Lrn_1001");
-        coursedb.addComment("Nice Course","bs001","Lrn_1003");
-        coursedb.addCourse(course3);
-        
+        creatorManager.addNewCourse("The Minions",category,content,120,"Ctr_1002");
+        learnerManager.addComment("Nice Course","cs001","Lrn_1001");
+        learnerManager.addComment("Awesome Course","cs001","Lrn_1002");
+        learnerManager.addComment("Need More Improvement","cs001","Lrn_1003");
+        learnerManager.addComment("Add more content like this.","cs001","Lrn_1001");
+        learnerManager.addComment("Add more content like this.","cs001","Lrn_1102");
+        learnerManager.addComment("Add more content.","cs001","Lrn_1003");
+
+        creatorManager.addNewCourse("The Minions 2", category,content, 0,"Adm_1");
+        learnerManager.addComment("Need More Improvement","ZCourse_001","Lrn_1001");
+        learnerManager.addComment("Awesome Course","ZCourse_001","Lrn_1002");
+        learnerManager.addComment("Add more content like this.","ZCourse_001","Lrn_1003");
+        learnerManager.addComment("Nice Course","ZCourse_001","Lrn_1002");
+
+        creatorManager.addNewCourse("The Business School", category,content,350,"Ctr_1002");
+        learnerManager.addComment("Need More Improvement","bs001","Lrn_1003");
+        learnerManager.addComment("Add more content like this.","bs001","Lrn_1001");
+        learnerManager.addComment("Awesome Course","bs001","Lrn_1002");
+        learnerManager.addComment("Nice Course","bs001","Lrn_1003");
+
     }
 }

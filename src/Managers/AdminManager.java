@@ -1,8 +1,5 @@
 package Managers;
 
-import Core.Course.Chapter;
-
-import java.util.ArrayList;
 
 public interface AdminManager {
     boolean removeLearner(String userName);
@@ -18,7 +15,5 @@ public interface AdminManager {
     void addCategoryToAllCategories(String newCategory);
 
     void deleteCategoryFromAllCategories(String category);
-
-    void addNewZCourse(String courseName, ArrayList<String> selectedCategories, ArrayList<Chapter> courseContent, int coursePrice, String adminId);
 
 }

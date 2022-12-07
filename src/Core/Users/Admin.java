@@ -3,6 +3,8 @@ package Core.Users;
 import Core.Course.Chapter;
 import Managers.AdminManager;
 import Managers.UserManager;
+import UI.AdminOperations;
+import UI.LearnerOperations;
 
 import java.util.ArrayList;
 
@@ -13,6 +15,11 @@ public class Admin extends Creator{
 
     public Admin(String userId,String password,String firstName){
         super(userId,null,password,firstName);
+    }
+
+    @Override
+    public void openDashboard() {
+        new AdminOperations(this).adminDashBoard();
     }
     //******* Getters and Setters ********************************************************************
     public ROLE getRole() {
@@ -51,7 +58,7 @@ public class Admin extends Creator{
     //***************************************
 
     public void addNewCourse(String courseName, ArrayList<String> selectedCategories, ArrayList<Chapter> courseContent, int coursePrice) {
-        adminManager.addNewZCourse(courseName,selectedCategories,courseContent,coursePrice,this.getUserId());
+        creatorManager.addNewCourse(courseName,selectedCategories,courseContent,coursePrice,this.getUserId());
     }
 
     public boolean removeCourse(String courseId) {

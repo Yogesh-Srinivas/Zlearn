@@ -15,7 +15,7 @@ public class AdminOperations {
 
 
     //*********** Constructor *************************************************************
-    AdminOperations(Admin admin){
+    public AdminOperations(Admin admin){
         this.currentAdmin = admin;
     }
 

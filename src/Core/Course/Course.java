@@ -10,11 +10,12 @@ public class Course {
 
 
     //******* Constructor ***************************************************************************
-    public Course(String courseName,String courseId,String creatorId,int price){
+    public Course(String courseName,String courseId,String creatorId,int price,int numberOfChapters){
         this.courseName = courseName;
         this.courseId = courseId;
         this.creatorId = creatorId;
         this.price = price;
+        this.numberOfChapters = numberOfChapters;
     }
     //*********Getters and Setters *********************************************************************
     public String getCourseId() {

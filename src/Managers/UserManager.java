@@ -55,14 +55,16 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
 
     @Override
     public void addNewCourse(String courseName, ArrayList<String> courseCategories, ArrayList<Chapter> courseContent, int coursePrice,String creatorId) {
-        String courseId = IdGenerator.getNewGeneralCourseId();
+        String courseId;
+        if(creatorId.contains("Adm"))  courseId = IdGenerator.getNewZlearnCourseId();
+        else  courseId = IdGenerator.getNewGeneralCourseId();
         //replacing null with courseId in courseContent
         for(int chInd=0;chInd<courseContent.size();chInd++){
             courseContent.get(chInd).setCourseId(courseId);
         }
+        coursedb.addCourse(new Course(courseName,courseId,creatorId,coursePrice,courseContent.size()),courseContent);
         for (String category:courseCategories)
             coursedb.addCourseCategory(category,courseId,creatorId);
-        coursedb.addCourse(new Course(courseName,courseId,creatorId,coursePrice),courseContent);
     }
 
     @Override
@@ -160,18 +162,7 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
     }
     //**************************************
 
-    @Override
-    public void addNewZCourse(String courseName, ArrayList<String> selectedCategories,ArrayList<Chapter> courseContent, int coursePrice, String adminId) {
-        String courseId = IdGenerator.getNewZlearnCourseId();
-        //replacing null with courseId in courseContent
-        for(int chInd=0;chInd<courseContent.size();chInd++){
-            courseContent.get(chInd).setCourseId(courseId);
-        }
 
-        coursedb.addCourse(new Course(courseName,courseId,adminId,coursePrice),courseContent);
-        for(String category:selectedCategories)
-            coursedb.addCourseCategory(category,courseId,adminId);
-    }
 
     //**************************************
 

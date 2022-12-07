@@ -18,7 +18,6 @@ public class UserInitializer {
         Creator creator2 = new Creator(IdGenerator.getNewCreatorId(),"Sathya","123","Sathyanarayanan");
 
         Admin admin1 = new Admin(IdGenerator.getNewAdminId(), "123","Rahul");
-        System.out.println(admin1.getUserId());
 
         userdb.addLearner(learner1);
         userdb.addLearner(learner2);
@@ -26,7 +25,7 @@ public class UserInitializer {
         userdb.addCreator(creator1);
         userdb.addCreator(creator2);
         userdb.addAdmin(admin1);
-        learner1.enrollNewCourse("cs001");
-        learner1.enrollNewCourse("ZCourse_001");
+        learner1.enrollNewCourse("Course_101");
+        learner1.enrollNewCourse("ZCourse_101");
     }
 }

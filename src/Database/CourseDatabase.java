@@ -204,6 +204,7 @@ public class CourseDatabase implements CourseDBOperations{
     public Chapter getChapter(String courseId,int chapterIndex){
         Chapter chapter = null;
         int chIndex = getCourseContentIndex(courseId,chapterIndex);
+        System.out.println(chIndex);
         if(chIndex!=-1){
             chapter = this.courseContents.get(chIndex);
         }

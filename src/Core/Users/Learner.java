@@ -1,6 +1,7 @@
 package Core.Users;
 import Managers.LearnerManager;
 import Managers.UserManager;
+import UI.LearnerOperations;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +15,11 @@ public class Learner extends User{
 
     public Learner(String userId,String userName,String password,String firstName){
         super(userId,userName,password,firstName);
+    }
+
+    @Override
+    public void openDashboard() {
+        new LearnerOperations(this).learnerDashBoard();
     }
 
     //******* Getters and Setters ********************************************************************

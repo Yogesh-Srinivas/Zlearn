@@ -4,9 +4,11 @@ import java.util.Scanner;
 
 public class test {
     public static void main(String[] args) {
-        getMultiLineInput();
-        CourseDatabase cdb = CourseDatabase.getInstance();
-        cdb.getCourse("ZCourse_001");
+//        getMultiLineInput();
+//        CourseDatabase cdb = CourseDatabase.getInstance();
+//        cdb.getCourse("ZCourse_001");
+            A a = new B();
+            a.use();
     }
     public static String getMultiLineInput(){
         String finalString="";
@@ -22,3 +24,17 @@ public class test {
         return finalString;
     }
 }
+
+class A{
+    void use(){
+        System.out.println("use a");
+    }
+}
+
+class B extends A{
+    @Override
+    void use(){
+        System.out.println("use b");
+    }
+}
+

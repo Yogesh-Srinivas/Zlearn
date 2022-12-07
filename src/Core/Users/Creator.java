@@ -5,6 +5,8 @@ import Core.Course.Comment;
 import Core.Course.Course;
 import Managers.CreatorManager;
 import Managers.UserManager;
+import UI.CreatorOperations;
+import UI.LearnerOperations;
 
 import java.util.ArrayList;
 
@@ -18,6 +20,10 @@ public class Creator extends User{
         super(userId,userName,password,firstName);
     }
 
+    @Override
+    public void openDashboard() {
+        new CreatorOperations(this).creatorDashBoard();
+    }
     //******* Getters and Setters ********************************************************************
     public ROLE getRole() {
         return role;

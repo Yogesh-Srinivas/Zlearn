@@ -4,8 +4,6 @@ import Core.Users.Admin;
 import Core.Users.Creator;
 import Core.Users.Learner;
 
-import java.util.ArrayList;
-
  public interface UserDBOperations {
     //*** Learner *************************************************************************
      Learner getLearner(String userName);

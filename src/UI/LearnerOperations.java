@@ -80,7 +80,7 @@ public class LearnerOperations {
                 System.out.println("Rating :" + currCourse.getRating());
                 System.out.println("-What You'll Learn-");
                 ArrayList<String> learnings = uiManager.getCourseLearnings(courseId);
-                for (int i = 1; i < learnings.size(); i++) {
+                for (int i = 1; i <= learnings.size(); i++) {
                     System.out.println("[" + i + "] " + learnings.get(i - 1));
                 }
             }
@@ -118,7 +118,10 @@ public class LearnerOperations {
             int lessontnumber = chapterIndex+1;
             Chapter lesson = uiManager.getChapter(courseId,lessontnumber);
             System.out.println("Chapter : " + lesson.getChapterName());
-            System.out.println("Lesson: " + lesson.getLesson());
+            System.out.println();
+            System.out.println("------- Lesson -------");
+            System.out.println(lesson.getLesson());
+            System.out.println();
             if (chapterIndex > 0 && chapterIndex < currCourse.getContentLength() - 1)
                 System.out.println("0. back  1. next  2. Exit");
             else if (chapterIndex == 0 && currCourse.getContentLength() > 1) {
@@ -213,7 +216,7 @@ public class LearnerOperations {
             System.out.println("Rating :" + selectedCourse.getRating());
             System.out.println("-What You'll Learn-");
             ArrayList<String> learnings = uiManager.getCourseLearnings(selectedCourseId);
-            for (int i = 1; i < learnings.size(); i++) {
+            for (int i = 1; i <= learnings.size(); i++) {
                 System.out.println("[" + i + "] " + learnings.get(i - 1));
             }
             System.out.println();

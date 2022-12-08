@@ -358,11 +358,12 @@ public class CourseDatabase implements CourseDBOperations{
         int courseIndex = getCourseIndex(courseId);
         if(courseIndex!=-1){
             if(!isRatedBy(userId,courseId)){
+                this.ratedBy.add(new RatedUser(courseId,userId));
                 int ratedUserCount = getRatedUserCount(courseId);
-                double newRating =  ((rating*ratedUserCount) + rating) / (double)(ratedUserCount+1);
+                double courseCurrRating = this.courses.get(courseIndex).getRating();
+                double newRating =  ((courseCurrRating*(ratedUserCount-1)) + rating) / (ratedUserCount);
                 newRating = Double.parseDouble(String.format("%.1f",newRating));
                 this.courses.get(courseIndex).setRating(newRating);
-                this.ratedBy.add(new RatedUser(courseId,userId));
             }
         }
     }

@@ -205,7 +205,7 @@ public class CreatorOperations {
             String inputOptions = CustomScanner.getOptions("aAdDeEbB");
             if (inputOptions.equals("a") || inputOptions.equals("A")) {
                 int lessonNumber = uiManager.getCourseChapterCount(courseId);
-                currentCreator.addCourseContent(courseId,getNewChapter(lessonNumber));
+                currentCreator.addCourseContent(courseId,getNewChapter(lessonNumber+1));
             }
             if (inputOptions.equals("d") || inputOptions.equals("D")) {
                 currentCreator.deleteCourseContent(courseId,getContentIndex(courseId));
@@ -352,6 +352,6 @@ public class CreatorOperations {
         chapterName = sc.nextLine();
         System.out.println("Enter Chapter Content");
         lesson = CustomScanner.getMultiLineInput();
-        return new Chapter(chapterName,lesson,null,lessonNumber+1);
+        return new Chapter(chapterName,lesson,null,lessonNumber);
     }
 }

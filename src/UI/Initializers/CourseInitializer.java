@@ -4,6 +4,7 @@ import Core.Course.Chapter;
 import Database.CourseDatabase;
 import Managers.CreatorManager;
 import Managers.LearnerManager;
+import Managers.UIManager;
 import Managers.UserManager;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 public class CourseInitializer {
     public static void initiateCourses(){
         CourseDatabase coursedb = CourseDatabase.getInstance();
+        UIManager uiManager = new UIManager();
         CreatorManager creatorManager = new UserManager();
         LearnerManager learnerManager = new UserManager();
         ArrayList<String> category = new ArrayList<String>(){

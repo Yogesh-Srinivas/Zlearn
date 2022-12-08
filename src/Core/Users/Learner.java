@@ -10,10 +10,17 @@ public class Learner extends User{
     private final LearnerManager learnerManager = new UserManager() ;
 
     private final ROLE role = ROLE.LEARNER;
+
+
     //******* Constructor ***************************************************************************
 
     public Learner(String userId,String userName,String password,String firstName){
         super(userId,userName,password,firstName);
+    }
+
+    //******* Getters and Setters ********************************************************************
+    public ROLE getRole() {
+        return role;
     }
 
     @Override
@@ -21,10 +28,7 @@ public class Learner extends User{
         new LearnerOperations(this).learnerDashBoard();
     }
 
-    //******* Getters and Setters ********************************************************************
-    public ROLE getRole() {
-        return role;
-    }
+    //******* enroll course ******
     public ArrayList<String> getEnrolledCourses(){
         return learnerManager.getEnrolledCourses(this.getUserId());
     }
@@ -33,33 +37,32 @@ public class Learner extends User{
         learnerManager.enrollCourse(courseId,this.getUserId());
     }
 
-    public boolean isEnrolled(String courseId) {
-        return getEnrolledCourses().contains(courseId);
-    }
-
-    //***************************************
+    //******* course Progress ******
 
     public double getCourseProgress(String courseId) {
         return learnerManager.getCourseProgress(courseId,this.getUserId());
     }
 
-    //***************************************
-
     public void updateCourseProgress(String courseId,double currentProgress){
         learnerManager.updateCourseProgress(courseId,currentProgress,this.getUserId());
     }
+
+    //******* add comment ******
 
     public void addComment(String comment,String courseId){
         learnerManager.addComment(comment,courseId,this.getUserId());
     }
 
+    //******* rate course ******
+
     public void rateCourse(String courseId,int rating){
         learnerManager.rateCourse(courseId,rating,this.getUserId());
     }
+
+    //******* unenroll course ******
 
     public void unenrollCourse(String courseId){
         learnerManager.unenrollCourse(courseId,this.getUserId());
     }
 
-    //***************************************
 }

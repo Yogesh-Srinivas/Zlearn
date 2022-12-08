@@ -237,7 +237,7 @@ public class CreatorOperations {
 
     }
     private int getContentIndex(String courseId) {
-        ArrayList<Chapter> chapters = uiManager.getContent(courseId);
+        ArrayList<Chapter> chapters = uiManager.getCourseContent(courseId);
         for(int i=1;i<=chapters.size();i++){
             System.out.println("["+i+"] "+chapters.get(i-1).getChapterName());
         }

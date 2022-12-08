@@ -5,6 +5,7 @@ public abstract class User {
     private final String userName;
     private String password;
     private final String firstName;
+
     //******* Constructor ***************************************************************************
 
      User(String userId,String userName,String password,String firstName){
@@ -15,17 +16,16 @@ public abstract class User {
     }
     //******* Getters and Setters ********************************************************************
 
+    public abstract void openDashboard();
+    public abstract ROLE getRole();
+
+    //******* user id ******
+
     public String getUserId() {
         return userId;
     }
 
-    public boolean isCorrectPassword(String password) {
-        return this.password.equals(password);
-    }
-
-    public void changePassword(String newPassword){
-        this.password = newPassword;
-    }
+    //******* user name ******
 
     public String getUserName() {
         return userName;
@@ -35,7 +35,14 @@ public abstract class User {
         return firstName;
     }
 
+    //******* password ******
 
-    public abstract void openDashboard();
-    public abstract ROLE getRole();
+    public boolean isCorrectPassword(String password) {
+        return this.password.equals(password);
+    }
+
+    public void changePassword(String newPassword){
+        this.password = newPassword;
+    }
+
 }

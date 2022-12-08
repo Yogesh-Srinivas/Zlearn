@@ -8,25 +8,35 @@ import java.util.ArrayList;
 
 public interface CreatorManager {
 
+
+    //******* course ******
+    void addNewCourse(String courseName, ArrayList<String> courseCategories, ArrayList<Chapter> courseContent, int coursePrice, String userId);
+
     boolean deleteCourse(String courseId, String userId);
 
+    ArrayList<Course> getCreatedCourse(String userId);
+
+    //******* course comemnt ******
+
+    ArrayList<Comment> getCourseComments(String courseId);
+
+    //******** course name ************
     void changeCourseName(String newCourseName,String courseId,String userId);
 
+    //******* course price ******
     void changeCoursePrice(int newPrice, String courseId, String userId);
 
+    //******* course category ******
     void addCourseCategory(String category, String courseId,String userId);
 
     void removeCourseCategory(String category, String courseId, String userId);
 
-    ArrayList<Course> getCreatedCourse(String userId);
-
-    ArrayList<Comment> getCourseComments(String courseId);
-
-    void addNewCourse(String courseName, ArrayList<String> courseCategories, ArrayList<Chapter> courseContent, int coursePrice, String userId);
-
+    //******* course content ******
     void addCourseContent(String courseId, Chapter courseChapter, String userId);
 
     void deleteCourseContent(String courseId, int lessonNo, String userId);
+
+    //********** course chapter *************
 
     void changeCourseChapterName(String newChapterName, String courseId, int lessonNo, String userId);
 

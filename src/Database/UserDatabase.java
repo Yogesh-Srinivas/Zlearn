@@ -20,6 +20,15 @@ public class UserDatabase implements UserDBOperations{
     //*********** Getters and Setters ************************************************************
 
     //*** Learner *************************************************************************
+    private int getLearnerIndex(String userId){
+        int learnerIndex = -1;
+        for(User usr:this.users){
+            if(usr.getUserId().equals(userId) && usr.getRole().equals(ROLE.LEARNER)){
+                learnerIndex = this.users.indexOf(usr);
+            }
+        }
+        return learnerIndex;
+    }
     public Learner getLearner(String userName) {
         Learner learner = null;
         for(User usr:this.users){
@@ -30,16 +39,6 @@ public class UserDatabase implements UserDBOperations{
         }
         return learner;
     }
-    private int getLearnerIndex(String userId){
-        int learnerIndex = -1;
-        for(User usr:this.users){
-            if(usr.getUserId().equals(userId) && usr.getRole().equals(ROLE.LEARNER)){
-                learnerIndex = this.users.indexOf(usr);
-            }
-        }
-        return learnerIndex;
-    }
-
     public String getLearnerName(String commentor) {
         int learnerIndex = getLearnerIndex(commentor);
         if(learnerIndex==-1) return "NULL";
@@ -48,13 +47,10 @@ public class UserDatabase implements UserDBOperations{
     public void addLearner(Learner learner) {
         this.users.add(learner);
     }
-
     public boolean removeLearner(String userName){
         Learner learner = getLearner(userName);
-        if(learner!=null && this.users.remove(learner)) return true;
-        return false;
+        return learner != null && this.users.remove(learner);
     }
-
     public boolean changeLearnerPassword(String userName,String newPassword){
         Learner learner = getLearner(userName);
         if(learner!=null){
@@ -66,8 +62,7 @@ public class UserDatabase implements UserDBOperations{
     }
     public boolean isLearnerExist(String userName) {
         Learner learner = getLearner(userName);
-        if(learner==null) return false;
-        return true;
+        return learner != null;
     }
 
 
@@ -106,8 +101,7 @@ public class UserDatabase implements UserDBOperations{
 
     public boolean removeCreator(String userName){
         Creator creator = getCreator(userName);
-        if(creator!=null && this.users.remove(creator)) return true;
-        return false;
+        return creator != null && this.users.remove(creator);
     }
 
     public boolean changeCreatorPassword(String userName,String newPassword){
@@ -121,8 +115,7 @@ public class UserDatabase implements UserDBOperations{
     }
     public boolean isCreatorExist(String userName) {
         Creator creator = getCreator(userName);
-        if(creator==null) return false;
-        return true;
+        return creator != null;
     }
 
     //*** Admin *************************************************************************

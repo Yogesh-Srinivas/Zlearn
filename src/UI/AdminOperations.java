@@ -157,7 +157,7 @@ public class AdminOperations {
                 System.out.println("Enter Course Id : ");
                 String courseId = new Scanner(System.in).next();
                 if(!courseId.contains("ZCourse")){
-                    if(currentAdmin.removeCourse(courseId)){
+                    if(currentAdmin.deleteCourse(courseId)){
                         System.out.println("Course Removed Successfully!!");
                     }else System.out.println("Course doesn't exist,give valid course Id.");
                 }
@@ -300,7 +300,7 @@ public class AdminOperations {
                 System.out.println("Enter Course Id : ");
                 String courseId = new Scanner(System.in).next();
                 if(courseId.contains("ZCourse")){
-                    if(currentAdmin.removeCourse(courseId)){
+                    if(currentAdmin.deleteCourse(courseId)){
                         System.out.println("Course Removed Successfully!!");
                     }else System.out.println("Course doesn't exist,give valid course Id.");
                 }

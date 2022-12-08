@@ -6,6 +6,8 @@ public class Chapter {
     private String courseId;
     private int lessonNo;
 
+    //******* Constructor *******************************
+
     public Chapter(String chapterName,String lesson,String courseId,int lessonNo){
         this.chapterName = chapterName;
         this.lesson = lesson;
@@ -13,35 +15,43 @@ public class Chapter {
         this.lessonNo=lessonNo;
     }
 
+    //******* Getters and Setters *******************************
+
+    //******* ch name ******
     public String getChapterName() {
         return chapterName;
     }
-
     public void changeChapterName(String newChapterName) {
         this.chapterName = newChapterName;
     }
-
+    //******* lesson ******
     public String getLesson() {
         return lesson;
     }
-
     public void changeLesson(String lesson) {
         this.lesson = lesson;
     }
-
+    //******* courseId ******
     public String getCourseId() {
         return courseId;
-    }
-
-    public int getLessonNo() {
-        return lessonNo;
-    }
-
-    public void setLessonNo(int lessonNo) {
-        this.lessonNo = lessonNo;
     }
 
     public void setCourseId(String courseId){
         this.courseId = courseId;
     }
+
+    //******* lesson number ******
+    public int getLessonNo() {
+        return lessonNo;
+    }
+    public void setLessonNo(int lessonNo) {
+        this.lessonNo = lessonNo;
+    }
+
 }
+
+
+
+    //******* Constructor *******************************
+    //******* Getters and Setters *******************************
+    //******* ch name ******

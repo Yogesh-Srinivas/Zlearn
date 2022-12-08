@@ -3,6 +3,7 @@ package Managers;
 import Core.Course.Chapter;
 import Core.Course.Comment;
 import Core.Course.Course;
+import Core.Course.CourseProgress;
 import Database.CourseDBOperations;
 import Database.CourseDatabase;
 import Database.UserDBOperations;
@@ -15,17 +16,13 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
     private final CourseDBOperations coursedb = CourseDatabase.getInstance();
 
     //***** Learner Manager Operations ******************************************************
-    @Override
-    public void enrollNewCourse(String courseId, String userId) {
-        userdb.addCourseToLearner(userId,courseId);
-    }
 
     @Override
     public void updateCourseProgress(String courseId, double courseProgressStepValue, String userId) {
-        double currentProgress = userdb.getLearnerCurrentProgress(courseId,userId);
+        double currentProgress = coursedb.getCourseProgress(courseId,userId);
         currentProgress += courseProgressStepValue;
         if(currentProgress > 99.0) currentProgress=100.0;
-        userdb.updateUserProgress(courseId,userId,currentProgress);
+        coursedb.updateProgress(courseId,userId,currentProgress);
     }
 
     @Override
@@ -39,8 +36,24 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
     }
     @Override
     public void unenrollCourse(String courseId, String userId) {
-        userdb.unenrollCourse(courseId,userId);
+        coursedb.unenrollCourse(courseId,userId);
     }
+
+    @Override
+    public ArrayList<String> getEnrolledCourses(String userId) {
+        return coursedb.getEnrolledCourses(userId);
+    }
+
+    @Override
+    public void enrollCourse(String courseId, String userId) {
+        coursedb.enrollCourse(new CourseProgress(userId,courseId,0.0));
+    }
+
+    @Override
+    public double getCourseProgress(String courseId,String userId) {
+        return coursedb.getCourseProgress(courseId,userId);
+    }
+
     //***** Creator Manager Operations ******************************************************
     @Override
     public void changeCourseName(String newCourseName,String courseId,String userId) {
@@ -72,11 +85,10 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
     public boolean deleteCourse(String courseId, String userId) {
         //unenroll all users from deleted course
         UserDatabase userdb = UserDatabase.getInstance();
-        ArrayList<String> courseLearners = userdb.getCourseLearners(courseId);
+        ArrayList<String> courseLearners = coursedb.getCourseLearners(courseId);
         if(courseLearners.size()!=0){
             for(String learnerId : courseLearners)
-                userdb.unenrollCourse(courseId,learnerId);
-
+                coursedb.unenrollCourse(courseId,learnerId);
         }
         //delete course comments
         coursedb.deleteCourseComments(courseId,userId);

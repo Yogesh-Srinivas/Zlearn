@@ -223,7 +223,7 @@ public class LearnerOperations {
             System.out.println("\n1. Enroll  0. Back");
             String enrollOption = CustomScanner.getOptions("10");
             if(enrollOption.equals("1")) {
-                currentLearner.enrollNewCourse(selectedCourseId);
+                currentLearner.enrollCourse(selectedCourseId);
                 System.out.println("Course Enrolled Successfully!!");
             }
         }

@@ -25,7 +25,7 @@ public class UserInitializer {
         userdb.addCreator(creator1);
         userdb.addCreator(creator2);
         userdb.addAdmin(admin1);
-        learner1.enrollNewCourse("Course_101");
-        learner1.enrollNewCourse("ZCourse_101");
+        learner1.enrollCourse("Course_101");
+        learner1.enrollCourse("ZCourse_101");
     }
 }

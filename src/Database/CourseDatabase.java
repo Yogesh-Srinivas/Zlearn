@@ -1,6 +1,7 @@
 package Database;
 
 import Core.Course.*;
+import Core.Users.Learner;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -11,9 +12,9 @@ public class CourseDatabase implements CourseDBOperations{
     private final ArrayList<Comment> comments = new ArrayList<>();
     private final ArrayList<Chapter> courseContents = new ArrayList<>();
     private final ArrayList<RatedUser> ratedBy = new ArrayList<>();
-
-
     private final ArrayList<CourseCategory> courseCategories = new ArrayList<>();
+    private final ArrayList<CourseProgress> courseProgresses = new ArrayList<>();
+
 
 
     //******** Constructor *********************************************************************
@@ -375,6 +376,79 @@ public class CourseDatabase implements CourseDBOperations{
             numberOfChapters = this.courses.get(courseInd).getNumberOfChapters();
         }
         return numberOfChapters;
+    }
+
+    //****** Enrolled Courses **************
+    public ArrayList<String> getEnrolledCourses(String userId){
+        ArrayList<String> enrolledCourses = new ArrayList<>();
+        for(CourseProgress courseProgress : this.courseProgresses){
+            if(courseProgress.getUserId().equals(userId)){
+                enrolledCourses.add(courseProgress.getCourseId());
+            }
+        }
+
+        return enrolledCourses;
+    }
+
+    public void enrollCourse(CourseProgress courseProgress){
+        this.courseProgresses.add(courseProgress);
+    }
+
+    public boolean isEnrolled(String courseId,String userId) {
+        int courseIndex = getCourseIndex(courseId);
+        if(courseIndex!=-1){
+            for(CourseProgress courseProgress:this.courseProgresses){
+                if(courseProgress.getCourseId().equals(courseId) && courseProgress.getUserId().equals(userId)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public double getCourseProgress(String courseId,String userId) {
+        int courseIndex = getCourseIndex(courseId);
+        if(courseIndex!=-1){
+            for(CourseProgress courseProgress:this.courseProgresses){
+                if(courseProgress.getCourseId().equals(courseId) && courseProgress.getUserId().equals(userId)){
+                    return courseProgress.getProgress();
+                }
+            }
+        }
+        return -1;
+    }
+    public void updateProgress(String courseId,String userId, double currentProgress){
+        int courseIndex = getCourseIndex(courseId);
+        if(courseIndex!=-1){
+            int progressIndex = getCourseProgressIndex(userId,courseId);
+            this.courseProgresses.get(progressIndex).setProgress(currentProgress);
+        }
+    }
+    public void unenrollCourse(String courseId,String userId){
+        int courseIndex = getCourseIndex(courseId);
+        if(courseIndex!=-1) {
+            int progressIndex = getCourseProgressIndex(userId, courseId);
+            this.courseProgresses.remove(progressIndex);
+        }
+    }
+
+    private int getCourseProgressIndex(String userId,String courseId){
+        for(int i=0;i<this.courseProgresses.size();i++){
+            if(this.courseProgresses.get(i).getCourseId().equals(courseId) && this.courseProgresses.get(i).getUserId().equals(userId)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public ArrayList<String> getCourseLearners(String courseId) {
+        ArrayList<String> courseLearners = new ArrayList<>();
+        for(CourseProgress courseProgress:this.courseProgresses){
+            if(courseProgress.getCourseId().equals(courseId)){
+                courseLearners.add(courseProgress.getUserId());
+            }
+        }
+        return courseLearners;
     }
 
 

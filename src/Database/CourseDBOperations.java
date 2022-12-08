@@ -3,6 +3,7 @@ package Database;
 import Core.Course.Chapter;
 import Core.Course.Comment;
 import Core.Course.Course;
+import Core.Course.CourseProgress;
 
 import java.util.ArrayList;
 
@@ -40,4 +41,12 @@ import java.util.ArrayList;
      void deleteCourseRatedBy(String courseId, String userId);
 
      void deleteCourseCategory(String courseId, String userId);
+
+     ArrayList<String> getEnrolledCourses(String userId);
+     void enrollCourse(CourseProgress courseProgress);
+     boolean isEnrolled(String courseId,String userId);
+     double getCourseProgress(String courseId,String userId);
+     void updateProgress(String courseId,String userId, double currentProgress);
+     void unenrollCourse(String courseId,String userId);
+     ArrayList<String> getCourseLearners(String courseId);
  }

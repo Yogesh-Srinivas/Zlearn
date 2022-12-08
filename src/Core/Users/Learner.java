@@ -4,10 +4,9 @@ import Managers.UserManager;
 import UI.LearnerOperations;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
 
 public class Learner extends User{
-    private final HashMap<String,Double> enrolledCourses = new HashMap<>();
     private final LearnerManager learnerManager = new UserManager() ;
 
     private final ROLE role = ROLE.LEARNER;
@@ -27,38 +26,24 @@ public class Learner extends User{
         return role;
     }
     public ArrayList<String> getEnrolledCourses(){
-        return new ArrayList<>(this.enrolledCourses.keySet());
+        return learnerManager.getEnrolledCourses(this.getUserId());
     }
 
-    public void addEnrolledCourse(String courseId){
-        this.enrolledCourses.put(courseId,0.0);
+    public void enrollCourse(String courseId){
+        learnerManager.enrollCourse(courseId,this.getUserId());
     }
 
     public boolean isEnrolled(String courseId) {
-        return this.enrolledCourses.containsKey(courseId);
+        return getEnrolledCourses().contains(courseId);
     }
 
     //***************************************
 
     public double getCourseProgress(String courseId) {
-        return this.enrolledCourses.get(courseId);
-    }
-
-    public void updateProgress(String courseId, double currentProgress){
-        this.enrolledCourses.put(courseId,currentProgress);
+        return learnerManager.getCourseProgress(courseId,this.getUserId());
     }
 
     //***************************************
-
-    public void removeCourse(String courseId){
-        this.enrolledCourses.remove(courseId);
-    }
-
-    //***************************************
-
-    public void enrollNewCourse(String courseId){
-        learnerManager.enrollNewCourse(courseId,this.getUserId());
-    }
 
     public void updateCourseProgress(String courseId,double currentProgress){
         learnerManager.updateCourseProgress(courseId,currentProgress,this.getUserId());

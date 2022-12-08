@@ -50,13 +50,6 @@ public class UserDatabase implements UserDBOperations{
         if(learnerIndex==-1) return "NULL";
         return this.learners.get(learnerIndex).getFirstName();
     }
-
-    public double getLearnerCurrentProgress(String courseId,String userId){
-        int learnerIndex = getLearnerIndex(userId);
-        if(learnerIndex==-1) return -1.0;
-        return this.learners.get(learnerIndex).getCourseProgress(courseId);
-    }
-
     public void addLearner(Learner learner) {
         this.learners.add(learner);
     }
@@ -84,12 +77,6 @@ public class UserDatabase implements UserDBOperations{
         }
         return isPasswordChanged;
     }
-
-    public void addCourseToLearner(String userId,String courseId){
-        int learnerIndex = getLearnerIndex(userId);
-        if(learnerIndex != -1)
-            this.learners.get(learnerIndex).addEnrolledCourse(courseId);
-    }
     public boolean isLearnerExist(String userName) {
         boolean isUserExist = false;
         for(Learner learner:this.learners){
@@ -101,27 +88,6 @@ public class UserDatabase implements UserDBOperations{
         return isUserExist;
     }
 
-    public void unenrollCourse(String courseId, String userId) {
-        int learnerIndex = getLearnerIndex(userId);
-        if(learnerIndex!=-1)
-            this.learners.get(learnerIndex).removeCourse(courseId);
-    }
-
-    public void updateUserProgress(String courseId, String userId, double currentProgress){
-        int learnerIndex = getLearnerIndex(userId);
-        if(learnerIndex!=-1)
-            this.learners.get(learnerIndex).updateProgress(courseId,currentProgress);
-    }
-
-    public ArrayList<String> getCourseLearners(String courseId) {
-        ArrayList<String> courseLearners = new ArrayList<>();
-        for(Learner learner:this.learners){
-            if(learner.isEnrolled(courseId)){
-                courseLearners.add(learner.getUserId());
-            }
-        }
-        return courseLearners;
-    }
 
     //*** Creator *************************************************************************
     public Creator getCreator(String userName) {
@@ -214,6 +180,8 @@ public class UserDatabase implements UserDBOperations{
             }
         }
     }
+
+
 
 
 }

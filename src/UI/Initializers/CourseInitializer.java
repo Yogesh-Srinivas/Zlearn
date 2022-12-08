@@ -88,6 +88,5 @@ public class CourseInitializer {
         learnerManager.addComment("Awesome Course","ZCourse_101","Lrn_1002");
         learnerManager.addComment("Add more content like this.","ZCourse_101","Lrn_1003");
         learnerManager.addComment("Nice Course","ZCourse_101","Lrn_1002");
-
     }
 }

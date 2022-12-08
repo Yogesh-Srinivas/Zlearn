@@ -10,15 +10,10 @@ import java.util.ArrayList;
     //*** Learner *************************************************************************
      Learner getLearner(String userName);
      String getLearnerName(String commentor);
-     double getLearnerCurrentProgress(String courseId,String userId);
      void addLearner(Learner learner);
      boolean removeLearner(String userName);
      boolean changeLearnerPassword(String userName,String newPassword);
-     void addCourseToLearner(String userId,String courseId);
      boolean isLearnerExist(String userName);
-     void unenrollCourse(String courseId, String userId);
-     void updateUserProgress(String courseId, String userId, double currentProgress);
-     ArrayList<String> getCourseLearners(String courseId);
     //*** Creator *************************************************************************
      Creator getCreator(String userName);
      Admin getAdmin(String adminId);

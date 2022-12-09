@@ -1,15 +1,17 @@
 package Core.Users;
 import Managers.LearnerManager;
 import Managers.UserManager;
+import UI.LearnerOperations;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
 
 public class Learner extends User{
-    private final HashMap<String,Double> enrolledCourses = new HashMap<>();
     private final LearnerManager learnerManager = new UserManager() ;
 
     private final ROLE role = ROLE.LEARNER;
+
+
     //******* Constructor ***************************************************************************
 
     public Learner(String userId,String userName,String password,String firstName){
@@ -20,55 +22,47 @@ public class Learner extends User{
     public ROLE getRole() {
         return role;
     }
+
+    @Override
+    public void openDashboard() {
+        new LearnerOperations(this).learnerDashBoard();
+    }
+
+    //******* enroll course ******
     public ArrayList<String> getEnrolledCourses(){
-        return new ArrayList<>(this.enrolledCourses.keySet());
+        return learnerManager.getEnrolledCourses(this.getUserId());
     }
 
-    public void addEnrolledCourse(String courseId){
-        this.enrolledCourses.put(courseId,0.0);
+    public void enrollCourse(String courseId){
+        learnerManager.enrollCourse(courseId,this.getUserId());
     }
 
-    public boolean isEnrolled(String courseId) {
-        return this.enrolledCourses.containsKey(courseId);
-    }
-
-    //***************************************
+    //******* course Progress ******
 
     public double getCourseProgress(String courseId) {
-        return this.enrolledCourses.get(courseId);
-    }
-
-    public void updateProgress(String courseId, double currentProgress){
-        this.enrolledCourses.put(courseId,currentProgress);
-    }
-
-    //***************************************
-
-    public void removeCourse(String courseId){
-        this.enrolledCourses.remove(courseId);
-    }
-
-    //***************************************
-
-    public void enrollNewCourse(String courseId){
-        learnerManager.enrollNewCourse(courseId,this.getUserId());
+        return learnerManager.getCourseProgress(courseId,this.getUserId());
     }
 
     public void updateCourseProgress(String courseId,double currentProgress){
         learnerManager.updateCourseProgress(courseId,currentProgress,this.getUserId());
     }
 
+    //******* add comment ******
+
     public void addComment(String comment,String courseId){
         learnerManager.addComment(comment,courseId,this.getUserId());
     }
+
+    //******* rate course ******
 
     public void rateCourse(String courseId,int rating){
         learnerManager.rateCourse(courseId,rating,this.getUserId());
     }
 
+    //******* unenroll course ******
+
     public void unenrollCourse(String courseId){
         learnerManager.unenrollCourse(courseId,this.getUserId());
     }
 
-    //***************************************
 }

@@ -4,7 +4,7 @@ import Core.Course.Chapter;
 import Core.Course.Comment;
 import Core.Course.Course;
 import Core.Users.Learner;
-import Managers.UIManager;
+import Managers.DataManager;
 import Utilities.CustomScanner;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class LearnerOperations {
     private final Learner currentLearner;
-    private final UIManager uiManager = new UIManager();
+    private final DataManager dataManager = new DataManager();
 
     //******* Constructor ***************************************************************************
 
@@ -40,7 +40,7 @@ public class LearnerOperations {
             System.out.println("-----Enrolled Courses-----");
             int courseNumber = 1;
             for (String courseId : currentLearner.getEnrolledCourses()) {
-                Course tempCourse = uiManager.getCourseDetails(courseId);
+                Course tempCourse = dataManager.getCourseDetails(courseId);
                 System.out.println("["+courseNumber +"] "+tempCourse.getCourseName());
                 courseNumber++;
             }
@@ -57,9 +57,9 @@ public class LearnerOperations {
 
     private void openCourse(String courseId) {
         while (true) {
-            Course currCourse = uiManager.getCourseDetails(courseId);
+            Course currCourse = dataManager.getCourseDetails(courseId);
             System.out.println("+++++++" + currCourse.getCourseName() + "+++++++");
-            boolean isUserRated = uiManager.isRatedBy(currentLearner.getUserId(),courseId);
+            boolean isUserRated = dataManager.isRatedBy(currentLearner.getUserId(), courseId);
             String courseOperation;
             if (isUserRated) {
                 System.out.println("1. Start Learning\n2. Course Details\n3. Comment Page\n4. Unenroll Course\n0. Back");
@@ -76,10 +76,10 @@ public class LearnerOperations {
             if (courseOperation.equals("2")) {
                 System.out.println("+++++++" + currCourse.getCourseId() + "+++++++");
                 System.out.println("Course Name :" + currCourse.getCourseName());
-                System.out.println("Creator :" + uiManager.getCreatorName(currCourse.getCreatorId()));
+                System.out.println("Creator :" + dataManager.getCreatorName(currCourse.getCreatorId()));
                 System.out.println("Rating :" + currCourse.getRating());
                 System.out.println("-What You'll Learn-");
-                ArrayList<String> learnings = uiManager.getCourseLearnings(courseId);
+                ArrayList<String> learnings = dataManager.getCourseLearnings(courseId);
                 for (int i = 1; i <= learnings.size(); i++) {
                     System.out.println("[" + i + "] " + learnings.get(i - 1));
                 }
@@ -105,7 +105,7 @@ public class LearnerOperations {
     }
     private void startLearning(String courseId) {
         Scanner sc = new Scanner(System.in);
-        Course currCourse = uiManager.getCourseDetails(courseId);
+        Course currCourse = dataManager.getCourseDetails(courseId);
         currentLearner.updateCourseProgress(courseId,currCourse.getCourseProgressStepValue());
         double userCurrentProgress = currentLearner.getCourseProgress(courseId);
         int contentLength = currCourse.getContentLength();
@@ -116,7 +116,7 @@ public class LearnerOperations {
             int updateIndex = (int) Math.round(contentLength / (100.0 / userCurrentProgress)) - 1;
             System.out.println("+++++++" + currCourse.getCourseId() + "+++++++   [" + (int) userCurrentProgress + " %]");
             int lessontnumber = chapterIndex+1;
-            Chapter lesson = uiManager.getChapter(courseId,lessontnumber);
+            Chapter lesson = dataManager.getChapter(courseId, lessontnumber);
             System.out.println("Chapter : " + lesson.getChapterName());
             System.out.println();
             System.out.println("------- Lesson -------");
@@ -151,11 +151,11 @@ public class LearnerOperations {
     }
     private void openCommentPage(String courseId){
         Scanner sc = new Scanner(System.in);
-        Course currCourse = uiManager.getCourseDetails(courseId);
+        Course currCourse = dataManager.getCourseDetails(courseId);
         boolean closeCommentPage = false;
         while (!closeCommentPage) {
             boolean isCurrentUserCommented = false;
-            for (Comment comment : uiManager.getComments(courseId)) {
+            for (Comment comment : dataManager.getComments(courseId)) {
                 if (comment.getCommentor().equals(currentLearner.getUserId())) {
                     isCurrentUserCommented = true;
                     break;
@@ -165,16 +165,16 @@ public class LearnerOperations {
             System.out.println("-------------------------------");
             if (isCurrentUserCommented) {
                 System.out.println("++++++++++Your Comment+++++++++");
-                for (Comment comment : uiManager.getComments(courseId)) {
+                for (Comment comment : dataManager.getComments(courseId)) {
                     if (comment.getCommentor().equals(currentLearner.getUserId())){
                         System.out.println(" * " + comment.getComment());
                     }
                 }
             }
             System.out.println("-------------------------------");
-            for (Comment comment : uiManager.getComments(courseId)) {
+            for (Comment comment : dataManager.getComments(courseId)) {
                 if (!comment.getCommentor().equals(currentLearner.getUserId())) {
-                    System.out.println(uiManager.getLearnerName(comment.getCommentor()) + " : " + comment.getComment());
+                    System.out.println(dataManager.getLearnerName(comment.getCommentor()) + " : " + comment.getComment());
                 }
             }
             System.out.println();
@@ -209,13 +209,13 @@ public class LearnerOperations {
         if(selectedCourseId == null) return;
 
         if(!selectedCourseId.equals("No_Courses_Available")) {
-            Course selectedCourse = uiManager.getCourseDetails(selectedCourseId);
+            Course selectedCourse = dataManager.getCourseDetails(selectedCourseId);
             System.out.println("+++++++" + selectedCourse.getCourseId() + "+++++++");
             System.out.println("Course Name :" + selectedCourse.getCourseName());
-            System.out.println("Creator :" + uiManager.getCreatorName(selectedCourse.getCreatorId()));
+            System.out.println("Creator :" + dataManager.getCreatorName(selectedCourse.getCreatorId()));
             System.out.println("Rating :" + selectedCourse.getRating());
             System.out.println("-What You'll Learn-");
-            ArrayList<String> learnings = uiManager.getCourseLearnings(selectedCourseId);
+            ArrayList<String> learnings = dataManager.getCourseLearnings(selectedCourseId);
             for (int i = 1; i <= learnings.size(); i++) {
                 System.out.println("[" + i + "] " + learnings.get(i - 1));
             }
@@ -232,7 +232,7 @@ public class LearnerOperations {
     private String showCategoriesToEnroll(){
         int categoryNumber = 0;
         System.out.println("Select Course Category");
-        ArrayList<String> courseCategories = uiManager.getCategories();
+        ArrayList<String> courseCategories = dataManager.getCategories();
 
         if(courseCategories.size()==0){
             System.out.println("No Categories Available Now.");
@@ -249,7 +249,7 @@ public class LearnerOperations {
         return showCoursesBasedOnCategory(courseCategories.get(categoryIndex-1));
     }
     private String showCoursesBasedOnCategory(String category){
-        ArrayList<Course> allCourses = uiManager.getCoursesBasedOnCategory(category);
+        ArrayList<Course> allCourses = dataManager.getCoursesBasedOnCategory(category);
         ArrayList<Course> userNotEnrolledCourses = new ArrayList<>();
         for(Course course:allCourses){
             if(!currentLearner.getEnrolledCourses().contains(course.getCourseId())){
@@ -263,7 +263,7 @@ public class LearnerOperations {
             int courseNumber = 0;
             for(Course course:userNotEnrolledCourses){
                 System.out.println("["+(++courseNumber)+"] "+course.getCourseName());
-                System.out.println("Price: "+course.getPrice()+"      Author:"+uiManager.getCreatorName(course.getCreatorId())+"      Rating: "+course.getRating());
+                System.out.println("Price: "+course.getPrice()+"      Author:"+ dataManager.getCreatorName(course.getCreatorId())+"      Rating: "+course.getRating());
                 System.out.println();
             }
             System.out.println();

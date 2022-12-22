@@ -4,7 +4,7 @@ import Core.Course.Chapter;
 import Core.Course.Comment;
 import Core.Course.Course;
 import Core.Users.Creator;
-import Managers.UIManager;
+import Managers.DataManager;
 import Utilities.CustomScanner;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class CreatorOperations {
     private final Creator currentCreator;
-    private final UIManager uiManager = new UIManager();
+    private final DataManager dataManager = new DataManager();
 
     //********* Constructor *************************************************************************
     public CreatorOperations(Creator creator){
@@ -66,12 +66,12 @@ public class CreatorOperations {
             if (courseOperation.equals("1")) {
                 System.out.println("+++++++" + currCourse.getCourseId() + "+++++++");
                 System.out.println("Course Name :" + currCourse.getCourseName());
-                System.out.println("Creator :" + uiManager.getCreatorName(currCourse.getCreatorId()));
+                System.out.println("Creator :" + dataManager.getCreatorName(currCourse.getCreatorId()));
                 System.out.println("Rating :" + currCourse.getRating());
                 if (currCourse.getPrice() == 0) System.out.println("Price: Free");
                 else System.out.println("Price :" + currCourse.getPrice());
                 System.out.println("-What You'll Learn-");
-                ArrayList<String> learnings = uiManager.getCourseLearnings(currCourse.getCourseId());
+                ArrayList<String> learnings = dataManager.getCourseLearnings(currCourse.getCourseId());
                 for (int i = 1; i <= learnings.size(); i++) {
                     System.out.println("[" + i + "] " + learnings.get(i - 1));
                 }
@@ -125,8 +125,8 @@ public class CreatorOperations {
         Scanner sc = new Scanner(System.in);
         boolean exitEdit = false;
         while(!exitEdit) {
-            ArrayList<String> availableCategories = uiManager.getCategories();
-            ArrayList<String> currCourseCategories = uiManager.getCourseCategories(courseId);
+            ArrayList<String> availableCategories = dataManager.getCategories();
+            ArrayList<String> currCourseCategories = dataManager.getCourseCategories(courseId);
             for(String category:currCourseCategories){
                 availableCategories.remove(category);
             }
@@ -204,7 +204,7 @@ public class CreatorOperations {
             System.out.println("[A]dd [D]elete [E]dit [B]ack");
             String inputOptions = CustomScanner.getOptions("aAdDeEbB");
             if (inputOptions.equals("a") || inputOptions.equals("A")) {
-                int lessonNumber = uiManager.getCourseChapterCount(courseId);
+                int lessonNumber = dataManager.getCourseChapterCount(courseId);
                 currentCreator.addCourseContent(courseId,getNewChapter(lessonNumber+1));
             }
             if (inputOptions.equals("d") || inputOptions.equals("D")) {
@@ -212,7 +212,7 @@ public class CreatorOperations {
             }
             if (inputOptions.equals("e") || inputOptions.equals("E")) {
                 int lessonNo = getContentIndex(courseId);
-                Chapter selectedChapter = uiManager.getChapter(courseId,lessonNo);
+                Chapter selectedChapter = dataManager.getChapter(courseId, lessonNo);
                 System.out.println("1. Change Chapter Name\n2. Change Content\n0. back");
                 String editOption = CustomScanner.getOptions("120");
                 if(editOption.equals("1")){
@@ -237,7 +237,7 @@ public class CreatorOperations {
 
     }
     private int getContentIndex(String courseId) {
-        ArrayList<Chapter> chapters = uiManager.getCourseContent(courseId);
+        ArrayList<Chapter> chapters = dataManager.getCourseContent(courseId);
         for(int i=1;i<=chapters.size();i++){
             System.out.println("["+i+"] "+chapters.get(i-1).getChapterName());
         }
@@ -250,7 +250,7 @@ public class CreatorOperations {
             System.out.println("***********Comment Page*************");
             ArrayList<Comment> comments = currentCreator.getCourseComments(courseId);
             for (Comment comment : comments) {
-                System.out.println(uiManager.getLearnerName(comment.getCommentor()) + " : " + comment.getComment());
+                System.out.println(dataManager.getLearnerName(comment.getCommentor()) + " : " + comment.getComment());
             }
             System.out.println();
             System.out.println("0. back");
@@ -283,7 +283,7 @@ public class CreatorOperations {
     private ArrayList<String> getNewCourseCategories(){
         Scanner sc = new Scanner(System.in);
         ArrayList<String> selectedCategories = new ArrayList<>();
-        ArrayList<String> availableCategories = uiManager.getCategories();
+        ArrayList<String> availableCategories = dataManager.getCategories();
         if(availableCategories.size()==0) return selectedCategories;
         boolean notConfirm=true;
         while(notConfirm) {

@@ -10,7 +10,7 @@ import Database.UserDatabase;
 
 import java.util.ArrayList;
 
-public class UIManager {
+public class DataManager {
     private final CourseDBOperations coursedb = CourseDatabase.getInstance();
     private final UserDBOperations userdb = UserDatabase.getInstance();
 

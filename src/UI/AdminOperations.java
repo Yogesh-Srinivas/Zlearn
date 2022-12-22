@@ -3,7 +3,7 @@ package UI;
 import Core.Course.Chapter;
 import Core.Course.Course;
 import Core.Users.Admin;
-import Managers.UIManager;
+import Managers.DataManager;
 import Utilities.CustomScanner;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class AdminOperations {
     private final Admin currentAdmin;
-    private final UIManager uiManager = new UIManager();
+    private final DataManager dataManager = new DataManager();
 
 
     //*********** Constructor *************************************************************
@@ -126,7 +126,7 @@ public class AdminOperations {
             System.out.println("1. View All Course\n2. Add Course Category\n3. Remove Course Category\n4. Delete Course\n0. Back");
             String inputOption = CustomScanner.getOptions("12340");
             if(inputOption.equals("1")){
-                ArrayList<Course> courses = uiManager.getAllCourses();
+                ArrayList<Course> courses = dataManager.getAllCourses();
                 ArrayList<Course> filteredCourses = new ArrayList<>();
                 for(Course course : courses){
                     if(!course.getCourseId().contains("ZCourse")) filteredCourses.add(course);
@@ -154,7 +154,7 @@ public class AdminOperations {
             }
             if(inputOption.equals("3")){
                 System.out.println("Select Category to Delete : ");
-                ArrayList<String> categories = uiManager.getCategories();
+                ArrayList<String> categories = dataManager.getCategories();
                 for(int i=1;i<=categories.size();i++){
                     System.out.println("["+i+"] "+categories.get(i-1));
                 }
@@ -179,11 +179,11 @@ public class AdminOperations {
     }
     private void viewCourseDetails(Course course) {
         System.out.println("****** " + course.getCourseName() + " *******");
-        if(!course.getCourseId().contains("ZCourse")) System.out.println("Creator :" + uiManager.getCreatorName(course.getCreatorId()));
+        if(!course.getCourseId().contains("ZCourse")) System.out.println("Creator :" + dataManager.getCreatorName(course.getCreatorId()));
         System.out.println("Rating :" + course.getRating());
         System.out.println("Price :" + (course.getPrice() == 0 ? "Free" : course.getPrice()));
         System.out.println("-What You'll Learn-");
-        ArrayList<String> learnings = uiManager.getCourseLearnings(course.getCourseId());
+        ArrayList<String> learnings = dataManager.getCourseLearnings(course.getCourseId());
         for (int i = 1; i <= learnings.size(); i++) {
             System.out.println("[" + i + "] " + learnings.get(i - 1));
         }
@@ -194,8 +194,8 @@ public class AdminOperations {
         Scanner sc = new Scanner(System.in);
         boolean exitEdit = false;
         while(!exitEdit) {
-            ArrayList<String> availableCategories = uiManager.getCategories();
-            ArrayList<String> currCourseCategories = uiManager.getCourseCategories(courseId);
+            ArrayList<String> availableCategories = dataManager.getCategories();
+            ArrayList<String> currCourseCategories = dataManager.getCourseCategories(courseId);
             for(String category:currCourseCategories){
                 availableCategories.remove(category);
             }
@@ -266,7 +266,7 @@ public class AdminOperations {
             System.out.println("1. View Courses\n2. Create Course\n3. Edit Course\n4. Delete ZCourse\n0. back");
             String options = CustomScanner.getOptions("12340");
             if (options.equals("1")) {
-                ArrayList<Course> courses = uiManager.getAllCourses();
+                ArrayList<Course> courses = dataManager.getAllCourses();
                 ArrayList<Course> filteredCourses = new ArrayList<>();
                 for(Course course : courses){
                     if(course.getCourseId().contains("ZCourse")) filteredCourses.add(course);
@@ -288,7 +288,7 @@ public class AdminOperations {
                 createZCourse();
             }
             if(options.equals("3")){
-                ArrayList<Course> courses = uiManager.getAllCourses();
+                ArrayList<Course> courses = dataManager.getAllCourses();
                 ArrayList<Course> filteredCourses = new ArrayList<>();
                 for(Course course : courses){
                     if(course.getCourseId().contains("ZCourse")) filteredCourses.add(course);
@@ -339,7 +339,7 @@ public class AdminOperations {
     private ArrayList<String> getNewCourseCategories(){
         Scanner sc = new Scanner(System.in);
         ArrayList<String> selectedCategories = new ArrayList<>();
-        ArrayList<String> availableCategories = uiManager.getCategories();
+        ArrayList<String> availableCategories = dataManager.getCategories();
         boolean notConfirm=true;
         while(notConfirm) {
             System.out.print("Selected Category : ");
@@ -411,7 +411,7 @@ public class AdminOperations {
         return new Chapter(chapterName,lesson,null,lessonNumber);
     }
     private int getContentIndex(String courseId) {
-        ArrayList<Chapter> chapters = uiManager.getCourseContent(courseId);
+        ArrayList<Chapter> chapters = dataManager.getCourseContent(courseId);
         for(int i=1;i<=chapters.size();i++){
             System.out.println("["+i+"] "+chapters.get(i-1).getChapterName());
         }
@@ -463,7 +463,7 @@ public class AdminOperations {
             System.out.println("[A]dd [D]elete [E]dit [B]ack");
             String inputOptions = CustomScanner.getOptions("aAdDeEbB");
             if (inputOptions.equals("a") || inputOptions.equals("A")) {
-                int lessonNumber = uiManager.getCourseChapterCount(courseId)+1;
+                int lessonNumber = dataManager.getCourseChapterCount(courseId)+1;
                 currentAdmin.addCourseContent(courseId,getNewChapter(lessonNumber));
             }
             if (inputOptions.equals("d") || inputOptions.equals("D")) {
@@ -471,7 +471,7 @@ public class AdminOperations {
             }
             if (inputOptions.equals("e") || inputOptions.equals("E")) {
                 int contentIndex = getContentIndex(courseId);
-                Chapter selectedChapter = uiManager.getChapter(courseId,contentIndex);
+                Chapter selectedChapter = dataManager.getChapter(courseId, contentIndex);
                 System.out.println("1. Change Chapter Name\n2.Change Content\n3.back");
                 String editOption = CustomScanner.getOptions("123");
                 if(editOption.equals("1")){

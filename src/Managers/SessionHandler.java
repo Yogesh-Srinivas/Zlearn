@@ -5,6 +5,7 @@ import UI.AuthStatus;
 import Utilities.CustomScanner;
 
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class SessionHandler {
     private static User currentUser = null;
@@ -80,7 +81,12 @@ public class SessionHandler {
             String userName = getNewLearnerUserName();
             String password = getPassword();
             System.out.println("Enter your First Name : ");
-            String firstName = sc.next();
+            String firstName = sc.nextLine();
+            while(firstName.length() > 64) {
+                System.out.println(
+                        "FirstName should be less than 64 characters\nEnter First Name Again : ");
+                firstName = sc.nextLine();
+            }
             Authenticator.addLearner(userName,password,firstName);
             System.out.println("Account created Successfully!!!");
             currentUser = Authenticator.getLearner(userName);
@@ -90,7 +96,12 @@ public class SessionHandler {
             String userName = getNewCreatorUserName();
             String password = getPassword();
             System.out.println("Enter your First Name : ");
-            String firstName = sc.next();
+            String firstName = sc.nextLine();
+            while(firstName.length() > 64) {
+                System.out.println(
+                        "FirstName should be less than 64 characters\nEnter First Name Again : ");
+                firstName = sc.nextLine();
+            }
             Authenticator.addCreator(userName,password,firstName);
             System.out.println("Account created Successfully!!!");
             currentUser = Authenticator.getCreator(userName);
@@ -100,41 +111,50 @@ public class SessionHandler {
     }
 
     private static String getNewLearnerUserName(){
-        String username = null;
         Scanner sc = new Scanner(System.in);
-        boolean isUserNameAvailable = false;
-        while (!isUserNameAvailable){
-            System.out.println("Enter User Name ");
-            String userName = sc.next();
+        String userName;
+        System.out.println("Enter User Name ");
+        userName = sc.nextLine();
+        while(userName.length() > 64 || userName.contains(" ")) {
+            System.out.println(
+                    "Username should be less than 64 characters and spaces are not allowed.\nEnter User Name Again");
+            userName = sc.nextLine();
+        }
+        while (true){
             if(Authenticator.isLearnerUserNameAvailable(userName)){
-                isUserNameAvailable = true;
-                username = userName;
+                return userName;
             }else System.out.println("UserName already Exist");
         }
-        return username;
     }
 
     private static String getNewCreatorUserName(){
-        String username = null;
         Scanner sc = new Scanner(System.in);
-        boolean isUserNameAvailable = false;
-        while (!isUserNameAvailable){
-            System.out.println("Enter User Name ");
-            String userName = sc.next();
+        String userName;
+        System.out.println("Enter User Name ");
+        userName = sc.nextLine();
+        while(userName.length() > 64 || userName.contains(" ")) {
+            System.out.println(
+                    "Username should be less than 64 characters and spaces are not allowed.\nEnter User Name Again");
+            userName = sc.nextLine();
+        }
+        while (true){
             if(Authenticator.isCreatorUserNameAvailable(userName)){
-                isUserNameAvailable = true;
-                username = userName;
+                return userName;
             }else System.out.println("UserName already Exist");
         }
-        return username;
     }
 
     private static String getPassword(){
         Scanner sc = new Scanner(System.in);
         String password;
         while (true){
-            System.out.println("Enter Password :");
+            System.out.println("Enter Password");
             password = sc.next();
+            while (!Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,20}$",password)){
+                System.out.println("Password should contain atleast an UpperCase letter,a LowerCase letter,a Digit,a Special Character and\nPassword length should be between 8 and 20");
+                System.out.println("Enter Password");
+                password = sc.next();
+            }
             System.out.println("Confirm Password :");
             String confirmPassword = sc.next();
             if(password.equals(confirmPassword)) break;

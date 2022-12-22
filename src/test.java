@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class test {
     public static void main(String[] args) {
+        System.out.println("assads".contains(" "));
 //        getMultiLineInput();
 //        CourseDatabase cdb = CourseDatabase.getInstance();
 //        cdb.getCourse("ZCourse_001");

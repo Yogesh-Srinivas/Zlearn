@@ -8,6 +8,7 @@ import Utilities.CustomScanner;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class AdminOperations {
     private final Admin currentAdmin;
@@ -96,6 +97,11 @@ public class AdminOperations {
         String userName = sc.next();
         System.out.println("Enter New Password : ");
         String newPassword = sc.next();
+        while (!Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,20}$", newPassword)){
+            System.out.println("Password should contain atleast an UpperCase letter,a LowerCase letter,a Digit,a Special Character and\nPassword length should be between 8 and 20");
+            System.out.println("Enter New Password : ");
+            newPassword = sc.next();
+        }
         if(currentAdmin.changeCreatorPassword(newPassword,userName)) System.out.println("Password Changed Successfully!!");
         else System.out.println("Creator doesn't Exist!!");
     }
@@ -105,6 +111,11 @@ public class AdminOperations {
         String userName = sc.next();
         System.out.println("Enter New Password : ");
         String newPassword = sc.next();
+        while (!Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,20}$", newPassword)){
+            System.out.println("Password should contain atleast an UpperCase letter,a LowerCase letter,a Digit,a Special Character and\nPassword length should be between 8 and 20");
+            System.out.println("Enter New Password : ");
+            newPassword = sc.next();
+        }
         if(currentAdmin.changeLearnerPassword(newPassword,userName)) System.out.println("Password Changed Successfully!!");
         else System.out.println("Learner doesn't Exist!!");
     }

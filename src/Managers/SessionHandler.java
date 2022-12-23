@@ -32,7 +32,7 @@ public class SessionHandler {
         return authStatus;
     }
 
-    //******** Login *******************************************************************
+    //******** Login ******************************************************************
 
     private static AuthStatus login() {
         AuthStatus authStatus = AuthStatus.AUTH_FAILED;

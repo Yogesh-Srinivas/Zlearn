@@ -1,20 +1,44 @@
 package UI.Initializers;
 
 import Core.Course.Chapter;
-import Database.CourseDatabase;
-import Managers.CreatorManager;
-import Managers.LearnerManager;
-import Managers.UIManager;
-import Managers.UserManager;
+import Core.Users.Admin;
+import Core.Users.Creator;
+import Core.Users.Learner;
+import Database.DatabaseManager;
+import Managers.*;
 
 import java.util.ArrayList;
 
-public class CourseInitializer {
-    public static void initiateCourses(){
-        CourseDatabase coursedb = CourseDatabase.getInstance();
-        UIManager uiManager = new UIManager();
-        CreatorManager creatorManager = new UserManager();
-        LearnerManager learnerManager = new UserManager();
+public class ZLearnInitializer {
+    public static void initiate(){
+        DatabaseManager dbManager = new DatabaseManager();
+        Learner learner1 = new Learner(IdGenerator.getNewLearnerId(), "Yogi", "123", "Yogesh");
+        Learner learner2 = new Learner(IdGenerator.getNewLearnerId(), "Logan", "123", "Loganathan");
+        Learner learner3 = new Learner(IdGenerator.getNewLearnerId(), "Avinash", "123", "Avinash");
+
+
+        Creator creator1 = new Creator(IdGenerator.getNewCreatorId(), "Sivanesh", "123", "Shivaneshwaran");
+        Creator creator2 = new Creator(IdGenerator.getNewCreatorId(),"Sathya","123","Sathyanarayanan");
+
+        Admin admin1 = new Admin(IdGenerator.getNewAdminId(), "123","Rahul");
+
+        dbManager.addLearner(learner1);
+        dbManager.addLearner(learner2);
+        dbManager.addLearner(learner3);
+        dbManager.addCreator(creator1);
+        dbManager.addCreator(creator2);
+        dbManager.addAdmin(admin1);
+        learner1.enrollCourse("Course_101");
+        learner1.enrollCourse("ZCourse_101");
+
+        //add All Categories
+        admin1.addCategoryToAllCategories("Finance");
+        admin1.addCategoryToAllCategories("Self Help");
+        admin1.addCategoryToAllCategories("Business");
+        admin1.addCategoryToAllCategories("Coding");
+
+        //course Category
+
         ArrayList<String> category = new ArrayList<String>(){
             {
                 add("Finance");
@@ -22,11 +46,8 @@ public class CourseInitializer {
                 add("Business");
             }
         };
-        coursedb.addToAllCategories("Finance");
-        coursedb.addToAllCategories("Self Help");
-        coursedb.addToAllCategories("Business");
-        coursedb.addToAllCategories("Coding");
 
+        //course Content
         ArrayList<Chapter> content1 = new ArrayList<Chapter>(){
             {
                 add(new Chapter("Lesson 1", "Yellow is new black",null,1));
@@ -68,25 +89,31 @@ public class CourseInitializer {
 
             }
         };
-        creatorManager.addNewCourse("The Minions",category,content1,120,"Ctr_1002");
-        learnerManager.addComment("Nice Course","Course_101","Lrn_1001");
-        learnerManager.addComment("Awesome Course","Course_101","Lrn_1002");
-        learnerManager.addComment("Need More Improvement","Course_101","Lrn_1003");
-        learnerManager.addComment("Add more content like this.","Course_101","Lrn_1001");
-        learnerManager.addComment("Add more content like this.","Course_101","Lrn_1002");
-        learnerManager.addComment("Add more content.","Course_101","Lrn_1003");
 
+        //add Courses
+        creator2.addNewCourse("The Minions",category,content1,120);
+        creator2.addNewCourse("The Business School", category,content2,350);
+        admin1.addNewCourse("The Minions 2", category,content3, 0);
 
-        creatorManager.addNewCourse("The Business School", category,content2,350,"Ctr_1002");
-        learnerManager.addComment("Need More Improvement","Course_102","Lrn_1003");
-        learnerManager.addComment("Add more content like this.","Course_102","Lrn_1001");
-        learnerManager.addComment("Awesome Course","Course_102","Lrn_1002");
-        learnerManager.addComment("Nice Course","Course_102","Lrn_1003");
+        //add course1 comments
+        learner1.addComment("Nice Course","Course_101");
+        learner2.addComment("Awesome Course","Course_101");
+        learner3.addComment("Need More Improvement","Course_101");
+        learner1.addComment("Add more content like this.","Course_101");
+        learner2.addComment("Add more content like this.","Course_101");
+        learner3.addComment("Add more content.","Course_101");
 
-        creatorManager.addNewCourse("The Minions 2", category,content3, 0,"Adm_1");
-        learnerManager.addComment("Need More Improvement","ZCourse_101","Lrn_1001");
-        learnerManager.addComment("Awesome Course","ZCourse_101","Lrn_1002");
-        learnerManager.addComment("Add more content like this.","ZCourse_101","Lrn_1003");
-        learnerManager.addComment("Nice Course","ZCourse_101","Lrn_1002");
+        //add course2 comments
+        learner3.addComment("Need More Improvement","Course_102");
+        learner1.addComment("Add more content like this.","Course_102");
+        learner2.addComment("Awesome Course","Course_102");
+        learner3.addComment("Nice Course","Course_102");
+
+        //add course3 comments
+        learner1.addComment("Need More Improvement","ZCourse_101");
+        learner2.addComment("Awesome Course","ZCourse_101");
+        learner3.addComment("Add more content like this.","ZCourse_101");
+        learner2.addComment("Nice Course","ZCourse_101");
+
     }
 }

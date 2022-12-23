@@ -62,11 +62,11 @@ public class LearnerOperations {
             boolean isUserRated = dataManager.isRatedBy(currentLearner.getUserId(), courseId);
             String courseOperation;
             if (isUserRated) {
-                System.out.println("1. Start Learning\n2. Course Details\n3. Comment Page\n4. Unenroll Course\n0. Back");
+                System.out.println("1. Learn Course\n2. Course Details\n3. Comment Page\n4. Unenroll Course\n0. Back");
                 courseOperation = CustomScanner.getOptions("12340");
             } else {
                 System.out.println(
-                        "1. Start Learning\n2. Course Details\n3. Comment Page\n4. Unenroll Course\n5. Rate Course\n0. Back");
+                        "1. Learn Course\n2. Course Details\n3. Comment Page\n4. Unenroll Course\n5. Rate Course\n0. Back");
                 courseOperation = CustomScanner.getOptions("123450");
             }
 

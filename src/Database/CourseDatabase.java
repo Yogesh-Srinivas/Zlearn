@@ -4,7 +4,7 @@ import Core.Course.*;
 import java.util.ArrayList;
 
 
-public class CourseDatabase implements CourseDBOperations{
+class CourseDatabase implements CourseDBOperations{
     private final ArrayList<Course> courses = new ArrayList<>();
     private final ArrayList<String> allCategories = new ArrayList<>();
     private final ArrayList<Comment> comments = new ArrayList<>();

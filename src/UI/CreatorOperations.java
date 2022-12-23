@@ -216,8 +216,8 @@ public class CreatorOperations {
                 System.out.println("1. Change Chapter Name\n2. Change Content\n0. back");
                 String editOption = CustomScanner.getOptions("120");
                 if(editOption.equals("1")){
-;                    System.out.println("Current Chapter Name : "+selectedChapter.getChapterName());
- ;                   System.out.println("Enter New Chapter Name");
+                    System.out.println("Current Chapter Name : "+selectedChapter.getChapterName());
+                    System.out.println("Enter New Chapter Name");
                     String newChapterName = new Scanner(System.in).nextLine();
                     currentCreator.changeCourseChapterName(newChapterName,courseId,lessonNo);
                 }

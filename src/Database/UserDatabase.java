@@ -5,7 +5,7 @@ import Core.Users.*;
 
 import java.util.ArrayList;
 
-public class UserDatabase implements UserDBOperations{
+class UserDatabase implements UserDBOperations{
     private final ArrayList<User> users = new ArrayList<>();
 
     //********* Constructor *******************************************************************

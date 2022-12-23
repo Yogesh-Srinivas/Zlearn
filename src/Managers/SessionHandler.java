@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 public class SessionHandler {
     private static User currentUser = null;
+    private static final DataManager dataManager = new DataManager();
 
     //***************************************************************************
     public static User getCurrentUser() {
@@ -43,24 +44,24 @@ public class SessionHandler {
             String userName = sc.next();
             System.out.println("Enter Password ");
             String password = sc.next();
-            authStatus = Authenticator.learnerAuthentication(userName,password);
-            if(authStatus.equals(AuthStatus.LOGIN_SUCCESS)) currentUser = Authenticator.getLearner(userName);
+            authStatus = dataManager.learnerAuthentication(userName,password);
+            if(authStatus.equals(AuthStatus.LOGIN_SUCCESS)) currentUser = dataManager.getLearner(userName);
         }
         if(loginOption.equals("c") || loginOption.equals("C")){
             System.out.println("Enter UserName ");
             String userName = sc.next();
             System.out.println("Enter Password ");
             String password = sc.next();
-            authStatus  = Authenticator.creatorAuthentication(userName,password);
-            if(authStatus.equals(AuthStatus.LOGIN_SUCCESS)) currentUser = Authenticator.getCreator(userName);
+            authStatus  = dataManager.creatorAuthentication(userName,password);
+            if(authStatus.equals(AuthStatus.LOGIN_SUCCESS)) currentUser = dataManager.getCreator(userName);
         }
         if(loginOption.equals("a") || loginOption.equals("A")){
             System.out.println("Enter AdminId ");
             String adminId = sc.next();
             System.out.println("Enter Password ");
             String adminPassword = sc.next();
-            authStatus = Authenticator.adminAuthentication(adminId,adminPassword);
-            if(authStatus.equals(AuthStatus.LOGIN_SUCCESS)) currentUser = Authenticator.getAdmin(adminId);
+            authStatus = dataManager.adminAuthentication(adminId,adminPassword);
+            if(authStatus.equals(AuthStatus.LOGIN_SUCCESS)) currentUser = dataManager.getAdmin(adminId);
         }
 
         if(authStatus.equals(AuthStatus.USERNAME_NOT_FOUND)) System.out.println("User Name Not Found");
@@ -87,9 +88,9 @@ public class SessionHandler {
                         "FirstName should be less than 64 characters\nEnter First Name Again : ");
                 firstName = sc.nextLine();
             }
-            Authenticator.addLearner(userName,password,firstName);
+            dataManager.addLearner(userName,password,firstName);
             System.out.println("Account created Successfully!!!");
-            currentUser = Authenticator.getLearner(userName);
+            currentUser = dataManager.getLearner(userName);
             authStatus = AuthStatus.LOGIN_SUCCESS;
         }
         if(signupOption.equals("c") || signupOption.equals("C")){
@@ -102,9 +103,9 @@ public class SessionHandler {
                         "FirstName should be less than 64 characters\nEnter First Name Again : ");
                 firstName = sc.nextLine();
             }
-            Authenticator.addCreator(userName,password,firstName);
+            dataManager.addCreator(userName,password,firstName);
             System.out.println("Account created Successfully!!!");
-            currentUser = Authenticator.getCreator(userName);
+            currentUser = dataManager.getCreator(userName);
             authStatus = AuthStatus.LOGIN_SUCCESS;
         }
         return authStatus;
@@ -121,7 +122,7 @@ public class SessionHandler {
             userName = sc.nextLine();
         }
         while (true){
-            if(Authenticator.isLearnerUserNameAvailable(userName)){
+            if(dataManager.isLearnerUserNameAvailable(userName)){
                 return userName;
             }else System.out.println("UserName already Exist");
         }
@@ -138,7 +139,7 @@ public class SessionHandler {
             userName = sc.nextLine();
         }
         while (true){
-            if(Authenticator.isCreatorUserNameAvailable(userName)){
+            if(dataManager.isCreatorUserNameAvailable(userName)){
                 return userName;
             }else System.out.println("UserName already Exist");
         }

@@ -1,4 +1,3 @@
-import Database.CourseDatabase;
 
 import java.util.Scanner;
 

@@ -1,12 +1,11 @@
 package UI;
 import Managers.SessionHandler;
-import UI.Initializers.CourseInitializer;
-import UI.Initializers.UserInitializer;
+import UI.Initializers.ZLearnInitializer;
 
 public class ZLearn {
     public static void main(String[] args) {
-        UserInitializer.initiateUsers();
-        CourseInitializer.initiateCourses();
+        ZLearnInitializer.initiate();
+
         while(true) {
             System.out.println("****Welcome to Zlearn****");
             AuthStatus sessionStatus = SessionHandler.authenticate();

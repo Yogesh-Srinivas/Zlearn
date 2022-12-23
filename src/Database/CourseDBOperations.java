@@ -7,7 +7,7 @@ import Core.Course.CourseProgress;
 
 import java.util.ArrayList;
 
- public interface CourseDBOperations {
+ interface CourseDBOperations {
      //******* courses ******
      Course getCourse(String courseId);
      ArrayList<Course> getCreatedCourses(String userId);

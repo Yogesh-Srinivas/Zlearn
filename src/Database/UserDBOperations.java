@@ -4,7 +4,7 @@ import Core.Users.Admin;
 import Core.Users.Creator;
 import Core.Users.Learner;
 
- public interface UserDBOperations {
+interface UserDBOperations {
     //*** Learner *************************************************************************
      Learner getLearner(String userName);
      String getLearnerName(String commentor);

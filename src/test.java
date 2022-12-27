@@ -3,7 +3,16 @@ import java.util.Scanner;
 
 public class test {
     public static void main(String[] args) {
-        System.out.println("assads".contains(" "));
+        switch ("t"){
+            case "a":
+            case "A":
+            case "t":
+                System.out.println("a");
+                break;
+            case "b":
+                System.out.println("b");
+                break;
+        }
 //        getMultiLineInput();
 //        CourseDatabase cdb = CourseDatabase.getInstance();
 //        cdb.getCourse("ZCourse_001");

@@ -21,19 +21,21 @@ public class CreatorOperations {
 
     //**********************************************************************************
     public void creatorDashBoard() {
+        label:
         while (true){
             System.out.println("----To Teach is to Learn Twice Over----");
             System.out.println("1.View Created Courses\n2. Create New Course\n0. Log Out");
             String creatorOperationOption = CustomScanner.getOptions("120");
-            if (creatorOperationOption.equals("1")) {
-                viewCreatedCourse();
-            }
-            if (creatorOperationOption.equals("2")) {
-                createCourse();
-            }
-            if (creatorOperationOption.equals("0")) {
-                System.out.println("Logged Out!");
-                break;
+            switch (creatorOperationOption) {
+                case "1":
+                    viewCreatedCourse();
+                    break;
+                case "2":
+                    createCourse();
+                    break;
+                case "0":
+                    System.out.println("Logged Out!");
+                    break label;
             }
         }
     }
@@ -59,36 +61,37 @@ public class CreatorOperations {
 
     //*********** open Course ******************************
     private void openCourse(Course currCourse){
+        label:
         while (true) {
             System.out.println("+++++++" + currCourse.getCourseId() + "+++++++");
             System.out.println("1. View Course\n2. Edit Course\n3. View Comments\n4. Delete Course\n0. Back");
             String courseOperation = CustomScanner.getOptions("12340");
-            if (courseOperation.equals("1")) {
-                System.out.println("+++++++" + currCourse.getCourseId() + "+++++++");
-                System.out.println("Course Name :" + currCourse.getCourseName());
-                System.out.println("Creator :" + dataManager.getCreatorName(currCourse.getCreatorId()));
-                System.out.println("Rating :" + currCourse.getRating());
-                if (currCourse.getPrice() == 0) System.out.println("Price: Free");
-                else System.out.println("Price :" + currCourse.getPrice());
-                System.out.println("-What You'll Learn-");
-                ArrayList<String> learnings = dataManager.getCourseLearnings(currCourse.getCourseId());
-                for (int i = 1; i <= learnings.size(); i++) {
-                    System.out.println("[" + i + "] " + learnings.get(i - 1));
-                }
-            }
-            if (courseOperation.equals("2")) {
-                editCourse(currCourse.getCourseId());
-            }
-            if (courseOperation.equals("3")) {
-                viewComments(currCourse.getCourseId());
-            }
-            if (courseOperation.equals("4")) {
-                currentCreator.deleteCourse(currCourse.getCourseId());
-                System.out.println("Course Deleted!!");
-                break;
-            }
-            if (courseOperation.equals("0")) {
-                break;
+            switch (courseOperation) {
+                case "1":
+                    System.out.println("+++++++" + currCourse.getCourseId() + "+++++++");
+                    System.out.println("Course Name :" + currCourse.getCourseName());
+                    System.out.println("Creator :" + dataManager.getCreatorName(currCourse.getCreatorId()));
+                    System.out.println("Rating :" + currCourse.getRating());
+                    if (currCourse.getPrice() == 0) System.out.println("Price: Free");
+                    else System.out.println("Price :" + currCourse.getPrice());
+                    System.out.println("-What You'll Learn-");
+                    ArrayList<String> learnings = dataManager.getCourseLearnings(currCourse.getCourseId());
+                    for (int i = 1; i <= learnings.size(); i++) {
+                        System.out.println("[" + i + "] " + learnings.get(i - 1));
+                    }
+                    break;
+                case "2":
+                    editCourse(currCourse.getCourseId());
+                    break;
+                case "3":
+                    viewComments(currCourse.getCourseId());
+                    break;
+                case "4":
+                    currentCreator.deleteCourse(currCourse.getCourseId());
+                    System.out.println("Course Deleted!!");
+                    break label;
+                case "0":
+                    break label;
             }
         }
     }
@@ -98,17 +101,19 @@ public class CreatorOperations {
         System.out.println("*****Edit Course*****");
         System.out.println("1. Change Course Name\n2. Add/Remove Category\n3. Change Price\n4. Edit Content\n0. Back");
         String editOption = CustomScanner.getOptions("12340");
-        if(editOption.equals("1")){
-            changeCourseName(courseId);
-        }
-        if(editOption.equals("2")){
-            editCategory(courseId);
-        }
-        if(editOption.equals("3")){
-            editCoursePrice(courseId);
-        }
-        if(editOption.equals("4")){
-            editCourseContent(courseId);
+        switch (editOption) {
+            case "1":
+                changeCourseName(courseId);
+                break;
+            case "2":
+                editCategory(courseId);
+                break;
+            case "3":
+                editCoursePrice(courseId);
+                break;
+            case "4":
+                editCourseContent(courseId);
+                break;
         }
 
     }
@@ -199,39 +204,44 @@ public class CreatorOperations {
     }
 
     private void editCourseContent(String courseId){
+        label:
         while (true) {
             System.out.println("********Edit Course Content******");
             System.out.println("[A]dd [D]elete [E]dit [B]ack");
             String inputOptions = CustomScanner.getOptions("aAdDeEbB");
-            if (inputOptions.equals("a") || inputOptions.equals("A")) {
-                int lessonNumber = dataManager.getCourseChapterCount(courseId);
-                currentCreator.addCourseContent(courseId,getNewChapter(lessonNumber+1));
-            }
-            if (inputOptions.equals("d") || inputOptions.equals("D")) {
-                currentCreator.deleteCourseContent(courseId,getContentIndex(courseId));
-            }
-            if (inputOptions.equals("e") || inputOptions.equals("E")) {
-                int lessonNo = getContentIndex(courseId);
-                Chapter selectedChapter = dataManager.getChapter(courseId, lessonNo);
-                System.out.println("1. Change Chapter Name\n2. Change Content\n0. back");
-                String editOption = CustomScanner.getOptions("120");
-                if(editOption.equals("1")){
-                    System.out.println("Current Chapter Name : "+selectedChapter.getChapterName());
-                    System.out.println("Enter New Chapter Name");
-                    String newChapterName = new Scanner(System.in).nextLine();
-                    currentCreator.changeCourseChapterName(newChapterName,courseId,lessonNo);
-                }
-                if(editOption.equals("2")){
-                    System.out.println("***** Current Lesson ***** \n"+selectedChapter.getLesson());
-                    System.out.println("**************************");
-                    System.out.println("Enter New Content");
-                    String newContent = CustomScanner.getMultiLineInput();
-                    currentCreator.changeCourseChapterContent(newContent,courseId,lessonNo);
+            switch (inputOptions) {
+                case "a":
+                case "A":
+                    int lessonNumber = dataManager.getCourseChapterCount(courseId);
+                    currentCreator.addCourseContent(courseId, getNewChapter(lessonNumber + 1));
+                    break;
+                case "d":
+                case "D":
+                    currentCreator.deleteCourseContent(courseId, getContentIndex(courseId));
+                    break;
+                case "e":
+                case "E":
+                    int lessonNo = getContentIndex(courseId);
+                    Chapter selectedChapter = dataManager.getChapter(courseId, lessonNo);
+                    System.out.println("1. Change Chapter Name\n2. Change Content\n0. back");
+                    String editOption = CustomScanner.getOptions("120");
+                    if (editOption.equals("1")) {
+                        System.out.println("Current Chapter Name : " + selectedChapter.getChapterName());
+                        System.out.println("Enter New Chapter Name");
+                        String newChapterName = new Scanner(System.in).nextLine();
+                        currentCreator.changeCourseChapterName(newChapterName, courseId, lessonNo);
+                    } else if (editOption.equals("2")) {
+                        System.out.println("***** Current Lesson ***** \n" + selectedChapter.getLesson());
+                        System.out.println("**************************");
+                        System.out.println("Enter New Content");
+                        String newContent = CustomScanner.getMultiLineInput();
+                        currentCreator.changeCourseChapterContent(newContent, courseId, lessonNo);
 
-                }
-            }
-            if(inputOptions.equals("b") || inputOptions.equals("B")){
-                break;
+                    }
+                    break;
+                case "b":
+                case "B":
+                    break label;
             }
         }
 

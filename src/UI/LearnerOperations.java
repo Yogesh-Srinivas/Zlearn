@@ -22,15 +22,21 @@ public class LearnerOperations {
 
     //**********************************************************************************
     public void learnerDashBoard(){
+        label:
         while (true) {
             System.out.println("----Learning never exhausts the mind----");
             System.out.println("1. View Enrolled Courses\n2. Enroll new Course\n0. Log Out");
             String learnerOperationOption = CustomScanner.getOptions("120");
-            if (learnerOperationOption.equals("1")) viewEnrolledCourse();
-            if (learnerOperationOption.equals("2")) enrollNewCourse();
-            if (learnerOperationOption.equals("0")) {
-                System.out.println("Logged Out!!");
-                break;
+            switch (learnerOperationOption) {
+                case "1":
+                    viewEnrolledCourse();
+                    break;
+                case "2":
+                    enrollNewCourse();
+                    break;
+                case "0":
+                    System.out.println("Logged Out!!");
+                    break label;
             }
         }
     }
@@ -56,6 +62,7 @@ public class LearnerOperations {
     }
 
     private void openCourse(String courseId) {
+        label:
         while (true) {
             Course currCourse = dataManager.getCourseDetails(courseId);
             System.out.println("+++++++" + currCourse.getCourseName() + "+++++++");
@@ -70,34 +77,34 @@ public class LearnerOperations {
                 courseOperation = CustomScanner.getOptions("123450");
             }
 
-            if (courseOperation.equals("1")) {
-                startLearning(courseId);
-            }
-            if (courseOperation.equals("2")) {
-                System.out.println("+++++++" + currCourse.getCourseId() + "+++++++");
-                System.out.println("Course Name :" + currCourse.getCourseName());
-                System.out.println("Creator :" + dataManager.getCreatorName(currCourse.getCreatorId()));
-                System.out.println("Rating :" + currCourse.getRating());
-                System.out.println("-What You'll Learn-");
-                ArrayList<String> learnings = dataManager.getCourseLearnings(courseId);
-                for (int i = 1; i <= learnings.size(); i++) {
-                    System.out.println("[" + i + "] " + learnings.get(i - 1));
-                }
-            }
-            if (courseOperation.equals("3")) {
-                openCommentPage(courseId);
-            }
-            if (courseOperation.equals("4")) {
-                currentLearner.unenrollCourse(courseId);
-                System.out.println("Course Unenrolled!!");
-                break;
-            }
-            if (courseOperation.equals("5")) {
-                rateCourse(courseId, currCourse.getCourseName());
-                System.out.println("Rated Successfully!!");
-            }
-            if (courseOperation.equals("0")) {
-                break;
+            switch (courseOperation) {
+                case "1":
+                    startLearning(courseId);
+                    break;
+                case "2":
+                    System.out.println("+++++++" + currCourse.getCourseId() + "+++++++");
+                    System.out.println("Course Name :" + currCourse.getCourseName());
+                    System.out.println("Creator :" + dataManager.getCreatorName(currCourse.getCreatorId()));
+                    System.out.println("Rating :" + currCourse.getRating());
+                    System.out.println("-What You'll Learn-");
+                    ArrayList<String> learnings = dataManager.getCourseLearnings(courseId);
+                    for (int i = 1; i <= learnings.size(); i++) {
+                        System.out.println("[" + i + "] " + learnings.get(i - 1));
+                    }
+                    break;
+                case "3":
+                    openCommentPage(courseId);
+                    break;
+                case "4":
+                    currentLearner.unenrollCourse(courseId);
+                    System.out.println("Course Unenrolled!!");
+                    break label;
+                case "5":
+                    rateCourse(courseId, currCourse.getCourseName());
+                    System.out.println("Rated Successfully!!");
+                    break;
+                case "0":
+                    break label;
             }
         }
 

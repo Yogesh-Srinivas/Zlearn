@@ -27,7 +27,7 @@ public class DataManager {
 
 
     public ArrayList<Course> getAllCourses() {
-        return new ArrayList<>(dbManager.getAllCourses());
+        return dbManager.getAllCourses();
     }
 
     public Course getCourseDetails(String courseId) {
@@ -37,7 +37,7 @@ public class DataManager {
     //******* Course Category ************************
 
     public ArrayList<String> getCategories() {
-        return new ArrayList<>(dbManager.getCategories());
+        return dbManager.getCategories();
     }
 
     public ArrayList<String> getCourseCategories(String courseId) {
@@ -45,7 +45,7 @@ public class DataManager {
     }
 
     public ArrayList<Course> getCoursesBasedOnCategory(String category) {
-        return new ArrayList<>(dbManager.getCoursesBasedOnCategory(category));
+        return dbManager.getCoursesBasedOnCategory(category);
     }
 
     //******* Course Content ************************

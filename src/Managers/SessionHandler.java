@@ -26,7 +26,7 @@ public class SessionHandler {
         if(loginOption.equals("l") || loginOption.equals("L")){
             authStatus = login();
         }
-        if(loginOption.equals("s") || loginOption.equals("S")){
+        else if(loginOption.equals("s") || loginOption.equals("S")){
             authStatus = signUp();
         }
         return authStatus;
@@ -39,35 +39,42 @@ public class SessionHandler {
         Scanner sc =new Scanner(System.in);
         System.out.println("[L]earner login\n[C]reator Login\n[A]dmin Login");
         String loginOption = CustomScanner.getOptions("lLcCaA");
-        if(loginOption.equals("l") || loginOption.equals("L")){
-            System.out.println("Enter UserName ");
-            String userName = sc.next();
-            System.out.println("Enter Password ");
-            String password = sc.next();
-            authStatus = dataManager.learnerAuthentication(userName,password);
-            if(authStatus.equals(AuthStatus.LOGIN_SUCCESS)) currentUser = dataManager.getLearner(userName);
-        }
-        if(loginOption.equals("c") || loginOption.equals("C")){
-            System.out.println("Enter UserName ");
-            String userName = sc.next();
-            System.out.println("Enter Password ");
-            String password = sc.next();
-            authStatus  = dataManager.creatorAuthentication(userName,password);
-            if(authStatus.equals(AuthStatus.LOGIN_SUCCESS)) currentUser = dataManager.getCreator(userName);
-        }
-        if(loginOption.equals("a") || loginOption.equals("A")){
-            System.out.println("Enter AdminId ");
-            String adminId = sc.next();
-            System.out.println("Enter Password ");
-            String adminPassword = sc.next();
-            authStatus = dataManager.adminAuthentication(adminId,adminPassword);
-            if(authStatus.equals(AuthStatus.LOGIN_SUCCESS)) currentUser = dataManager.getAdmin(adminId);
+        switch (loginOption) {
+            case "l":
+            case "L": {
+                System.out.println("Enter UserName ");
+                String userName = sc.next();
+                System.out.println("Enter Password ");
+                String password = sc.next();
+                authStatus = dataManager.learnerAuthentication(userName, password);
+                if (authStatus.equals(AuthStatus.LOGIN_SUCCESS)) currentUser = dataManager.getLearner(userName);
+                break;
+            }
+            case "c":
+            case "C": {
+                System.out.println("Enter UserName ");
+                String userName = sc.next();
+                System.out.println("Enter Password ");
+                String password = sc.next();
+                authStatus = dataManager.creatorAuthentication(userName, password);
+                if (authStatus.equals(AuthStatus.LOGIN_SUCCESS)) currentUser = dataManager.getCreator(userName);
+                break;
+            }
+            case "a":
+            case "A":
+                System.out.println("Enter AdminId ");
+                String adminId = sc.next();
+                System.out.println("Enter Password ");
+                String adminPassword = sc.next();
+                authStatus = dataManager.adminAuthentication(adminId, adminPassword);
+                if (authStatus.equals(AuthStatus.LOGIN_SUCCESS)) currentUser = dataManager.getAdmin(adminId);
+                break;
         }
 
         if(authStatus.equals(AuthStatus.USERNAME_NOT_FOUND)) System.out.println("User Name Not Found");
-        if(authStatus.equals(AuthStatus.PASSWORD_MISMATCH)) System.out.println("Password Mismatch");
-        if(authStatus.equals(AuthStatus.ID_NOT_FOUND)) System.out.println("Invalid Admin Id");
-        if(authStatus.equals(AuthStatus.LOGIN_SUCCESS)) System.out.println("Login Success!!!");
+        else if(authStatus.equals(AuthStatus.PASSWORD_MISMATCH)) System.out.println("Password Mismatch");
+        else if(authStatus.equals(AuthStatus.ID_NOT_FOUND)) System.out.println("Invalid Admin Id");
+        else if(authStatus.equals(AuthStatus.LOGIN_SUCCESS)) System.out.println("Login Success!!!");
         return authStatus;
     }
 
@@ -93,7 +100,7 @@ public class SessionHandler {
             currentUser = dataManager.getLearner(userName);
             authStatus = AuthStatus.LOGIN_SUCCESS;
         }
-        if(signupOption.equals("c") || signupOption.equals("C")){
+        else if(signupOption.equals("c") || signupOption.equals("C")){
             String userName = getNewCreatorUserName();
             String password = getPassword();
             System.out.println("Enter your First Name : ");
@@ -124,7 +131,10 @@ public class SessionHandler {
         while (true){
             if(dataManager.isLearnerUserNameAvailable(userName)){
                 return userName;
-            }else System.out.println("UserName already Exist");
+            }else {
+                System.out.println("UserName already Exist");
+                userName = sc.nextLine();
+            }
         }
     }
 
@@ -141,7 +151,10 @@ public class SessionHandler {
         while (true){
             if(dataManager.isCreatorUserNameAvailable(userName)){
                 return userName;
-            }else System.out.println("UserName already Exist");
+            }else {
+                System.out.println("UserName already Exist");
+                userName = sc.nextLine();
+            }
         }
     }
 
@@ -151,7 +164,7 @@ public class SessionHandler {
         while (true){
             System.out.println("Enter Password");
             password = sc.next();
-            while (!Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,20}$",password)){
+            while (!Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()_!*])(?=\\S+$).{8,20}$",password)){
                 System.out.println("Password should contain atleast an UpperCase letter,a LowerCase letter,a Digit,a Special Character and\nPassword length should be between 8 and 20");
                 System.out.println("Enter Password");
                 password = sc.next();

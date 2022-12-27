@@ -191,18 +191,9 @@ public class CreatorOperations {
     }
 
     private void editCoursePrice(String courseId){
-        boolean isValidCoursePriceInput = false;
-        while(!isValidCoursePriceInput){
-            System.out.println("Enter New Price");
-            try {
-                int coursePrice =new Scanner(System.in).nextInt();
-                isValidCoursePriceInput=true;
-                currentCreator.changeCoursePrice(coursePrice,courseId);
-                System.out.println("Course Price Changed!!");
-            }catch (Exception e){
-                System.out.println("Invalid Input");
-            }
-        }
+        System.out.println("Enter New Price");
+        int coursePrice = CustomScanner.getIntegerInput(0,100000);
+        currentCreator.changeCoursePrice(coursePrice,courseId);
     }
 
     private void editCourseContent(String courseId){

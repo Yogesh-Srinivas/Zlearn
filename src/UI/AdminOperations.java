@@ -461,17 +461,9 @@ public class AdminOperations {
         System.out.println("Course Name Updated!!");
     }
     private void editCoursePrice(String courseId){
-        boolean isValidCoursePriceInput = false;
-        while(!isValidCoursePriceInput){
-            System.out.println("Enter New Price");
-            try {
-                int coursePrice =new Scanner(System.in).nextInt();
-                isValidCoursePriceInput=true;
-                currentAdmin.changeCoursePrice(coursePrice,courseId);
-            }catch (Exception e){
-                System.out.println("Invalid Input");
-            }
-        }
+        System.out.println("Enter New Price");
+        int coursePrice = CustomScanner.getIntegerInput(0,100000);
+        currentAdmin.changeCoursePrice(coursePrice,courseId);
     }
     private void editCourseContent(String courseId){
         label:

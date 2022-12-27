@@ -134,7 +134,7 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
     }
     @Override
     public boolean changeLearnerPassword(String newPassword, String userName) {
-        return dbManager.changeLearnerPassword(userName,newPassword);
+        return dbManager.changeLearnerPassword(newPassword,userName);
     }
 
     //******* Creator ************************
@@ -145,7 +145,7 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
 
     @Override
     public boolean changeCreatorPassword(String newPassword, String userName) {
-        return dbManager.changeCreatorPassword(userName,newPassword);
+        return dbManager.changeCreatorPassword(newPassword,userName);
     }
 
     //******* Admin operation ************************

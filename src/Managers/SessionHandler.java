@@ -71,10 +71,20 @@ public class SessionHandler {
                 break;
         }
 
-        if(authStatus.equals(AuthStatus.USERNAME_NOT_FOUND)) System.out.println("User Name Not Found");
-        else if(authStatus.equals(AuthStatus.PASSWORD_MISMATCH)) System.out.println("Password Mismatch");
-        else if(authStatus.equals(AuthStatus.ID_NOT_FOUND)) System.out.println("Invalid Admin Id");
-        else if(authStatus.equals(AuthStatus.LOGIN_SUCCESS)) System.out.println("Login Success!!!");
+        switch (authStatus) {
+            case USERNAME_NOT_FOUND:
+                System.out.println("User Name Not Found");
+                break;
+            case PASSWORD_MISMATCH:
+                System.out.println("Password Mismatch");
+                break;
+            case ID_NOT_FOUND:
+                System.out.println("Invalid Admin Id");
+                break;
+            case LOGIN_SUCCESS:
+                System.out.println("Login Success!!!");
+                break;
+        }
         return authStatus;
     }
 

@@ -13,7 +13,6 @@ public class ZLearn {
             if (sessionStatus.equals(AuthStatus.LOGIN_SUCCESS)) {
                 if (SessionHandler.getCurrentUser() != null) {
                     SessionHandler.getCurrentUser().openDashboard();
-                    SessionHandler.logOutUser();
                 }
             }
         }

@@ -4,6 +4,7 @@ import Core.Course.Chapter;
 import Core.Course.Course;
 import Core.Users.Admin;
 import Managers.DataManager;
+import Managers.SessionHandler;
 import Utilities.CustomScanner;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class AdminOperations {
                     break;
                 case "0":
                     System.out.println("Logged Out!");
+                    SessionHandler.logOutUser();
                     break label;
             }
         }
@@ -52,7 +54,7 @@ public class AdminOperations {
         label:
         while(true) {
             System.out.println("******* User Control *******");
-            System.out.println("- [R]emove User\n- change user [P]assword\n0. Back");
+            System.out.println("- [R]emove User\n- reset user [P]assword\n0. Back");
             String controlOption = CustomScanner.getOptions("rRpP0");
             switch (controlOption) {
                 case "r":
@@ -71,9 +73,9 @@ public class AdminOperations {
                     System.out.println("[L]earner password\n[C]reator password");
                     String userType = CustomScanner.getOptions("LlCc");
                     if (userType.equals("L") || userType.equals("l")) {
-                        changeLearnerPassword();
+                        resetLearnerPassword();
                     } else if (userType.equals("C") || userType.equals("c")) {
-                        changeCreatorPassword();
+                       resetCreatorPassword();
                     }
 
                     break;
@@ -97,32 +99,32 @@ public class AdminOperations {
         else System.out.println("Learner doesn't exist!!");
     }
     //******************************************************
-    private void changeCreatorPassword() {
+    private void resetCreatorPassword() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter Creator UserName : ");
         String userName = sc.next();
-        System.out.println("Enter New Password : ");
+        System.out.println("Enter the reset Password : ");
         String newPassword = sc.next();
-        while (!Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,20}$", newPassword)){
+        while (!Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()_!])(?=\\S+$).{8,20}$", newPassword)){
             System.out.println("Password should contain atleast an UpperCase letter,a LowerCase letter,a Digit,a Special Character and\nPassword length should be between 8 and 20");
             System.out.println("Enter New Password : ");
             newPassword = sc.next();
         }
-        if(currentAdmin.changeCreatorPassword(newPassword,userName)) System.out.println("Password Changed Successfully!!");
+        if(currentAdmin.changeCreatorPassword(newPassword,userName)) System.out.println("Password Resetted Successfully!!");
         else System.out.println("Creator doesn't Exist!!");
     }
-    private void changeLearnerPassword() {
+    private void resetLearnerPassword() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter Learner UserName : ");
         String userName = sc.next();
-        System.out.println("Enter New Password : ");
+        System.out.println("Enter the reset Password : ");
         String newPassword = sc.next();
-        while (!Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,20}$", newPassword)){
+        while (!Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()_!])(?=\\S+$).{8,20}$", newPassword)){
             System.out.println("Password should contain atleast an UpperCase letter,a LowerCase letter,a Digit,a Special Character and\nPassword length should be between 8 and 20");
             System.out.println("Enter New Password : ");
             newPassword = sc.next();
         }
-        if(currentAdmin.changeLearnerPassword(newPassword,userName)) System.out.println("Password Changed Successfully!!");
+        if(currentAdmin.changeLearnerPassword(newPassword,userName)) System.out.println("Password Resetted Successfully!!");
         else System.out.println("Learner doesn't Exist!!");
     }
 
@@ -136,6 +138,8 @@ public class AdminOperations {
                 case "1":
                     ArrayList<Course> courses = dataManager.getAllCourses();
                     ArrayList<Course> filteredCourses = new ArrayList<>();
+//                    Predicate<Course> zCourseFilter = course -> !course.getCourseId().contains("ZCourse");
+//                    filteredCourses = courses.stream().filter(zCourseFilter).collect(Collectors.toList());
                     for (Course course : courses) {
                         if (!course.getCourseId().contains("ZCourse")) filteredCourses.add(course);
                     }

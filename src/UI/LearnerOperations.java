@@ -5,6 +5,7 @@ import Core.Course.Comment;
 import Core.Course.Course;
 import Core.Users.Learner;
 import Managers.DataManager;
+import Managers.SessionHandler;
 import Utilities.CustomScanner;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class LearnerOperations {
                     break;
                 case "0":
                     System.out.println("Logged Out!!");
+                    SessionHandler.logOutUser();
                     break label;
             }
         }

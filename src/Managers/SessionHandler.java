@@ -132,7 +132,7 @@ public class SessionHandler {
             if(dataManager.isLearnerUserNameAvailable(userName)){
                 return userName;
             }else {
-                System.out.println("UserName already Exist");
+                System.out.println("UserName already Exist\nEnter User Name Again");
                 userName = sc.nextLine();
             }
         }
@@ -152,7 +152,7 @@ public class SessionHandler {
             if(dataManager.isCreatorUserNameAvailable(userName)){
                 return userName;
             }else {
-                System.out.println("UserName already Exist");
+                System.out.println("UserName already Exist\nEnter User Name Again");
                 userName = sc.nextLine();
             }
         }

@@ -28,7 +28,7 @@ public class AdminOperations {
         while(true){
             System.out.println("********* Zlearn Control Center *********");
             System.out.println("1. User Control\n2. Courses Control\n3. Zlearn Courses\n0. Log out");
-            String controlOption = CustomScanner.getOptions("1230");
+            String controlOption = CustomScanner.getOptions("1","2","3","0");
             switch (controlOption) {
                 case "1":
                     openUserControl();
@@ -55,12 +55,12 @@ public class AdminOperations {
         while(true) {
             System.out.println("******* User Control *******");
             System.out.println("- [R]emove User\n- reset user [P]assword\n0. Back");
-            String controlOption = CustomScanner.getOptions("rRpP0");
+            String controlOption = CustomScanner.getOptions("r","R","p","P","0");
             switch (controlOption) {
                 case "r":
                 case "R": {
                     System.out.println("Remove [L]earner\nRemove [C]reator");
-                    String userType = CustomScanner.getOptions("LlCc");
+                    String userType = CustomScanner.getOptions("l","L","c","C");
                     if (userType.equals("L") || userType.equals("l")) {
                         removeLearner();
                     } else if (userType.equals("C") || userType.equals("c")) {
@@ -71,7 +71,7 @@ public class AdminOperations {
                 case "p":
                 case "P": {
                     System.out.println("[L]earner password\n[C]reator password");
-                    String userType = CustomScanner.getOptions("LlCc");
+                    String userType = CustomScanner.getOptions("l","L","c","C");
                     if (userType.equals("L") || userType.equals("l")) {
                         resetLearnerPassword();
                     } else if (userType.equals("C") || userType.equals("c")) {
@@ -133,7 +133,7 @@ public class AdminOperations {
         label:
         while(true) {
             System.out.println("1. View All Course\n2. Add Course Category\n3. Remove Course Category\n4. Delete Course\n0. Back");
-            String inputOption = CustomScanner.getOptions("12340");
+            String inputOption = CustomScanner.getOptions("1","2","3","4","0");
             switch (inputOption) {
                 case "1":
                     ArrayList<Course> courses = dataManager.getAllCourses();
@@ -277,7 +277,7 @@ public class AdminOperations {
         while (true) {
             System.out.println("***** Zlearn Courses *****");
             System.out.println("1. View Courses\n2. Create Course\n3. Edit Course\n4. Delete ZCourse\n0. back");
-            String options = CustomScanner.getOptions("12340");
+            String options = CustomScanner.getOptions("1","2","3","4","0");
             switch (options) {
                 case "1": {
                     ArrayList<Course> courses = dataManager.getAllCourses();
@@ -436,7 +436,7 @@ public class AdminOperations {
     private void editZLearnCourses(String courseId){
         System.out.println("*****Edit Course*****");
         System.out.println("1. Change Course Name\n2. Add/Remove Category\n3. Change Price\n4. Edit Content\n0. Back");
-        String editOption = CustomScanner.getOptions("12340");
+        String editOption = CustomScanner.getOptions("1","2","3","4","0");
         switch (editOption) {
             case "1":
                 changeCourseName(courseId);
@@ -470,7 +470,8 @@ public class AdminOperations {
         while (true) {
             System.out.println("********Edit Course Content******");
             System.out.println("[A]dd [D]elete [E]dit [B]ack");
-            String inputOptions = CustomScanner.getOptions("aAdDeEbB");
+            String inputOptions = CustomScanner.getOptions("a","A","d","D","e","E","b","B");
+
             switch (inputOptions) {
                 case "a":
                 case "A":
@@ -485,8 +486,8 @@ public class AdminOperations {
                 case "E":
                     int contentIndex = getContentIndex(courseId);
                     Chapter selectedChapter = dataManager.getChapter(courseId, contentIndex);
-                    System.out.println("1. Change Chapter Name\n2.Change Content\n3.back");
-                    String editOption = CustomScanner.getOptions("123");
+                    System.out.println("1. Change Chapter Name\n2. Change Content\n0. back");
+                    String editOption = CustomScanner.getOptions("1","2","0");
                     if (editOption.equals("1")) {
                         System.out.println("Current Chapter Name : " + selectedChapter.getChapterName());
                         System.out.println("Enter New Chapter Name");

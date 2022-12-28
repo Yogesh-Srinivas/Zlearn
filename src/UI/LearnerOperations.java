@@ -27,7 +27,7 @@ public class LearnerOperations {
         while (true) {
             System.out.println("----Learning never exhausts the mind----");
             System.out.println("1. View Enrolled Courses\n2. Enroll new Course\n0. Log Out");
-            String learnerOperationOption = CustomScanner.getOptions("120");
+            String learnerOperationOption = CustomScanner.getOptions("1","2","0");
             switch (learnerOperationOption) {
                 case "1":
                     viewEnrolledCourse();
@@ -72,11 +72,11 @@ public class LearnerOperations {
             String courseOperation;
             if (isUserRated) {
                 System.out.println("1. Learn Course\n2. Course Details\n3. Comment Page\n4. Unenroll Course\n0. Back");
-                courseOperation = CustomScanner.getOptions("12340");
+                courseOperation = CustomScanner.getOptions("1","2","3","4","0");
             } else {
                 System.out.println(
                         "1. Learn Course\n2. Course Details\n3. Comment Page\n4. Unenroll Course\n5. Rate Course\n0. Back");
-                courseOperation = CustomScanner.getOptions("123450");
+                courseOperation = CustomScanner.getOptions("1","2","3","4","5","0");
             }
 
             switch (courseOperation) {
@@ -230,7 +230,7 @@ public class LearnerOperations {
             }
             System.out.println();
             System.out.println("\n1. Enroll  0. Back");
-            String enrollOption = CustomScanner.getOptions("10");
+            String enrollOption = CustomScanner.getOptions("1","0");
             if(enrollOption.equals("1")) {
                 currentLearner.enrollCourse(selectedCourseId);
                 System.out.println("Course Enrolled Successfully!!");

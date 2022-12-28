@@ -1,25 +1,11 @@
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class test {
     public static void main(String[] args) {
-
-
-        switch ("t"){
-            case "a":
-            case "A":
-            case "t":
-                System.out.println("a");
-                break;
-            case "b":
-                System.out.println("b");
-                break;
-        }
-//        getMultiLineInput();
-//        CourseDatabase cdb = CourseDatabase.getInstance();
-//        cdb.getCourse("ZCourse_001");
-            A a = new B();
-            a.use();
+        String s = getOptions("a","b","A","c");
+        System.out.println(s);
     }
     public static String getMultiLineInput(){
         String finalString="";
@@ -33,6 +19,20 @@ public class test {
         }
         System.out.println(finalString);
         return finalString;
+    }
+
+    public static String getOptions(String... inputOptions) {
+        Scanner sc = new Scanner(System.in);
+        String input="";
+        boolean isValidInput = false;
+        while(!isValidInput){
+            input = sc.next();
+            for(String option : inputOptions){
+                isValidInput=option.equals(input);
+            }
+            if(!isValidInput) System.out.println("Invalid option!!");
+        }
+        return input;
     }
 }
 

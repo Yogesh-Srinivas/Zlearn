@@ -26,7 +26,7 @@ public class CreatorOperations {
         while (true){
             System.out.println("----To Teach is to Learn Twice Over----");
             System.out.println("1.View Created Courses\n2. Create New Course\n0. Log Out");
-            String creatorOperationOption = CustomScanner.getOptions("120");
+            String creatorOperationOption = CustomScanner.getOptions("1","2","0");
             switch (creatorOperationOption) {
                 case "1":
                     viewCreatedCourse();
@@ -67,7 +67,7 @@ public class CreatorOperations {
         while (true) {
             System.out.println("+++++++" + currCourse.getCourseId() + "+++++++");
             System.out.println("1. View Course\n2. Edit Course\n3. View Comments\n4. Delete Course\n0. Back");
-            String courseOperation = CustomScanner.getOptions("12340");
+            String courseOperation = CustomScanner.getOptions("1","2","3","4","0");
             switch (courseOperation) {
                 case "1":
                     System.out.println("+++++++" + currCourse.getCourseId() + "+++++++");
@@ -102,7 +102,7 @@ public class CreatorOperations {
     private void editCourse(String courseId){
         System.out.println("*****Edit Course*****");
         System.out.println("1. Change Course Name\n2. Add/Remove Category\n3. Change Price\n4. Edit Content\n0. Back");
-        String editOption = CustomScanner.getOptions("12340");
+        String editOption = CustomScanner.getOptions("1","2","3","4","0");
         switch (editOption) {
             case "1":
                 changeCourseName(courseId);
@@ -201,7 +201,7 @@ public class CreatorOperations {
         while (true) {
             System.out.println("********Edit Course Content******");
             System.out.println("[A]dd [D]elete [E]dit [B]ack");
-            String inputOptions = CustomScanner.getOptions("aAdDeEbB");
+            String inputOptions = CustomScanner.getOptions("a","A","d","D","e","E","b","B");
             switch (inputOptions) {
                 case "a":
                 case "A":
@@ -217,7 +217,7 @@ public class CreatorOperations {
                     int lessonNo = getContentIndex(courseId);
                     Chapter selectedChapter = dataManager.getChapter(courseId, lessonNo);
                     System.out.println("1. Change Chapter Name\n2. Change Content\n0. back");
-                    String editOption = CustomScanner.getOptions("120");
+                    String editOption = CustomScanner.getOptions("1","2","0");
                     if (editOption.equals("1")) {
                         System.out.println("Current Chapter Name : " + selectedChapter.getChapterName());
                         System.out.println("Enter New Chapter Name");

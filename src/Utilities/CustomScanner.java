@@ -1,5 +1,6 @@
 package Utilities;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CustomScanner {
@@ -14,7 +15,7 @@ public class CustomScanner {
                 }
                 isValidIntegerInput = true;
             }catch (Exception e){
-                System.out.println("Invalid Input!!");
+                System.out.println("Invalid Input!! Value must be between "+minValue+" and "+maxValue+".");
             }
         }
         return integerInput;
@@ -32,14 +33,19 @@ public class CustomScanner {
         return finalString.toString();
     }
 
-    public static String getOptions(String inputOptions) {
+    public static String getOptions(String... inputOptions) {
         Scanner sc = new Scanner(System.in);
         String input="";
         boolean isValidInput = false;
         while(!isValidInput){
-            input = sc.next();
-            if(inputOptions.contains(input)) isValidInput=true;
-            else System.out.println("Invalid option!!");
+            input = sc.nextLine();
+            for(String option : inputOptions){
+                if (option.equals(input)) {
+                    isValidInput = true;
+                    break;
+                }
+            }
+            if(!isValidInput) System.out.println("Invalid option!!");
         }
         return input;
     }

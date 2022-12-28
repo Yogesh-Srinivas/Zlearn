@@ -21,7 +21,7 @@ public class SessionHandler {
         AuthStatus authStatus = null;
         System.out.println("Do you want to");
         System.out.println("[L]ogin  or   [S]ignup");
-        String loginOption = CustomScanner.getOptions("lLsS");
+        String loginOption = CustomScanner.getOptions("l","L","s","S");
         if(loginOption.equals("l") || loginOption.equals("L")){
             authStatus = login();
         }
@@ -66,7 +66,7 @@ public class SessionHandler {
         AuthStatus authStatus;
 
         System.out.println("[L]earner SignUp\n[C]reator Signup");
-        String signupOption = CustomScanner.getOptions("lLcC");
+        String signupOption = CustomScanner.getOptions("l","L","c","C");
         String userName = getNewUserName();
         String password = getPassword();
         String firstName = getFirstName();

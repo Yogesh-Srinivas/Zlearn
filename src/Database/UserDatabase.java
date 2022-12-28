@@ -18,6 +18,23 @@ class UserDatabase implements UserDBOperations{
         return instance;
     }
     //*********** Getters and Setters ************************************************************
+    //*** User *************************************************************************
+
+    public User getUser(String userName) {
+        User user = null;
+        for(User usr:this.users){
+            if(usr.getUserName().equals(userName)){
+                user = usr;
+                break;
+            }
+        }
+        return user;
+    }
+
+    public boolean isUserExist(String userName) {
+        User user = getUser(userName);
+        return user != null;
+    }
 
     //*** Learner *************************************************************************
     private int getLearnerIndex(String userId){
@@ -29,16 +46,7 @@ class UserDatabase implements UserDBOperations{
         }
         return learnerIndex;
     }
-    public Learner getLearner(String userName) {
-        Learner learner = null;
-        for(User usr:this.users){
-            if(usr.getRole().equals(ROLE.LEARNER) && usr.getUserName().equals(userName)){
-                learner = (Learner) usr;
-                break;
-            }
-        }
-        return learner;
-    }
+
     public String getLearnerName(String commentor) {
         int learnerIndex = getLearnerIndex(commentor);
         if(learnerIndex==-1) return "NULL";
@@ -48,11 +56,11 @@ class UserDatabase implements UserDBOperations{
         this.users.add(learner);
     }
     public boolean removeLearner(String userName){
-        Learner learner = getLearner(userName);
+        Learner learner = (Learner) getUser(userName);
         return learner != null && this.users.remove(learner);
     }
     public boolean changeLearnerPassword(String userName,String newPassword){
-        Learner learner = getLearner(userName);
+        Learner learner = (Learner) getUser(userName);
         if(learner!=null){
             int learnerIndex = getLearnerIndex(learner.getUserId());
             this.users.get(learnerIndex).changePassword(newPassword);
@@ -60,23 +68,8 @@ class UserDatabase implements UserDBOperations{
         }
         return false;
     }
-    public boolean isLearnerExist(String userName) {
-        Learner learner = getLearner(userName);
-        return learner != null;
-    }
-
 
     //*** Creator *************************************************************************
-    public Creator getCreator(String userName) {
-        Creator creator = null;
-        for(User usr:this.users){
-            if(usr.getRole().equals(ROLE.CREATOR) && usr.getUserName().equals(userName) ){
-                creator = (Creator) usr;
-                break;
-            }
-        }
-        return creator;
-    }
 
     private int getCreatorIndex(String userId){
         int creatorIndex = -1;
@@ -100,12 +93,12 @@ class UserDatabase implements UserDBOperations{
     }
 
     public boolean removeCreator(String userName){
-        Creator creator = getCreator(userName);
+        Creator creator = (Creator) getUser(userName);
         return creator != null && this.users.remove(creator);
     }
 
     public boolean changeCreatorPassword(String userName,String newPassword){
-        Creator creator = getCreator(userName);
+        Creator creator = (Creator) getUser(userName);
         if(creator!=null){
             int creatorIndex = getCreatorIndex(creator.getUserId());
             this.users.get(creatorIndex).changePassword(newPassword);
@@ -113,35 +106,18 @@ class UserDatabase implements UserDBOperations{
         }
         return false;
     }
-    public boolean isCreatorExist(String userName) {
-        Creator creator = getCreator(userName);
-        return creator != null;
-    }
+
 
     //*** Admin *************************************************************************
-    public Admin getAdmin(String adminId) {
-        Admin admin = null;
-        for(User usr:this.users){
-            if(usr.getRole().equals(ROLE.ADMIN) && usr.getUserId().equals(adminId)){
-                admin = (Admin) usr;
-                break;
-            }
-        }
-        return admin;
-    }
-
     public void addAdmin(Admin admin) {
         this.users.add(admin);
     }
 
     public void removeAdmin(String adminId){
-        Admin admin = getAdmin(adminId);
+        Admin admin = (Admin) getUser(adminId);
         if(admin!=null){
             this.users.remove(admin);
         }
     }
-
-
-
 
 }

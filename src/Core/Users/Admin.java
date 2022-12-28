@@ -11,7 +11,7 @@ public class Admin extends Creator{
     //******* Constructor *******************************
 
     public Admin(String userId,String password,String firstName){
-        super(userId,null,password,firstName);
+        super(userId,userId,password,firstName);
     }
 
     //******* Getters and Setters ********************************************************************

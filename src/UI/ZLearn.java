@@ -1,4 +1,5 @@
 package UI;
+import Managers.AuthStatus;
 import Managers.SessionHandler;
 import UI.Initializers.ZLearnInitializer;
 

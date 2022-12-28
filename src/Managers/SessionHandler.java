@@ -1,7 +1,6 @@
 package Managers;
 
 import Core.Users.User;
-import UI.AuthStatus;
 import Utilities.CustomScanner;
 
 import java.util.Scanner;
@@ -35,41 +34,14 @@ public class SessionHandler {
     //******** Login ******************************************************************
 
     private static AuthStatus login() {
-        AuthStatus authStatus = AuthStatus.AUTH_FAILED;
-        Scanner sc =new Scanner(System.in);
-        System.out.println("[L]earner login\n[C]reator Login\n[A]dmin Login");
-        String loginOption = CustomScanner.getOptions("lLcCaA");
-        switch (loginOption) {
-            case "l":
-            case "L": {
-                System.out.println("Enter UserName ");
-                String userName = sc.next();
-                System.out.println("Enter Password ");
-                String password = sc.next();
-                authStatus = dataManager.learnerAuthentication(userName, password);
-                if (authStatus.equals(AuthStatus.LOGIN_SUCCESS)) currentUser = dataManager.getLearner(userName);
-                break;
-            }
-            case "c":
-            case "C": {
-                System.out.println("Enter UserName ");
-                String userName = sc.next();
-                System.out.println("Enter Password ");
-                String password = sc.next();
-                authStatus = dataManager.creatorAuthentication(userName, password);
-                if (authStatus.equals(AuthStatus.LOGIN_SUCCESS)) currentUser = dataManager.getCreator(userName);
-                break;
-            }
-            case "a":
-            case "A":
-                System.out.println("Enter AdminId ");
-                String adminId = sc.next();
-                System.out.println("Enter Password ");
-                String adminPassword = sc.next();
-                authStatus = dataManager.adminAuthentication(adminId, adminPassword);
-                if (authStatus.equals(AuthStatus.LOGIN_SUCCESS)) currentUser = dataManager.getAdmin(adminId);
-                break;
-        }
+        AuthStatus authStatus;
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter UserName ");
+        String userName = sc.next();
+        System.out.println("Enter Password ");
+        String password = sc.next();
+        authStatus = dataManager.userAuthentication(userName, password);
+        if (authStatus.equals(AuthStatus.LOGIN_SUCCESS)) currentUser = dataManager.getUser(userName);
 
         switch (authStatus) {
             case USERNAME_NOT_FOUND:
@@ -91,55 +63,38 @@ public class SessionHandler {
     //********* Sign Up ***************************************************************
 
     private static AuthStatus signUp() {
-        AuthStatus authStatus = null;
-        Scanner sc = new Scanner(System.in);
+        AuthStatus authStatus;
+
         System.out.println("[L]earner SignUp\n[C]reator Signup");
         String signupOption = CustomScanner.getOptions("lLcC");
-        if(signupOption.equals("l") || signupOption.equals("L")){
-            String userName = getNewLearnerUserName();
-            String password = getPassword();
-            System.out.println("Enter your First Name : ");
-            String firstName = sc.nextLine();
-            while(firstName.length() > 64) {
-                System.out.println(
-                        "FirstName should be less than 64 characters\nEnter First Name Again : ");
-                firstName = sc.nextLine();
-            }
+        String userName = getNewUserName();
+        String password = getPassword();
+        String firstName = getFirstName();
+
+        if(signupOption.equals("l") || signupOption.equals("L"))
             dataManager.addLearner(userName,password,firstName);
-            System.out.println("Account created Successfully!!!");
-            currentUser = dataManager.getLearner(userName);
-            authStatus = AuthStatus.LOGIN_SUCCESS;
-        }
-        else if(signupOption.equals("c") || signupOption.equals("C")){
-            String userName = getNewCreatorUserName();
-            String password = getPassword();
-            System.out.println("Enter your First Name : ");
-            String firstName = sc.nextLine();
-            while(firstName.length() > 64) {
-                System.out.println(
-                        "FirstName should be less than 64 characters\nEnter First Name Again : ");
-                firstName = sc.nextLine();
-            }
+        else if(signupOption.equals("c") || signupOption.equals("C"))
             dataManager.addCreator(userName,password,firstName);
-            System.out.println("Account created Successfully!!!");
-            currentUser = dataManager.getCreator(userName);
-            authStatus = AuthStatus.LOGIN_SUCCESS;
-        }
+
+        System.out.println("Account created Successfully!!!");
+        currentUser = dataManager.getUser(userName);
+        authStatus = AuthStatus.LOGIN_SUCCESS;
+
         return authStatus;
     }
 
-    private static String getNewLearnerUserName(){
+    private static String getNewUserName(){
         Scanner sc = new Scanner(System.in);
         String userName;
         System.out.println("Enter User Name ");
         userName = sc.nextLine();
-        while(userName.length() > 64 || userName.contains(" ")) {
+        while(userName.length() < 3 || userName.length() > 64 || userName.contains(" ")) {
             System.out.println(
-                    "Username should be less than 64 characters and spaces are not allowed.\nEnter User Name Again");
+                    "Username should be less than 64 characters and greater than 2 characters and spaces are not allowed.\nEnter User Name Again");
             userName = sc.nextLine();
         }
         while (true){
-            if(dataManager.isLearnerUserNameAvailable(userName)){
+            if(dataManager.isUserNameAvailable(userName)){
                 return userName;
             }else {
                 System.out.println("UserName already Exist\nEnter User Name Again");
@@ -148,25 +103,6 @@ public class SessionHandler {
         }
     }
 
-    private static String getNewCreatorUserName(){
-        Scanner sc = new Scanner(System.in);
-        String userName;
-        System.out.println("Enter User Name ");
-        userName = sc.nextLine();
-        while(userName.length() > 64 || userName.contains(" ")) {
-            System.out.println(
-                    "Username should be less than 64 characters and spaces are not allowed.\nEnter User Name Again");
-            userName = sc.nextLine();
-        }
-        while (true){
-            if(dataManager.isCreatorUserNameAvailable(userName)){
-                return userName;
-            }else {
-                System.out.println("UserName already Exist\nEnter User Name Again");
-                userName = sc.nextLine();
-            }
-        }
-    }
 
     private static String getPassword(){
         Scanner sc = new Scanner(System.in);
@@ -185,6 +121,18 @@ public class SessionHandler {
             System.out.println("Password mismatch! Type Again.");
         }
         return password;
+    }
+
+    private static String getFirstName(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter your First Name : ");
+        String firstName = sc.nextLine();
+        while(firstName.length() < 3 || firstName.length() > 64) {
+            System.out.println(
+                    "FirstName should be less than 64 characters and greater than 2 characters\nEnter First Name Again : ");
+            firstName = sc.nextLine();
+        }
+        return firstName;
     }
 
     //*********** Log Out **********************************************************

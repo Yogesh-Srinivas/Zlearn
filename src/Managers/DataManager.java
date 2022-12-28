@@ -3,10 +3,8 @@ package Managers;
 import Core.Course.Chapter;
 import Core.Course.Comment;
 import Core.Course.Course;
-import Core.Users.Admin;
 import Core.Users.User;
 import Database.*;
-import UI.AuthStatus;
 
 import java.util.ArrayList;
 
@@ -78,18 +76,21 @@ public class DataManager {
         return dbManager.isRatedBy(userId,courseId);
     }
 
+
+    //******** User *******************************************************************
+    public  AuthStatus userAuthentication(String userName, String password){
+        return dbManager.userAuthentication(userName, password);
+    }
+
+    public  User getUser(String userName) {
+        return dbManager.getUser(userName);
+    }
+
+    public  boolean isUserNameAvailable(String userName) {
+        return dbManager.isUserNameAvailable(userName);
+    }
+
     //******** Learner *******************************************************************
-    public  AuthStatus learnerAuthentication(String userName, String password){
-        return dbManager.learnerAuthentication(userName, password);
-    }
-
-    public  User getLearner(String userName) {
-        return dbManager.getLearner(userName);
-    }
-
-    public  boolean isLearnerUserNameAvailable(String userName) {
-        return dbManager.isLearnerUserNameAvailable(userName);
-    }
 
     public  void addLearner(String userName, String password, String firstName) {
         dbManager.addLearner(userName,password,firstName);
@@ -97,29 +98,7 @@ public class DataManager {
 
     //******* Creator ********************************************************************
 
-    public  AuthStatus creatorAuthentication(String userName, String password){
-        return dbManager.creatorAuthentication(userName,password);
-    }
-
-    public  User getCreator(String userName) {
-        return dbManager.getCreator(userName);
-    }
-
-    public  boolean isCreatorUserNameAvailable(String userName) {
-        return dbManager.isCreatorUserNameAvailable(userName);
-    }
-
     public  void addCreator(String userName, String password, String firstName) {
         dbManager.addCreator(userName,password,firstName);
-    }
-
-    //******* Admin ********************************************************************
-
-    public  AuthStatus adminAuthentication(String adminId, String adminPassword){
-        return dbManager.adminAuthentication(adminId,adminPassword);
-    }
-
-    public  Admin getAdmin(String adminId) {
-        return dbManager.getAdmin(adminId);
     }
 }

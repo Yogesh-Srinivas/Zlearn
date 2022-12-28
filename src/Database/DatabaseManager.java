@@ -9,7 +9,7 @@ import Core.Users.Creator;
 import Core.Users.Learner;
 import Core.Users.User;
 import Managers.IdGenerator;
-import UI.AuthStatus;
+import Managers.AuthStatus;
 
 import java.util.ArrayList;
 
@@ -264,17 +264,15 @@ public class DatabaseManager {
         return coursedb.isRatedBy(userId,courseId);
     }
 
-
-
-
     //*********** Authenticator Functions ********************************************
-    //******** Learner *******************************************************************
-    public AuthStatus learnerAuthentication(String userName, String password){
-        Learner learner = userdb.getLearner(userName);
+    //******** User *******************************************************************
+
+    public AuthStatus userAuthentication(String userName, String password){
+        User user = userdb.getUser(userName);
         boolean isUserFound = false;
-        if(learner != null){
+        if(user != null){
             isUserFound = true;
-            if(learner.isCorrectPassword(password)){
+            if(user.isCorrectPassword(password)){
                 return AuthStatus.LOGIN_SUCCESS;
             }
         }
@@ -282,13 +280,18 @@ public class DatabaseManager {
         return AuthStatus.USERNAME_NOT_FOUND;
     }
 
-    public User getLearner(String userName) {
-        return userdb.getLearner(userName);
+
+    public User getUser(String userName) {
+        return userdb.getUser(userName);
     }
 
-    public boolean isLearnerUserNameAvailable(String userName) {
-        return !userdb.isLearnerExist(userName);
+    public boolean isUserNameAvailable(String userName) {
+        return !userdb.isUserExist(userName);
     }
+
+
+    //******** Learner *******************************************************************
+
 
     public void addLearner(String userName, String password, String firstName) {
         String userId = IdGenerator.getNewLearnerId();
@@ -297,27 +300,6 @@ public class DatabaseManager {
 
     //******* Creator ********************************************************************
 
-    public AuthStatus creatorAuthentication(String userName, String password){
-        boolean isUserFound = false;
-        Creator creator = userdb.getCreator(userName);
-        if(creator != null){
-            isUserFound = true;
-            if(creator.isCorrectPassword(password)){
-                return AuthStatus.LOGIN_SUCCESS;
-            }
-        }
-        if(isUserFound) return AuthStatus.PASSWORD_MISMATCH;
-        return AuthStatus.USERNAME_NOT_FOUND;
-    }
-
-    public User getCreator(String userName) {
-        return userdb.getCreator(userName);
-    }
-
-    public boolean isCreatorUserNameAvailable(String userName) {
-        return !userdb.isCreatorExist(userName);
-    }
-
     public void addCreator(String userName, String password, String firstName) {
         String userId = IdGenerator.getNewCreatorId();
         userdb.addCreator(new Creator(userId,userName,password,firstName));
@@ -325,20 +307,4 @@ public class DatabaseManager {
 
     //******* Admin ********************************************************************
 
-    public AuthStatus adminAuthentication(String adminId, String adminPassword){
-        boolean isUserFound = false;
-        Admin admin = userdb.getAdmin(adminId);
-        if(admin != null){
-            isUserFound = true;
-            if(admin.isCorrectPassword(adminPassword)){
-                return AuthStatus.LOGIN_SUCCESS;
-            }
-        }
-        if(isUserFound) return AuthStatus.PASSWORD_MISMATCH;
-        return AuthStatus.ID_NOT_FOUND;
-    }
-
-    public Admin getAdmin(String adminId) {
-        return userdb.getAdmin(adminId);
-    }
 }

@@ -2,6 +2,7 @@ package Utilities;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class CustomScanner {
     public static int getIntegerInput(int minValue, int maxValue){
@@ -48,5 +49,15 @@ public class CustomScanner {
             if(!isValidInput) System.out.println("Invalid option!!");
         }
         return input;
+    }
+
+    public static String getNameInput(){
+        Scanner sc = new Scanner(System.in);
+        String string = sc.nextLine();
+        while (!Pattern.matches("[a-zA-z]+[a-zA-Z0-9_\\s]*", string)){
+            System.out.println("Invalid Input! Should start with Alphabet.In special characters,only _ is allowed.");
+            string = sc.nextLine();
+        }
+        return string;
     }
 }

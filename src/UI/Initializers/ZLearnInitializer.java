@@ -49,17 +49,17 @@ public class ZLearnInitializer {
 
         //course Content
         ArrayList<Chapter> content1 = new ArrayList<Chapter>(){
-            {
-                add(new Chapter("Lesson 1", "Yellow is new black",null,1));
-                add(new Chapter("Lesson 2","This is minions, they have yellow skin color with round eyes!",null,2));
-                add(new Chapter("Lesson 3","Minions appears in despicable me movie and owns its franchises",null,3));
-                add(new Chapter("Lesson 4","Minions appears in despicable me movie and owns its franchises",null,4));
-                add(new Chapter("Lesson 5","Minions appears in despicable me movie and owns its franchises",null,5));
-                add(new Chapter("Lesson 6","Minions appears in despicable me movie and owns its franchises",null,6));
-                add(new Chapter("Lesson 7","Minions appears in despicable me movie and owns its franchises",null,7));
-                add(new Chapter("Lesson 8","Minions appears in despicable me movie and owns its franchises",null,8));
-
-            }
+//            {
+//                add(new Chapter("Lesson 1", "Yellow is new black",null,1));
+//                add(new Chapter("Lesson 2","This is minions, they have yellow skin color with round eyes!",null,2));
+//                add(new Chapter("Lesson 3","Minions appears in despicable me movie and owns its franchises",null,3));
+//                add(new Chapter("Lesson 4","Minions appears in despicable me movie and owns its franchises",null,4));
+//                add(new Chapter("Lesson 5","Minions appears in despicable me movie and owns its franchises",null,5));
+//                add(new Chapter("Lesson 6","Minions appears in despicable me movie and owns its franchises",null,6));
+//                add(new Chapter("Lesson 7","Minions appears in despicable me movie and owns its franchises",null,7));
+//                add(new Chapter("Lesson 8","Minions appears in despicable me movie and owns its franchises",null,8));
+//
+//            }
         };
 
         ArrayList<Chapter> content2 = new ArrayList<Chapter>(){

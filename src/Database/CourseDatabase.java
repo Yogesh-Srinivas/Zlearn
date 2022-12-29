@@ -199,7 +199,6 @@ class CourseDatabase implements CourseDBOperations{
         int courseIndex = getCourseIndex(courseId);
         if(courseIndex!=-1 && (userId.contains("Adm") && courseId.contains("ZCourse")) || this.courses.get(courseIndex).getCreatorId().equals(userId)) {
             int currentNumber = getCourseChapterCount(courseId);
-            System.out.println("ch number "+courseChapter.getLessonNo());
             this.courseContents.add(courseChapter);
             updateNumberOfChapters(courseId,currentNumber+1);
         }

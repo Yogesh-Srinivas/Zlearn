@@ -90,9 +90,15 @@ public class LearnerOperations {
                     System.out.println("Rating :" + currCourse.getRating());
                     System.out.println("-What You'll Learn-");
                     ArrayList<String> learnings = dataManager.getCourseLearnings(courseId);
-                    for (int i = 1; i <= learnings.size(); i++) {
-                        System.out.println("[" + i + "] " + learnings.get(i - 1));
+                    if (learnings.size() > 0) {
+                        for (int i = 1; i <= learnings.size(); i++) {
+                            System.out.println("[" + i + "] " + learnings.get(i - 1));
+                        }
+                    }else {
+                        System.out.println("This Course Doesn't have any Content.\n");
                     }
+                    System.out.println("\n0. back");
+                    CustomScanner.getOptions("0");
                     break;
                 case "3":
                     openCommentPage(courseId);
@@ -114,57 +120,62 @@ public class LearnerOperations {
     }
     private void startLearning(String courseId) {
         Scanner sc = new Scanner(System.in);
-        Course currCourse = dataManager.getCourseDetails(courseId);
-        currentLearner.updateCourseProgress(courseId,currCourse.getCourseProgressStepValue());
-        double userCurrentProgress = currentLearner.getCourseProgress(courseId);
-        int contentLength = currCourse.getContentLength();
-        int chapterIndex = (int) Math.round(contentLength / (100.0 / userCurrentProgress)) - 1;
-        boolean loopControl = false;
-        while (!loopControl) {
-            userCurrentProgress = currentLearner.getCourseProgress(courseId);
-            int updateIndex = (int) Math.round(contentLength / (100.0 / userCurrentProgress)) - 1;
-            System.out.println("+++++++" + currCourse.getCourseId() + "+++++++   [" + (int) userCurrentProgress + " %]");
-            int lessontnumber = chapterIndex+1;
-            Chapter lesson = dataManager.getChapter(courseId, lessontnumber);
-            System.out.println("Chapter : " + lesson.getChapterName());
-            System.out.println();
-            System.out.println("------- Lesson -------");
-            System.out.println(lesson.getLesson());
-            System.out.println();
-            if (chapterIndex > 0 && chapterIndex < currCourse.getContentLength() - 1)
-                System.out.println("0. back  1. next  2. Exit");
-            else if (chapterIndex == 0 && currCourse.getContentLength() > 1) {
-                System.out.println("1. next 2. Exit");
-            }else if (chapterIndex == 0 && currCourse.getContentLength() == 1){
-                System.out.println("2. Exit");
-            } else if (chapterIndex == currCourse.getContentLength() - 1) {
-                System.out.println("0. back 2. Exit");
-            }
-            while (true) {
-                String courseControl = sc.next();
-                if (courseControl.equals("0") && chapterIndex > 0) {
-                    chapterIndex -= 1;
-                    break;
-                } else if (courseControl.equals("1") && chapterIndex < currCourse.getContentLength() - 1 && currCourse.getContentLength() > 1) {
-                    chapterIndex += 1;
-                    if(updateIndex<chapterIndex) currentLearner.updateCourseProgress(courseId,currCourse.getCourseProgressStepValue());
-                    break;
-                } else if (courseControl.equals("2")) {
-                    loopControl = true;
-                    break;
-                } else {
-                    System.out.println("Invalid input!!");
+        ArrayList<String> courseLearnings = dataManager.getCourseLearnings(courseId);
+        if(courseLearnings.size()>0) {
+            Course currCourse = dataManager.getCourseDetails(courseId);
+            currentLearner.updateCourseProgress(courseId, currCourse.getCourseProgressStepValue());
+            double userCurrentProgress = currentLearner.getCourseProgress(courseId);
+            int contentLength = currCourse.getContentLength();
+            int chapterIndex = (int) Math.round(contentLength / (100.0 / userCurrentProgress)) - 1;
+            boolean loopControl = false;
+            while (!loopControl) {
+                userCurrentProgress = currentLearner.getCourseProgress(courseId);
+                int updateIndex = (int) Math.round(contentLength / (100.0 / userCurrentProgress)) - 1;
+                System.out.println("+++++++" + currCourse.getCourseId() + "+++++++   [" + (int) userCurrentProgress + " %]");
+                int lessontnumber = chapterIndex + 1;
+                Chapter lesson = dataManager.getChapter(courseId, lessontnumber);
+                System.out.println("Chapter : " + lesson.getChapterName());
+                System.out.println();
+                System.out.println("------- Lesson -------");
+                System.out.println(lesson.getLesson());
+                System.out.println();
+                if (chapterIndex > 0 && chapterIndex < currCourse.getContentLength() - 1) System.out.println("0. back  1. next  2. Exit");
+                else if (chapterIndex == 0 && currCourse.getContentLength() > 1) {
+                    System.out.println("1. next 2. Exit");
+                } else if (chapterIndex == 0 && currCourse.getContentLength() == 1) {
+                    System.out.println("2. Exit");
+                } else if (chapterIndex == currCourse.getContentLength() - 1) {
+                    System.out.println("0. back 2. Exit");
+                }
+                while (true) {
+                    String courseControl = sc.nextLine();
+                    if (courseControl.equals("0") && chapterIndex > 0) {
+                        chapterIndex -= 1;
+                        break;
+                    } else if (courseControl.equals("1") && chapterIndex < currCourse.getContentLength() - 1 && currCourse.getContentLength() > 1) {
+                        chapterIndex += 1;
+                        if (updateIndex < chapterIndex) currentLearner.updateCourseProgress(courseId, currCourse.getCourseProgressStepValue());
+                        break;
+                    } else if (courseControl.equals("2")) {
+                        loopControl = true;
+                        break;
+                    } else {
+                        System.out.println("Invalid input!!");
+                    }
                 }
             }
+        }else{
+            System.out.println("\nThis Course has no Content to show.\n");
         }
     }
     private void openCommentPage(String courseId){
         Scanner sc = new Scanner(System.in);
-        Course currCourse = dataManager.getCourseDetails(courseId);
         boolean closeCommentPage = false;
         while (!closeCommentPage) {
             boolean isCurrentUserCommented = false;
-            for (Comment comment : dataManager.getComments(courseId)) {
+
+            ArrayList<Comment> courseComments = dataManager.getComments(courseId);
+            for (Comment comment : courseComments) {
                 if (comment.getCommentor().equals(currentLearner.getUserId())) {
                     isCurrentUserCommented = true;
                     break;
@@ -172,37 +183,40 @@ public class LearnerOperations {
             }
             System.out.println("          Comment Page");
             System.out.println("-------------------------------");
-            if (isCurrentUserCommented) {
-                System.out.println("++++++++++Your Comment+++++++++");
-                for (Comment comment : dataManager.getComments(courseId)) {
-                    if (comment.getCommentor().equals(currentLearner.getUserId())){
-                        System.out.println(" * " + comment.getComment());
+            if (courseComments.size() == 0) {
+                System.out.println("No comments were posted.");
+            }
+                if (isCurrentUserCommented) {
+                    System.out.println("++++++++++Your Comment+++++++++");
+                    for (Comment comment : courseComments) {
+                        if (comment.getCommentor().equals(currentLearner.getUserId())) {
+                            System.out.println(" * " + comment.getComment());
+                        }
                     }
                 }
-            }
-            System.out.println("-------------------------------");
-            for (Comment comment : dataManager.getComments(courseId)) {
-                if (!comment.getCommentor().equals(currentLearner.getUserId())) {
-                    System.out.println(dataManager.getLearnerName(comment.getCommentor()) + " : " + comment.getComment());
+                System.out.println("-------------------------------");
+                for (Comment comment : courseComments) {
+                    if (!comment.getCommentor().equals(currentLearner.getUserId())) {
+                        System.out.println(dataManager.getLearnerName(comment.getCommentor()) + " : " + comment.getComment());
+                    }
                 }
-            }
-            System.out.println();
-            System.out.println("1. Add Comment    0. Back");
-            boolean isValidCommentPageOption = false;
-            while (!isValidCommentPageOption) {
-                String commentPageOption = sc.nextLine();
-                if (commentPageOption.equals("1")) {
-                    System.out.println("Enter Your Comment");
-                    String comment = sc.nextLine();
-                    currentLearner.addComment(comment,currCourse.getCourseId());
-                    isValidCommentPageOption = true;
-                } else if (commentPageOption.equals("0")) {
-                    isValidCommentPageOption = true;
-                    closeCommentPage = true;
-                } else {
-                    System.out.println("Invalid Option!!!");
+                System.out.println();
+                System.out.println("1. Add Comment    0. Back");
+                boolean isValidCommentPageOption = false;
+                while (!isValidCommentPageOption) {
+                    String commentPageOption = sc.nextLine();
+                    if (commentPageOption.equals("1")) {
+                        System.out.println("Enter Your Comment");
+                        String comment = sc.nextLine();
+                        currentLearner.addComment(comment, courseId);
+                        isValidCommentPageOption = true;
+                    } else if (commentPageOption.equals("0")) {
+                        isValidCommentPageOption = true;
+                        closeCommentPage = true;
+                    } else {
+                        System.out.println("Invalid Option!!!");
+                    }
                 }
-            }
         }
     }
     private void rateCourse(String courseId,String courseName){
@@ -225,8 +239,12 @@ public class LearnerOperations {
             System.out.println("Rating :" + selectedCourse.getRating());
             System.out.println("-What You'll Learn-");
             ArrayList<String> learnings = dataManager.getCourseLearnings(selectedCourseId);
-            for (int i = 1; i <= learnings.size(); i++) {
-                System.out.println("[" + i + "] " + learnings.get(i - 1));
+            if (learnings.size() > 0) {
+                for (int i = 1; i <= learnings.size(); i++) {
+                    System.out.println("[" + i + "] " + learnings.get(i - 1));
+                }
+            }else {
+                System.out.println("This Course Doesn't have any Content.\n");
             }
             System.out.println();
             System.out.println("\n1. Enroll  0. Back");
@@ -240,14 +258,14 @@ public class LearnerOperations {
     }
     private String showCategoriesToEnroll(){
         int categoryNumber = 0;
-        System.out.println("Select Course Category");
         ArrayList<String> courseCategories = dataManager.getCategories();
 
         if(courseCategories.size()==0){
-            System.out.println("No Categories Available Now.");
+            System.out.println("No Categories Available for courses now.Currently Cant able to Enroll any course.\n" + "Contact Application Admin!");
             return null;
         }
 
+        System.out.println("Select Course Category");
         for (String category : courseCategories){
             System.out.println("["+ (++categoryNumber)+"] "+category);
         }

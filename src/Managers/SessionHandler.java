@@ -37,9 +37,9 @@ public class SessionHandler {
         AuthStatus authStatus;
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter UserName ");
-        String userName = sc.next();
+        String userName = sc.nextLine();
         System.out.println("Enter Password ");
-        String password = sc.next();
+        String password = sc.nextLine();
         authStatus = dataManager.userAuthentication(userName, password);
         if (authStatus.equals(AuthStatus.LOGIN_SUCCESS)) currentUser = dataManager.getUser(userName);
 
@@ -84,21 +84,20 @@ public class SessionHandler {
     }
 
     private static String getNewUserName(){
-        Scanner sc = new Scanner(System.in);
         String userName;
         System.out.println("Enter User Name ");
-        userName = sc.nextLine();
+        userName = CustomScanner.getNameInput();
         while(userName.length() < 3 || userName.length() > 64 || userName.contains(" ")) {
             System.out.println(
                     "Username should be less than 64 characters and greater than 2 characters and spaces are not allowed.\nEnter User Name Again");
-            userName = sc.nextLine();
+            userName = CustomScanner.getNameInput();
         }
         while (true){
             if(dataManager.isUserNameAvailable(userName)){
                 return userName;
             }else {
                 System.out.println("UserName already Exist\nEnter User Name Again");
-                userName = sc.nextLine();
+                userName = CustomScanner.getNameInput();
             }
         }
     }
@@ -109,14 +108,14 @@ public class SessionHandler {
         String password;
         while (true){
             System.out.println("Enter Password");
-            password = sc.next();
+            password = sc.nextLine();
             while (!Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()_!*])(?=\\S+$).{8,20}$",password)){
-                System.out.println("Password should contain atleast an UpperCase letter,a LowerCase letter,a Digit,a Special Character and\nPassword length should be between 8 and 20");
+                System.out.println("Password should contain atleast an UpperCase letter,a LowerCase letter,a Digit,a Special Character and\nPassword length should be between 8 and 20. Spaces Not Allowed");
                 System.out.println("Enter Password");
-                password = sc.next();
+                password = sc.nextLine();
             }
             System.out.println("Confirm Password :");
-            String confirmPassword = sc.next();
+            String confirmPassword = sc.nextLine();
             if(password.equals(confirmPassword)) break;
             System.out.println("Password mismatch! Type Again.");
         }
@@ -124,13 +123,12 @@ public class SessionHandler {
     }
 
     private static String getFirstName(){
-        Scanner sc = new Scanner(System.in);
         System.out.println("Enter your First Name : ");
-        String firstName = sc.nextLine();
+        String firstName = CustomScanner.getNameInput();
         while(firstName.length() < 3 || firstName.length() > 64) {
             System.out.println(
                     "FirstName should be less than 64 characters and greater than 2 characters\nEnter First Name Again : ");
-            firstName = sc.nextLine();
+            firstName = CustomScanner.getNameInput();
         }
         return firstName;
     }

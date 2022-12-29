@@ -88,13 +88,13 @@ public class AdminOperations {
     //******************************************************
     private void removeCreator() {
         System.out.println("Enter Creator UserName : ");
-        String userName = new Scanner(System.in).next();
+        String userName = CustomScanner.getNameInput();
         if(currentAdmin.removeCreator(userName)) System.out.println("Creator Removed Successfully!!");
         else System.out.println("Creator doesn't exist!!");
     }
     private void removeLearner() {
         System.out.println("Enter Learner UserName : ");
-        String userName = new Scanner(System.in).next();
+        String userName = CustomScanner.getNameInput();
         if(currentAdmin.removeLearner(userName)) System.out.println("Learner Removed Successfully!!");
         else System.out.println("Learner doesn't exist!!");
     }
@@ -102,44 +102,45 @@ public class AdminOperations {
     private void resetCreatorPassword() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter Creator UserName : ");
-        String userName = sc.next();
+        String userName = sc.nextLine();
         System.out.println("Enter the reset Password : ");
-        String newPassword = sc.next();
-        while (!Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()_!])(?=\\S+$).{8,20}$", newPassword)){
-            System.out.println("Password should contain atleast an UpperCase letter,a LowerCase letter,a Digit,a Special Character and\nPassword length should be between 8 and 20");
-            System.out.println("Enter New Password : ");
-            newPassword = sc.next();
-        }
+        String newPassword = getPassword();
         if(currentAdmin.changeCreatorPassword(newPassword,userName)) System.out.println("Password Resetted Successfully!!");
         else System.out.println("Creator doesn't Exist!!");
     }
     private void resetLearnerPassword() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter Learner UserName : ");
-        String userName = sc.next();
+        String userName = sc.nextLine();
         System.out.println("Enter the reset Password : ");
-        String newPassword = sc.next();
-        while (!Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()_!])(?=\\S+$).{8,20}$", newPassword)){
-            System.out.println("Password should contain atleast an UpperCase letter,a LowerCase letter,a Digit,a Special Character and\nPassword length should be between 8 and 20");
-            System.out.println("Enter New Password : ");
-            newPassword = sc.next();
-        }
+        String newPassword = getPassword();
+
         if(currentAdmin.changeLearnerPassword(newPassword,userName)) System.out.println("Password Resetted Successfully!!");
         else System.out.println("Learner doesn't Exist!!");
+    }
+
+    private String getPassword(){
+        Scanner sc = new Scanner(System.in);
+        String password = sc.nextLine();
+        while (!Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()_!])(?=\\S+$).{8,20}$", password)){
+            System.out.println("Password should contain atleast an UpperCase letter,a LowerCase letter,a Digit,a Special Character and\nPassword length should be between 8 and 20. Spaces not allowed.");
+            System.out.println("Enter New Password : ");
+            password = sc.nextLine();
+        }
+        return password;
     }
 
     //*************** Course Control  *************************************************************
     private void openCourseControl() {
         label:
         while(true) {
+            System.out.println("**************  Course Control *************");
             System.out.println("1. View All Course\n2. Add Course Category\n3. Remove Course Category\n4. Delete Course\n0. Back");
             String inputOption = CustomScanner.getOptions("1","2","3","4","0");
             switch (inputOption) {
                 case "1":
                     ArrayList<Course> courses = dataManager.getAllCourses();
                     ArrayList<Course> filteredCourses = new ArrayList<>();
-//                    Predicate<Course> zCourseFilter = course -> !course.getCourseId().contains("ZCourse");
-//                    filteredCourses = courses.stream().filter(zCourseFilter).collect(Collectors.toList());
                     for (Course course : courses) {
                         if (!course.getCourseId().contains("ZCourse")) filteredCourses.add(course);
                     }
@@ -159,7 +160,7 @@ public class AdminOperations {
                     break;
                 case "2":
                     System.out.println("Enter new Category : ");
-                    String newCategory = new Scanner(System.in).nextLine();
+                    String newCategory = CustomScanner.getNameInput();
                     currentAdmin.addCategoryToAllCategories(newCategory);
                     System.out.println("Category Added !!!");
                     break;
@@ -177,12 +178,12 @@ public class AdminOperations {
                     break;
                 case "4":
                     System.out.println("Enter Course Id : ");
-                    String courseId = new Scanner(System.in).next();
+                    String courseId = new Scanner(System.in).nextLine();
                     if (!courseId.contains("ZCourse")) {
                         if (currentAdmin.deleteCourse(courseId)) {
                             System.out.println("Course Removed Successfully!!");
                         } else System.out.println("Course doesn't exist,give valid course Id.");
-                    } else System.out.println("ZCourses Can't be delete here");
+                    } else System.out.println("ZCourses cannot be deleted from here.");
                     break;
                 case "0":
                     break label;
@@ -191,13 +192,17 @@ public class AdminOperations {
     }
     private void viewCourseDetails(Course course) {
         System.out.println("****** " + course.getCourseName() + " *******");
-        if(!course.getCourseId().contains("ZCourse")) System.out.println("Creator :" + dataManager.getCreatorName(course.getCreatorId()));
+        if (!course.getCourseId().contains("ZCourse")) System.out.println("Creator :" + dataManager.getCreatorName(course.getCreatorId()));
         System.out.println("Rating :" + course.getRating());
         System.out.println("Price :" + (course.getPrice() == 0 ? "Free" : course.getPrice()));
         System.out.println("-What You'll Learn-");
         ArrayList<String> learnings = dataManager.getCourseLearnings(course.getCourseId());
-        for (int i = 1; i <= learnings.size(); i++) {
-            System.out.println("[" + i + "] " + learnings.get(i - 1));
+        if (learnings.size() > 0) {
+            for (int i = 1; i <= learnings.size(); i++) {
+                System.out.println("[" + i + "] " + learnings.get(i - 1));
+            }
+        }else {
+            System.out.println("This Course Doesn't have any Content.\n");
         }
         System.out.println("\n0. back");
         CustomScanner.getOptions("0");
@@ -218,12 +223,12 @@ public class AdminOperations {
             }
             System.out.println();
             System.out.println();
-            if(availableCategories.size()!=0) System.out.print("1.Add ");
+            if(availableCategories.size()!=0) System.out.print("1. Add ");
             if(currCourseCategories.size() > 1) System.out.print("2. Delete ");
-            System.out.println("0.back");
+            System.out.println("0. back");
             boolean isValidEditOperation = false;
             while (!isValidEditOperation) {
-                String editOperation = sc.next();
+                String editOperation = sc.nextLine();
                 if (availableCategories.size()>0 && editOperation.equals("1")) {
                     isValidEditOperation = true;
                     int categoryCount = 0;
@@ -323,12 +328,12 @@ public class AdminOperations {
                 }
                 case "4":
                     System.out.println("Enter Course Id : ");
-                    String courseId = new Scanner(System.in).next();
+                    String courseId = new Scanner(System.in).nextLine();
                     if (courseId.contains("ZCourse")) {
                         if (currentAdmin.deleteCourse(courseId)) {
                             System.out.println("Course Removed Successfully!!");
                         } else System.out.println("Course doesn't exist,give valid course Id.");
-                    } else System.out.println("Other than ZCourse, can be deleted here!");
+                    } else System.out.println("Other courses cannot be deleted from here.");
                     break;
                 case "0":
                     break label;
@@ -339,7 +344,7 @@ public class AdminOperations {
     private void createZCourse() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter Your Course Name");
-        String courseName = sc.nextLine();
+        String courseName = CustomScanner.getNameInput();
         ArrayList<String> selectedCategories = getNewCourseCategories();
         if(selectedCategories.size()==0){
             System.out.println("No Categories Available for courses now.Currently Cant able to create any course.\nContact Application Admin!");
@@ -354,6 +359,7 @@ public class AdminOperations {
         Scanner sc = new Scanner(System.in);
         ArrayList<String> selectedCategories = new ArrayList<>();
         ArrayList<String> availableCategories = dataManager.getCategories();
+        if(availableCategories.size()==0) return selectedCategories;
         boolean notConfirm=true;
         while(notConfirm) {
             System.out.print("Selected Category : ");
@@ -365,7 +371,7 @@ public class AdminOperations {
             if(availableCategories.size() != 0) System.out.print("[A]dd ");
             if(selectedCategories.size() != 0) System.out.print("[D]elete [C]onfirm");
             System.out.println();
-            String operationChoice = sc.next();
+            String operationChoice = sc.nextLine();
             if(availableCategories.size()!=0 && (operationChoice.equals("A") || operationChoice.equals("a"))){
                 for(int ind=1;ind<=availableCategories.size();ind++){
                     System.out.println("["+ind+"] "+availableCategories.get(ind-1));
@@ -403,7 +409,7 @@ public class AdminOperations {
             System.out.print("[A]dd ");
             if(chapters.size()!=0) System.out.print(" [C]onfirm");
             System.out.println();
-            String options = sc.next();
+            String options = sc.nextLine();
 
             if(options.equals("A") || options.equals("a")){
                 chapters.add(getNewChapter(chapters.size()+1));
@@ -418,7 +424,7 @@ public class AdminOperations {
         String chapterName;
         String lesson;
         System.out.println("Enter Chapter Name");
-        chapterName = sc.nextLine();
+        chapterName = CustomScanner.getNameInput();
         System.out.println("Enter Chapter Content");
         lesson = CustomScanner.getMultiLineInput();
         System.out.println(lesson);
@@ -456,7 +462,7 @@ public class AdminOperations {
     private void changeCourseName(String courseId){
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter New Course Name");
-        String newCourseName = sc.nextLine();
+        String newCourseName = CustomScanner.getNameInput();
         currentAdmin.changeCourseName(newCourseName,courseId);
         System.out.println("Course Name Updated!!");
     }
@@ -491,7 +497,7 @@ public class AdminOperations {
                     if (editOption.equals("1")) {
                         System.out.println("Current Chapter Name : " + selectedChapter.getChapterName());
                         System.out.println("Enter New Chapter Name");
-                        String newChapterName = new Scanner(System.in).nextLine();
+                        String newChapterName = CustomScanner.getNameInput();
                         currentAdmin.changeCourseChapterName(newChapterName, courseId, contentIndex);
                     } else if (editOption.equals("2")) {
                         System.out.println("***** Current Lesson ***** \n" + selectedChapter.getLesson());

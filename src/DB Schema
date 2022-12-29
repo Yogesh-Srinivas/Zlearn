@@ -14,7 +14,7 @@ RatedBy:
     CourseID | userId
 
 course Category:
-    courseId | category
+    courseId | category.
 
 Learner Enrolled Courses:
     userId | courseID | progress

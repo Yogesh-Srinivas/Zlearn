@@ -20,20 +20,17 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
 
     @Override
     public void enrollCourse(String courseId, String userId) {
-        dbManager.enrollCourse(new CourseProgress(userId,courseId,0.0));
+        dbManager.enrollCourse(new CourseProgress(userId,courseId,0));
     }
 
     //******* course Progress ******
     @Override
-    public double getCourseProgress(String courseId,String userId) {
+    public int getCourseProgress(String courseId,String userId) {
         return dbManager.getCourseProgress(courseId,userId);
     }
     @Override
-    public void updateCourseProgress(String courseId, double courseProgressStepValue, String userId) {
-        double currentProgress = dbManager.getCourseProgress(courseId,userId);
-        currentProgress += courseProgressStepValue;
-        if(currentProgress > 99.0) currentProgress=100.0;
-        dbManager.updateCourseProgress(courseId,userId,currentProgress);
+    public void updateCourseProgress(String courseId, String userId) {
+        dbManager.updateCourseProgress(courseId,userId);
     }
 
     //******* add comment ******

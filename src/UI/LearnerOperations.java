@@ -123,38 +123,36 @@ public class LearnerOperations {
         ArrayList<String> courseLearnings = dataManager.getCourseLearnings(courseId);
         if(courseLearnings.size()>0) {
             Course currCourse = dataManager.getCourseDetails(courseId);
-            currentLearner.updateCourseProgress(courseId, currCourse.getCourseProgressStepValue());
-            double userCurrentProgress = currentLearner.getCourseProgress(courseId);
-            int contentLength = currCourse.getContentLength();
-            int chapterIndex = (int) Math.round(contentLength / (100.0 / userCurrentProgress)) - 1;
+
+            int chapterIndex = currentLearner.getCourseProgress(courseId)+1;
             boolean loopControl = false;
             while (!loopControl) {
-                userCurrentProgress = currentLearner.getCourseProgress(courseId);
-                int updateIndex = (int) Math.round(contentLength / (100.0 / userCurrentProgress)) - 1;
-                System.out.println("+++++++" + currCourse.getCourseId() + "+++++++   [" + (int) userCurrentProgress + " %]");
-                int lessonnumber = chapterIndex + 1;
-                Chapter lesson = dataManager.getChapter(courseId, lessonnumber);
+                int userCurrentProgress = currentLearner.getCourseProgress(courseId)+1;
+                double progressInPercent = (100.0 / currCourse.getNumberOfChapters()) * userCurrentProgress;
+                System.out.println("+++++++" + currCourse.getCourseId() + "+++++++   [" + (int) progressInPercent + " %]");
+
+                Chapter lesson = dataManager.getChapter(courseId, chapterIndex);
                 System.out.println("Chapter : " + lesson.getChapterName());
                 System.out.println();
                 System.out.println("------- Lesson -------");
                 System.out.println(lesson.getLesson());
                 System.out.println();
-                if (chapterIndex > 0 && chapterIndex < currCourse.getContentLength() - 1) System.out.println("0. back  1. next  2. Exit");
-                else if (chapterIndex == 0 && currCourse.getContentLength() > 1) {
+                if (chapterIndex > 1 && chapterIndex < currCourse.getNumberOfChapters()) System.out.println("0. back  1. next  2. Exit");
+                else if (chapterIndex == 1 && currCourse.getNumberOfChapters() > 1) {
                     System.out.println("1. next 2. Exit");
-                } else if (chapterIndex == 0 && currCourse.getContentLength() == 1) {
+                } else if (chapterIndex == 1 && currCourse.getNumberOfChapters() == 1) {
                     System.out.println("2. Exit");
-                } else if (chapterIndex == currCourse.getContentLength() - 1) {
+                } else if (chapterIndex == currCourse.getNumberOfChapters()) {
                     System.out.println("0. back 2. Exit");
                 }
                 while (true) {
                     String courseControl = sc.nextLine();
-                    if (courseControl.equals("0") && chapterIndex > 0) {
+                    if (courseControl.equals("0") && chapterIndex > 1) {
                         chapterIndex -= 1;
                         break;
-                    } else if (courseControl.equals("1") && chapterIndex < currCourse.getContentLength() - 1 && currCourse.getContentLength() > 1) {
+                    } else if (courseControl.equals("1") && chapterIndex  < currCourse.getNumberOfChapters()  && currCourse.getNumberOfChapters() > 1) {
                         chapterIndex += 1;
-                        if (updateIndex < chapterIndex) currentLearner.updateCourseProgress(courseId, currCourse.getCourseProgressStepValue());
+                        if (userCurrentProgress < chapterIndex) currentLearner.updateCourseProgress(courseId);
                         break;
                     } else if (courseControl.equals("2")) {
                         loopControl = true;
@@ -299,8 +297,6 @@ public class LearnerOperations {
         }
         return "No_Courses_Available";
     }
-
-
 
 
 }

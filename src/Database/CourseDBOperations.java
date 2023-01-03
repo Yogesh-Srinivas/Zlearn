@@ -57,10 +57,10 @@ import java.util.ArrayList;
      ArrayList<String> getCourseLearners(String courseId);
 
      void changeCourseLesson(String newLesson, String courseId, int lessonNo, String userId);
-     double getCourseProgress(String courseId,String userId);
+     int getCourseProgress(String courseId,String userId);
      int getCourseChapterCount(String courseId);
      boolean isEnrolled(String courseId,String userId);
      void enrollCourse(CourseProgress courseProgress);
-     void updateProgress(String courseId,String userId, double currentProgress);
+     void updateProgress(String courseId,String userId);
      void unenrollCourse(String courseId,String userId);
  }

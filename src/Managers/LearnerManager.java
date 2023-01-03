@@ -13,9 +13,9 @@ public interface LearnerManager {
 
     //******* course Progress ******
 
-    double getCourseProgress(String courseId,String userId);
+    int getCourseProgress(String courseId,String userId);
 
-    void updateCourseProgress(String courseId, double currentProgress, String userID);
+    void updateCourseProgress(String courseId, String userID);
 
     //******* add comment ******
 

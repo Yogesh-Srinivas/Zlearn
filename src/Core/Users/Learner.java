@@ -44,12 +44,12 @@ public class Learner extends User{
 
     //******* course Progress ******
 
-    public double getCourseProgress(String courseId) {
+    public int getCourseProgress(String courseId) {
         return learnerManager.getCourseProgress(courseId,this.getUserId());
     }
 
-    public void updateCourseProgress(String courseId,double currentProgress){
-        learnerManager.updateCourseProgress(courseId,currentProgress,this.getUserId());
+    public void updateCourseProgress(String courseId){
+        learnerManager.updateCourseProgress(courseId,this.getUserId());
     }
 
     //******* add comment ******

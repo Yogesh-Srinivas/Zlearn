@@ -3,13 +3,13 @@ package Core.Course;
 public class CourseProgress {
     private final String userId;
     private final String courseId;
-    private double progress;
+    private int completedChapterCount;
 
     //******* Constructor *******************************
-    public CourseProgress(String userId, String courseId, double progress) {
+    public CourseProgress(String userId, String courseId, int completedChapterCount) {
         this.userId = userId;
         this.courseId = courseId;
-        this.progress = progress;
+        this.completedChapterCount = completedChapterCount;
     }
 
     //******* Getters and Setters *******************************
@@ -27,11 +27,11 @@ public class CourseProgress {
 
     //******* progress ******
 
-    public double getProgress() {
-        return progress;
+    public int getProgress() {
+        return completedChapterCount;
     }
 
-    public void setProgress(double progress) {
-        this.progress = progress;
+    public void setProgress(int progress) {
+            this.completedChapterCount = progress;
     }
 }

@@ -385,7 +385,7 @@ class CourseDatabase implements CourseDBOperations{
         return courseLearners;
     }
 
-    public double getCourseProgress(String courseId,String userId) {
+    public int getCourseProgress(String courseId,String userId) {
         int courseIndex = getCourseIndex(courseId);
         if(courseIndex!=-1){
             for(CourseProgress courseProgress:this.courseProgresses){
@@ -398,9 +398,9 @@ class CourseDatabase implements CourseDBOperations{
     }
 
     private int getCourseProgressIndex(String userId,String courseId){
-        for(int i=0;i<this.courseProgresses.size();i++){
-            if(this.courseProgresses.get(i).getCourseId().equals(courseId) && this.courseProgresses.get(i).getUserId().equals(userId)){
-                return i;
+        for(int courseInd=0;courseInd<this.courseProgresses.size();courseInd++){
+            if(this.courseProgresses.get(courseInd).getCourseId().equals(courseId) && this.courseProgresses.get(courseInd).getUserId().equals(userId)){
+                return courseInd;
             }
         }
         return -1;
@@ -422,11 +422,12 @@ class CourseDatabase implements CourseDBOperations{
         this.courseProgresses.add(courseProgress);
     }
 
-    public void updateProgress(String courseId,String userId, double currentProgress){
+    public void updateProgress(String courseId,String userId){
         int courseIndex = getCourseIndex(courseId);
         if(courseIndex!=-1){
             int progressIndex = getCourseProgressIndex(userId,courseId);
-            this.courseProgresses.get(progressIndex).setProgress(currentProgress);
+            CourseProgress courseProgress = this.courseProgresses.get(progressIndex);
+            courseProgress.setProgress(courseProgress.getProgress()+1);
         }
     }
 

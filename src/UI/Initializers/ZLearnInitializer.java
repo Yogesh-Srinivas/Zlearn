@@ -32,25 +32,25 @@ public class ZLearnInitializer {
         learner1.enrollCourse("ZCourse_101");
 
         //add All Categories
-//        admin1.addCategoryToAllCategories("Finance");
-//        admin1.addCategoryToAllCategories("Self Help");
-//        admin1.addCategoryToAllCategories("Business");
-//        admin1.addCategoryToAllCategories("Coding");
+        admin1.addCategoryToAllCategories("Finance");
+        admin1.addCategoryToAllCategories("Self Help");
+        admin1.addCategoryToAllCategories("Business");
+        admin1.addCategoryToAllCategories("Coding");
         admin1.addCategoryToAllCategories("General");
 
         //course Category
 
         ArrayList<String> category = new ArrayList<String>(){
-//            {
-//                add("Finance");
-//                add("Self Help");
-//                add("Business");
-//            }
+            {
+                add("Finance");
+                add("Self Help");
+                add("Business");
+            }
         };
 
         //course Content
         ArrayList<Chapter> content1 = new ArrayList<Chapter>(){
-//            {
+            {
 //                add(new Chapter("Lesson 1", "Yellow is new black",null,1));
 //                add(new Chapter("Lesson 2","This is minions, they have yellow skin color with round eyes!",null,2));
 //                add(new Chapter("Lesson 3","Minions appears in despicable me movie and owns its franchises",null,3));
@@ -60,7 +60,7 @@ public class ZLearnInitializer {
 //                add(new Chapter("Lesson 7","Minions appears in despicable me movie and owns its franchises",null,7));
 //                add(new Chapter("Lesson 8","Minions appears in despicable me movie and owns its franchises",null,8));
 //
-//            }
+            }
         };
 
         ArrayList<Chapter> content2 = new ArrayList<Chapter>(){

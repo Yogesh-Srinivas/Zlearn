@@ -64,13 +64,6 @@ public class Course {
     }
 
     //*******  no of chapter ******
-
-    public double getCourseProgressStepValue(){
-        return 100.0 / numberOfChapters;
-    }
-    public int getContentLength() {
-        return numberOfChapters;
-    }
     public int getNumberOfChapters() {
         return numberOfChapters;
     }

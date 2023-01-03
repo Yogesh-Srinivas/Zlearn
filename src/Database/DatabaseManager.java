@@ -31,12 +31,12 @@ public class DatabaseManager {
 
     //******* course Progress ******
     
-    public double getCourseProgress(String courseId,String userId) {
+    public int getCourseProgress(String courseId,String userId) {
         return coursedb.getCourseProgress(courseId,userId);
     }
     
-    public void updateCourseProgress(String courseId,String userId,double currentProgress) {
-        coursedb.updateProgress(courseId,userId,currentProgress);
+    public void updateCourseProgress(String courseId,String userId) {
+        coursedb.updateProgress(courseId,userId);
     }
 
     //******* add comment ******

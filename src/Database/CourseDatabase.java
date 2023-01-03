@@ -262,15 +262,6 @@ class CourseDatabase implements CourseDBOperations{
     }
 
     //******* rated by ******
-    private int getRatedUserCount(String courseId){
-        int ratedCount=0;
-        for(RatedUser ratedUser:this.ratedBy){
-            if(ratedUser.getCourseId().equals(courseId)){
-                ratedCount++;
-            }
-        }
-        return ratedCount;
-    }
 
     public boolean isRatedBy(String userId,String courseId){
         for(RatedUser ratedUser:this.ratedBy){
@@ -285,12 +276,8 @@ class CourseDatabase implements CourseDBOperations{
         int courseIndex = getCourseIndex(courseId);
         if(courseIndex!=-1){
             if(!isRatedBy(userId,courseId)){
-                this.ratedBy.add(new RatedUser(courseId,userId));
-                int ratedUserCount = getRatedUserCount(courseId);
-                double courseCurrRating = this.courses.get(courseIndex).getRating();
-                double newRating =  ((courseCurrRating*(ratedUserCount-1)) + rating) / (ratedUserCount);
-                newRating = Double.parseDouble(String.format("%.1f",newRating));
-                this.courses.get(courseIndex).setRating(newRating);
+                this.ratedBy.add(new RatedUser(courseId, userId, rating));
+                this.courses.get(courseIndex).setRating(getRating(courseId));
             }
         }
     }
@@ -305,6 +292,17 @@ class CourseDatabase implements CourseDBOperations{
             }
             this.ratedBy.removeAll(ratedUsersToRemove);
         }
+    }
+
+    public double getRating(String courseId){
+        int numberOfRatedUser=0,totalRating=0;
+        for(RatedUser ratedUser:this.ratedBy){
+            if(ratedUser.getCourseId().equals(courseId)){
+                numberOfRatedUser++;
+                totalRating+=ratedUser.getRating();
+            }
+        }
+        return Double.parseDouble(String.format("%.1f",(double)totalRating/numberOfRatedUser));
     }
 
     //******* categories ******

@@ -16,6 +16,16 @@ public class Course {
         this.price = price;
         this.numberOfChapters = numberOfChapters;
     }
+
+    //copy Constructor
+    public Course(Course course){
+        this.courseName = course.courseName;
+        this.courseId = course.courseId;
+        this.creatorId = course.creatorId;
+        this.price = course.price;
+        this.numberOfChapters = course.numberOfChapters;
+        this.rating = course.rating;
+    }
     //*********Getters and Setters *********************************************************************
     //******* course name ******
     public String getCourseName() {

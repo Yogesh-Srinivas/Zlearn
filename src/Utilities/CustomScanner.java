@@ -1,6 +1,5 @@
 package Utilities;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -10,13 +9,16 @@ public class CustomScanner {
         boolean isValidIntegerInput = false;
         while (!isValidIntegerInput){
             try{
-                integerInput = new Scanner(System.in).nextInt();
+                String input = new Scanner(System.in).nextLine();
+                integerInput = Integer.parseInt(input);
+                if(integerInput==0 && !input.equals("0")) throw new Exception();
                 if(integerInput>maxValue || integerInput<minValue){
                     throw new Exception();
                 }
                 isValidIntegerInput = true;
             }catch (Exception e){
-                System.out.println("Invalid Input!! Value must be between "+minValue+" and "+maxValue+".");
+                if(minValue==maxValue) System.out.println("Invalid Input! Value must be "+minValue);
+                else System.out.println("Invalid Input!! Value must be between "+minValue+" and "+maxValue+".");
             }
         }
         return integerInput;

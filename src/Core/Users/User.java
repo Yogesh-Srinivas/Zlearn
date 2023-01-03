@@ -14,6 +14,14 @@ public abstract class User {
         this.password = password;
         this.firstName = firstName;
     }
+
+    //Copy Constructor
+    User(User user){
+        this.userId = user.userId;
+        this.userName = user.userName;
+        this.password = user.password;
+        this.firstName = user.firstName;
+    }
     //******* Getters and Setters ********************************************************************
 
     public abstract void openDashboard();

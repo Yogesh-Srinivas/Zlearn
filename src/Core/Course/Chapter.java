@@ -15,6 +15,13 @@ public class Chapter {
         this.lessonNo=lessonNo;
     }
 
+    //Copy Construtor
+    public Chapter(Chapter chapter){
+        this.chapterName = chapter.chapterName;
+        this.lesson = chapter.lesson;
+        this.courseId=chapter.courseId;
+        this.lessonNo=chapter.lessonNo;
+    }
     //******* Getters and Setters *******************************
 
     //******* ch name ******
@@ -49,9 +56,3 @@ public class Chapter {
     }
 
 }
-
-
-
-    //******* Constructor *******************************
-    //******* Getters and Setters *******************************
-    //******* ch name ******

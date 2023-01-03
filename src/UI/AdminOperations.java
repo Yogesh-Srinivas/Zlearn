@@ -135,10 +135,47 @@ public class AdminOperations {
         label:
         while(true) {
             System.out.println("**************  Course Control *************");
-            System.out.println("1. View All Course\n2. Add Course Category\n3. Remove Course Category\n4. Delete Course\n0. Back");
-            String inputOption = CustomScanner.getOptions("1","2","3","4","0");
+            System.out.println("1. View All Category\n2. Add Course Category\n3. Remove Course Category\n4. View All Course\n5. Delete Course\n0. Back");
+            String inputOption = CustomScanner.getOptions("1","2","3","4","5","0");
             switch (inputOption) {
                 case "1":
+                    ArrayList<String> courseCategories = dataManager.getCategories();
+                    if(courseCategories.size()==0){
+                        System.out.println("There is no Category to show");
+                    }else {
+                        for (int i = 1; i <= courseCategories.size(); i++) {
+                            System.out.println("[" + i + "] " + courseCategories.get(i - 1));
+                        }
+                        System.out.println();
+                        System.out.println("0. back");
+                        CustomScanner.getOptions("0");
+                        continue;
+                    }
+                    break;
+                case "2":
+                    System.out.println("Enter new Category : ");
+                    String newCategory = CustomScanner.getNameInput();
+                    currentAdmin.addCategoryToAllCategories(newCategory);
+                    System.out.println("Category Added.");
+                    break;
+                case "3":
+                    ArrayList<String> categories = dataManager.getCategories();
+                    if(categories.size()==0){
+                        System.out.println("There is no Category to edit");
+                    }else {
+                        System.out.println("Select Category to Delete : ");
+                        for (int i = 1; i <= categories.size(); i++) {
+                            System.out.println("[" + i + "] " + categories.get(i - 1));
+                        }
+                        System.out.println();
+                        System.out.println("0. back");
+                        int categoryIndex = CustomScanner.getIntegerInput(0, categories.size());
+                        if (categoryIndex == 0) continue;
+                        currentAdmin.deleteCategoryFromAllCategories(categories.get(categoryIndex - 1));
+                        System.out.println("Category Deleted.");
+                    }
+                    break;
+                case "4":
                     ArrayList<Course> courses = dataManager.getAllCourses();
                     ArrayList<Course> filteredCourses = new ArrayList<>();
                     for (Course course : courses) {
@@ -158,25 +195,7 @@ public class AdminOperations {
                         System.out.println("No Courses Available, Now!");
                     }
                     break;
-                case "2":
-                    System.out.println("Enter new Category : ");
-                    String newCategory = CustomScanner.getNameInput();
-                    currentAdmin.addCategoryToAllCategories(newCategory);
-                    System.out.println("Category Added !!!");
-                    break;
-                case "3":
-                    System.out.println("Select Category to Delete : ");
-                    ArrayList<String> categories = dataManager.getCategories();
-                    for (int i = 1; i <= categories.size(); i++) {
-                        System.out.println("[" + i + "] " + categories.get(i - 1));
-                    }
-                    System.out.println();
-                    System.out.println("0. back");
-                    int categoryIndex = CustomScanner.getIntegerInput(0, categories.size());
-                    if (categoryIndex == 0) continue;
-                    currentAdmin.deleteCategoryFromAllCategories(categories.get(categoryIndex - 1));
-                    break;
-                case "4":
+                case "5":
                     System.out.println("Enter Course Id : ");
                     String courseId = new Scanner(System.in).nextLine();
                     if (!courseId.contains("ZCourse")) {
@@ -342,7 +361,6 @@ public class AdminOperations {
     }
     //******************************************************
     private void createZCourse() {
-        Scanner sc = new Scanner(System.in);
         System.out.println("Enter Your Course Name");
         String courseName = CustomScanner.getNameInput();
         ArrayList<String> selectedCategories = getNewCourseCategories();
@@ -415,27 +433,28 @@ public class AdminOperations {
                 chapters.add(getNewChapter(chapters.size()+1));
             }else if (chapters.size()!=0 && (options.equals("c") || options.equals("C"))){
                 isConfirm = true;
+            }else {
+                System.out.println("Invalid input!!");
             }
         }
         return  chapters;
     }
     private Chapter getNewChapter(int lessonNumber) {
-        Scanner sc = new Scanner(System.in);
         String chapterName;
         String lesson;
         System.out.println("Enter Chapter Name");
         chapterName = CustomScanner.getNameInput();
         System.out.println("Enter Chapter Content");
         lesson = CustomScanner.getMultiLineInput();
-        System.out.println(lesson);
         return new Chapter(chapterName,lesson,null,lessonNumber);
     }
     private int getContentIndex(String courseId) {
         ArrayList<Chapter> chapters = dataManager.getCourseContent(courseId);
+        if(chapters.size()==0) return -1;
         for(int i=1;i<=chapters.size();i++){
             System.out.println("["+i+"] "+chapters.get(i-1).getChapterName());
         }
-        return CustomScanner.getIntegerInput(1, chapters.size()) - 1;
+        return CustomScanner.getIntegerInput(1, chapters.size());
     }
 
     //******************************************************
@@ -460,7 +479,6 @@ public class AdminOperations {
 
     }
     private void changeCourseName(String courseId){
-        Scanner sc = new Scanner(System.in);
         System.out.println("Enter New Course Name");
         String newCourseName = CustomScanner.getNameInput();
         currentAdmin.changeCourseName(newCourseName,courseId);
@@ -483,29 +501,41 @@ public class AdminOperations {
                 case "A":
                     int lessonNumber = dataManager.getCourseChapterCount(courseId) + 1;
                     currentAdmin.addCourseContent(courseId, getNewChapter(lessonNumber));
+                    System.out.println("Content Added!");
                     break;
                 case "d":
                 case "D":
-                    currentAdmin.deleteCourseContent(courseId, getContentIndex(courseId));
+                    int contentInd = getContentIndex(courseId);
+                    if(contentInd==-1){
+                        System.out.println("There is no content to delete.");
+                    }else {
+                        currentAdmin.deleteCourseContent(courseId, contentInd);
+                        System.out.println("Content Deleted!");
+                    }
                     break;
                 case "e":
                 case "E":
                     int contentIndex = getContentIndex(courseId);
-                    Chapter selectedChapter = dataManager.getChapter(courseId, contentIndex);
-                    System.out.println("1. Change Chapter Name\n2. Change Content\n0. back");
-                    String editOption = CustomScanner.getOptions("1","2","0");
-                    if (editOption.equals("1")) {
-                        System.out.println("Current Chapter Name : " + selectedChapter.getChapterName());
-                        System.out.println("Enter New Chapter Name");
-                        String newChapterName = CustomScanner.getNameInput();
-                        currentAdmin.changeCourseChapterName(newChapterName, courseId, contentIndex);
-                    } else if (editOption.equals("2")) {
-                        System.out.println("***** Current Lesson ***** \n" + selectedChapter.getLesson());
-                        System.out.println("**************************");
-                        System.out.println("Enter New Content");
-                        String newContent = CustomScanner.getMultiLineInput();
-                        currentAdmin.changeCourseChapterContent(newContent, courseId, contentIndex);
-
+                    if(contentIndex==-1){
+                        System.out.println("There is no content to edit.");
+                    }else {
+                        Chapter selectedChapter = dataManager.getChapter(courseId, contentIndex);
+                        System.out.println("1. Change Chapter Name\n2. Change Content\n0. back");
+                        String editOption = CustomScanner.getOptions("1", "2", "0");
+                        if (editOption.equals("1")) {
+                            System.out.println("Current Chapter Name : " + selectedChapter.getChapterName());
+                            System.out.println("Enter New Chapter Name");
+                            String newChapterName = CustomScanner.getNameInput();
+                            currentAdmin.changeCourseChapterName(newChapterName, courseId, contentIndex);
+                            System.out.println("Course Name Changed, Successfully!");
+                        } else if (editOption.equals("2")) {
+                            System.out.println("***** Current Lesson ***** \n" + selectedChapter.getLesson());
+                            System.out.println("**************************");
+                            System.out.println("Enter New Content");
+                            String newContent = CustomScanner.getMultiLineInput();
+                            currentAdmin.changeCourseChapterContent(newContent, courseId, contentIndex);
+                            System.out.println("Course Content Changed, Successfully!");
+                        }
                     }
                     break;
                 case "b":

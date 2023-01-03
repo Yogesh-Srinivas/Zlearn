@@ -24,11 +24,19 @@ class UserDatabase implements UserDBOperations{
         User user = null;
         for(User usr:this.users){
             if(usr.getUserName().equals(userName)){
-                user = usr;
+                user = copyUser(usr);
                 break;
             }
         }
         return user;
+    }
+
+    private User copyUser(User user){
+        User usr = null;
+        if(user.getRole().equals(ROLE.CREATOR)) usr = new Creator((Creator) user);
+        else if(user.getRole().equals(ROLE.LEARNER)) usr = new Learner((Learner) user);
+        else if(user.getRole().equals(ROLE.ADMIN)) usr = new Admin((Admin) user);
+        return usr;
     }
 
     public boolean isUserExist(String userName) {

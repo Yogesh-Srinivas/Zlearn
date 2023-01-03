@@ -213,12 +213,14 @@ public class CreatorOperations {
                 case "A":
                     int lessonNumber = dataManager.getCourseChapterCount(courseId);
                     currentCreator.addCourseContent(courseId, getNewChapter(lessonNumber + 1));
+                    System.out.println("Content Added!");
                     break;
                 case "d":
                 case "D":
                     int contentIndex = getContentIndex(courseId);
                     if(contentIndex>=0) {
                         currentCreator.deleteCourseContent(courseId, contentIndex);
+                        System.out.println("Content Deleted!");
                     }else {
                         System.out.println("There is no Content to delete.");
                     }
@@ -235,13 +237,14 @@ public class CreatorOperations {
                             System.out.println("Enter New Chapter Name");
                             String newChapterName = CustomScanner.getNameInput();
                             currentCreator.changeCourseChapterName(newChapterName, courseId, lessonNo);
+                            System.out.println("Course Name Changed, Successfully!");
                         } else if (editOption.equals("2")) {
                             System.out.println("***** Current Lesson ***** \n" + selectedChapter.getLesson());
                             System.out.println("**************************");
                             System.out.println("Enter New Content");
                             String newContent = CustomScanner.getMultiLineInput();
                             currentCreator.changeCourseChapterContent(newContent, courseId, lessonNo);
-
+                            System.out.println("Course Content Changed, Successfully!");
                         }
                     }else {
                         System.out.println("There is no Content to edit");
@@ -325,7 +328,7 @@ public class CreatorOperations {
                 for(int ind=1;ind<=availableCategories.size();ind++){
                     System.out.println("["+ind+"] "+availableCategories.get(ind-1));
                 }
-                int categoryIndex = CustomScanner.getIntegerInput(0, availableCategories.size());
+                int categoryIndex = CustomScanner.getIntegerInput(1, availableCategories.size());
                 selectedCategories.add(availableCategories.get(categoryIndex-1));
                 availableCategories.remove(categoryIndex-1);
             }else if(selectedCategories.size()!=0 && (operationChoice.equals("D") || operationChoice.equals("d"))){
@@ -364,12 +367,13 @@ public class CreatorOperations {
                 chapters.add(getNewChapter(chapters.size()+1));
             }else if (chapters.size()!=0 && (options.equals("c") || options.equals("C"))){
                 isConfirm = true;
+            }else {
+                System.out.println("Invalid Input!!");
             }
         }
         return  chapters;
     }
     private Chapter getNewChapter(int lessonNumber) {
-        Scanner sc = new Scanner(System.in);
         String chapterName;
         String lesson;
         System.out.println("Enter Chapter Name");

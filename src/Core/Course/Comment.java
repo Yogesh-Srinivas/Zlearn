@@ -11,6 +11,13 @@ public class Comment {
         this.commentor = commentor;
         this.courseId = courseId;
     }
+
+    //Copy Constructor
+    public Comment(Comment comment){
+        this.comment = comment.comment;
+        this.commentor = comment.commentor;
+        this.courseId = comment.courseId;
+    }
     //******* Getters and Setters *******************************
 
     public String getCourseId(){return courseId;}

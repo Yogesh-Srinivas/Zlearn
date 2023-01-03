@@ -32,19 +32,19 @@ public class ZLearnInitializer {
         learner1.enrollCourse("ZCourse_101");
 
         //add All Categories
-        admin1.addCategoryToAllCategories("Finance");
-        admin1.addCategoryToAllCategories("Self Help");
-        admin1.addCategoryToAllCategories("Business");
-        admin1.addCategoryToAllCategories("Coding");
+//        admin1.addCategoryToAllCategories("Finance");
+//        admin1.addCategoryToAllCategories("Self Help");
+//        admin1.addCategoryToAllCategories("Business");
+//        admin1.addCategoryToAllCategories("Coding");
 
         //course Category
 
         ArrayList<String> category = new ArrayList<String>(){
-            {
-                add("Finance");
-                add("Self Help");
-                add("Business");
-            }
+//            {
+//                add("Finance");
+//                add("Self Help");
+//                add("Business");
+//            }
         };
 
         //course Content
@@ -96,12 +96,12 @@ public class ZLearnInitializer {
         admin1.addNewCourse("The Minions 2", category,content3, 0);
 
         //add course1 comments
-        learner1.addComment("Nice Course","Course_101");
-        learner2.addComment("Awesome Course","Course_101");
-        learner3.addComment("Need More Improvement","Course_101");
-        learner1.addComment("Add more content like this.","Course_101");
-        learner2.addComment("Add more content like this.","Course_101");
-        learner3.addComment("Add more content.","Course_101");
+//        learner1.addComment("Nice Course","Course_101");
+//        learner2.addComment("Awesome Course","Course_101");
+//        learner3.addComment("Need More Improvement","Course_101");
+//        learner1.addComment("Add more content like this.","Course_101");
+//        learner2.addComment("Add more content like this.","Course_101");
+//        learner3.addComment("Add more content.","Course_101");
 
         //add course2 comments
         learner3.addComment("Need More Improvement","Course_102");

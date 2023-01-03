@@ -2,11 +2,17 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
-
-public class test {
+class test {
     public static void main(String[] args) {
-        String s = getNameInput();
-        System.out.println(s);
+        ArrayList<A> arr = new ArrayList<>();
+        arr.add(new A(10));
+        arr.add(new A(20));
+        ArrayList<A> newArr = new ArrayList<>(arr);
+        for(A a:newArr){
+            a.x=(a.x)+10;
+        }
+        for (A a: arr)
+        System.out.println(a.x);
     }
     public static String getMultiLineInput(){
         String finalString="";
@@ -47,12 +53,20 @@ public class test {
 }
 
 class A{
+    int x;
+    A(int x){
+        this.x=x;
+    }
     void use(){
         System.out.println("use a");
     }
 }
 
 class B extends A{
+    B(int x) {
+        super(x);
+    }
+
     @Override
     void use(){
         System.out.println("use b");

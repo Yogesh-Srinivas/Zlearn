@@ -39,7 +39,7 @@ class CourseDatabase implements CourseDBOperations{
         Course course = null;
         for(Course c:this.courses){
             if(c.getCourseId().equals(courseId)){
-                course=c;
+                course=new Course(c);
             }
         }
         return course;
@@ -48,14 +48,18 @@ class CourseDatabase implements CourseDBOperations{
         ArrayList<Course> courses = new ArrayList<>();
         for(Course course:this.courses){
             if(course.getCreatorId().equals(userId)){
-                courses.add(course);
+                courses.add(new Course(course));
             }
         }
         return courses;
     }
 
     public ArrayList<Course> getAllCourses() {
-        return new ArrayList<>(this.courses);
+        ArrayList<Course> courseArr = new ArrayList<>();
+        for (Course course:this.courses){
+            courseArr.add(new Course(course));
+        }
+        return courseArr;
     }
 
     //******* edit courses ******
@@ -118,7 +122,7 @@ class CourseDatabase implements CourseDBOperations{
         int courseIndex = getCourseIndex(courseId);
         if(courseIndex!=-1) {
             for (Comment comment : this.comments) {
-                if (comment.getCourseId().equals(courseId)) comments.add(comment);
+                if (comment.getCourseId().equals(courseId)) comments.add(new Comment(comment));
             }
         }
         return comments;
@@ -146,7 +150,7 @@ class CourseDatabase implements CourseDBOperations{
         ArrayList<Chapter> content = new ArrayList<>();
         for(Chapter ch : this.courseContents){
             if(ch.getCourseId().equals(courseId)){
-                content.add(ch);
+                content.add(new Chapter(ch));
             }
         }
         return content;
@@ -166,7 +170,7 @@ class CourseDatabase implements CourseDBOperations{
         Chapter chapter = null;
         int chIndex = getCourseContentIndex(courseId,lessonNo);
         if(chIndex!=-1){
-            chapter = this.courseContents.get(chIndex);
+            chapter = new Chapter(this.courseContents.get(chIndex));
         }
         return chapter;
     }
@@ -309,7 +313,7 @@ class CourseDatabase implements CourseDBOperations{
         ArrayList<Course> filteredCourses = new ArrayList<>();
         for(CourseCategory courseCategory : this.courseCategories){
             if(courseCategory.getCategory().equals(category))
-                filteredCourses.add(getCourse(courseCategory.getCourseId()));
+                filteredCourses.add(new Course(getCourse(courseCategory.getCourseId())));
         }
         return filteredCourses;
     }

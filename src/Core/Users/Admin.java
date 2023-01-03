@@ -14,6 +14,12 @@ public class Admin extends Creator{
         super(userId,userId,password,firstName);
     }
 
+    //Copy Constructor
+
+    public Admin(Admin admin){
+        super(admin);
+    }
+
     //******* Getters and Setters ********************************************************************
 
     public ROLE getRole() {

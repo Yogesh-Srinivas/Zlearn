@@ -19,6 +19,11 @@ public class Creator extends User{
         super(userId,userName,password,firstName);
     }
 
+    //Copy Constructor
+
+    public Creator(Creator creator){
+        super(creator);
+    }
     //******* Getters and Setters ********************************************************************
 
     public ROLE getRole() {
@@ -89,6 +94,5 @@ public class Creator extends User{
         creatorManager.changeCourseChapterContent(newContent,courseId,contentIndex,this.getUserId());
     }
 
-    //***************************************
 
 }

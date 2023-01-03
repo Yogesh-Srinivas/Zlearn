@@ -132,8 +132,8 @@ public class LearnerOperations {
                 userCurrentProgress = currentLearner.getCourseProgress(courseId);
                 int updateIndex = (int) Math.round(contentLength / (100.0 / userCurrentProgress)) - 1;
                 System.out.println("+++++++" + currCourse.getCourseId() + "+++++++   [" + (int) userCurrentProgress + " %]");
-                int lessontnumber = chapterIndex + 1;
-                Chapter lesson = dataManager.getChapter(courseId, lessontnumber);
+                int lessonnumber = chapterIndex + 1;
+                Chapter lesson = dataManager.getChapter(courseId, lessonnumber);
                 System.out.println("Chapter : " + lesson.getChapterName());
                 System.out.println();
                 System.out.println("------- Lesson -------");

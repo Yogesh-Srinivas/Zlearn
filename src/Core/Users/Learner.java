@@ -18,6 +18,11 @@ public class Learner extends User{
         super(userId,userName,password,firstName);
     }
 
+    //Copy Constructor
+    public Learner(Learner learner){
+        super(learner);
+    }
+
     //******* Getters and Setters ********************************************************************
     public ROLE getRole() {
         return role;

@@ -495,8 +495,8 @@ public class AdminOperations {
         label:
         while (true) {
             System.out.println("********Edit Course Content******");
-            System.out.println("[A]dd [D]elete [E]dit [B]ack");
-            String inputOptions = CustomScanner.getOptions("a","A","d","D","e","E","b","B");
+            System.out.println("[A]dd [E]dit [B]ack");
+            String inputOptions = CustomScanner.getOptions("a","A","e","E","b","B");
 
             switch (inputOptions) {
                 case "a":
@@ -504,16 +504,6 @@ public class AdminOperations {
                     int lessonNumber = dataManager.getCourseChapterCount(courseId) + 1;
                     currentAdmin.addCourseContent(courseId, getNewChapter(lessonNumber));
                     System.out.println("Content Added!");
-                    break;
-                case "d":
-                case "D":
-                    int contentInd = getContentIndex(courseId);
-                    if(contentInd==-1){
-                        System.out.println("There is no content to delete.");
-                    }else {
-                        currentAdmin.deleteCourseContent(courseId, contentInd);
-                        System.out.println("Content Deleted!");
-                    }
                     break;
                 case "e":
                 case "E":

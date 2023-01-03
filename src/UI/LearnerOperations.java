@@ -256,10 +256,7 @@ public class LearnerOperations {
     private String showCategoriesToEnroll(){
         int categoryNumber = 0;
         ArrayList<String> courseCategories = dataManager.getCategories();
-
-        if(courseCategories.size()==0){
-            return showCoursesBasedOnCategory("General");
-        }
+        courseCategories.add("General");
 
         System.out.println("Select Course Category");
         for (String category : courseCategories){

@@ -25,7 +25,7 @@ public class CreatorOperations {
         label:
         while (true){
             System.out.println("----To Teach is to Learn Twice Over----");
-            System.out.println("1.View Created Courses\n2. Create New Course\n0. Log Out");
+            System.out.println("1. View Created Courses\n2. Create New Course\n0. Log Out");
             String creatorOperationOption = CustomScanner.getOptions("1","2","0");
             switch (creatorOperationOption) {
                 case "1":
@@ -127,7 +127,6 @@ public class CreatorOperations {
     }
 
     private void changeCourseName(String courseId){
-        Scanner sc = new Scanner(System.in);
         System.out.println("Enter New Course Name");
         String newCourseName = CustomScanner.getNameInput();
         currentCreator.changeCourseName(newCourseName,courseId);
@@ -212,24 +211,14 @@ public class CreatorOperations {
         label:
         while (true) {
             System.out.println("********Edit Course Content******");
-            System.out.println("[A]dd [D]elete [E]dit [B]ack");
-            String inputOptions = CustomScanner.getOptions("a","A","d","D","e","E","b","B");
+            System.out.println("[A]dd [E]dit [B]ack");
+            String inputOptions = CustomScanner.getOptions("a","A","e","E","b","B");
             switch (inputOptions) {
                 case "a":
                 case "A":
                     int lessonNumber = dataManager.getCourseChapterCount(courseId);
                     currentCreator.addCourseContent(courseId, getNewChapter(lessonNumber + 1));
                     System.out.println("Content Added!");
-                    break;
-                case "d":
-                case "D":
-                    int contentIndex = getContentIndex(courseId);
-                    if(contentIndex>=0) {
-                        currentCreator.deleteCourseContent(courseId, contentIndex);
-                        System.out.println("Content Deleted!");
-                    }else {
-                        System.out.println("There is no Content to delete.");
-                    }
                     break;
                 case "e":
                 case "E":
@@ -298,7 +287,6 @@ public class CreatorOperations {
 
     //******* Create New Course ***************************************************************************
     private void createCourse() {
-        Scanner sc = new Scanner(System.in);
         System.out.println("Enter Your Course Name");
         String courseName = CustomScanner.getNameInput();
         ArrayList<String> selectedCategories = getNewCourseCategories();

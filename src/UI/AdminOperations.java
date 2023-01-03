@@ -226,6 +226,7 @@ public class AdminOperations {
         System.out.println("\n0. back");
         CustomScanner.getOptions("0");
     }
+
     private void editCategory(String courseId){
         Scanner sc = new Scanner(System.in);
         boolean exitEdit = false;
@@ -235,54 +236,54 @@ public class AdminOperations {
             for(String category:currCourseCategories){
                 availableCategories.remove(category);
             }
-            System.out.print("Course Category :  ");
-            for(int i=0;i<currCourseCategories.size();i++){
-                System.out.print(currCourseCategories.get(i));
-                if(i!=currCourseCategories.size()-1) System.out.print(", ");
+            if(currCourseCategories.size()==0) System.out.println("Course Category : General");
+            else {
+                System.out.print("Course Category :  ");
+                for (int i = 0; i < currCourseCategories.size(); i++) {
+                    System.out.print(currCourseCategories.get(i));
+                    if (i != currCourseCategories.size() - 1) System.out.print(", ");
+                }
             }
             System.out.println();
             System.out.println();
             if(availableCategories.size()!=0) System.out.print("1. Add ");
-            if(currCourseCategories.size() > 1) System.out.print("2. Delete ");
+            if(currCourseCategories.size() > 0) System.out.print("2. Delete ");
             System.out.println("0. back");
             boolean isValidEditOperation = false;
             while (!isValidEditOperation) {
                 String editOperation = sc.nextLine();
-                if (availableCategories.size()>0 && editOperation.equals("1")) {
+                if (editOperation.equals("1") && availableCategories.size() > 0) {
                     isValidEditOperation = true;
                     int categoryCount = 0;
                     System.out.println("Choose Category");
-                    if(availableCategories.size() >0) {
+
+                    if (availableCategories.size() > 0) {
                         for (String category : availableCategories) {
                             System.out.println("[" + (++categoryCount) + "] " + category);
                         }
-                        System.out.println();
-                        System.out.println("0. back");
-                        int categoryIndex = CustomScanner.getIntegerInput(0,availableCategories.size());
-                        if(categoryIndex==0) return;
-                        String catergoryToadd = availableCategories.get(categoryIndex-1);
-                        currentAdmin.addCourseCategory(catergoryToadd,courseId);
-                    }else {
-                        System.out.println("No Categories Left.");
-                        break;
+                        int categoryIndex = CustomScanner.getIntegerInput(1, availableCategories.size());
+                        String catergoryToadd = availableCategories.get(categoryIndex - 1);
+                        currentAdmin.addCourseCategory(catergoryToadd, courseId);
+                        if(currCourseCategories.contains("General"))  currentAdmin.removeCourseCategory("General",courseId);
+
                     }
-                } else if (currCourseCategories.size()>1 && editOperation.equals("2")) {
+                } else if (editOperation.equals("2") && currCourseCategories.size() > 0) {
                     isValidEditOperation = true;
                     int categoryCount = 0;
                     System.out.println("Choose Category");
-                    if(currCourseCategories.size() > 1) {
+                    if(currCourseCategories.size()==1 && currCourseCategories.contains("General")){
+                        System.out.println("There No Category to delete.");
+                    } else if (currCourseCategories.size() > 0) {
                         for (String category : currCourseCategories) {
                             System.out.println("[" + (++categoryCount) + "] " + category);
                         }
-                        System.out.println();
-                        System.out.println("0. back");
-                        int categoryIndex = CustomScanner.getIntegerInput(0,currCourseCategories.size());
-                        if(categoryIndex==0) return;
-                        String categoryToRemove = currCourseCategories.get(categoryIndex);
-                        currentAdmin.removeCourseCategory(categoryToRemove,courseId);
-                    }else {
-                        System.out.println("Course Must Contain One Category.");
-                        break;
+                        int categoryIndex = CustomScanner.getIntegerInput(1, currCourseCategories.size());
+                        String categoryToRemove = currCourseCategories.get(categoryIndex - 1);
+                        currentAdmin.removeCourseCategory(categoryToRemove, courseId);
+                        if (currCourseCategories.size() == 1) {
+                            currentAdmin.addCourseCategory("General", courseId);
+                            System.out.println("Course Category is set to General");
+                        }
                     }
                 } else if (editOperation.equals("0")) {
                     isValidEditOperation = true;
@@ -293,6 +294,7 @@ public class AdminOperations {
             }
         }
     }
+
 
     //*************** ZCourse Control  *************************************************************
 
@@ -365,8 +367,7 @@ public class AdminOperations {
         String courseName = CustomScanner.getNameInput();
         ArrayList<String> selectedCategories = getNewCourseCategories();
         if(selectedCategories.size()==0){
-            System.out.println("No Categories Available for courses now.Currently Cant able to create any course.\nContact Application Admin!");
-            return;
+            System.out.println("No Categories Available for courses.So, Course category is set to General.");
         }
         ArrayList<Chapter> courseContent = getCourseChapters();
         System.out.println("Enter Course Price");
@@ -387,7 +388,8 @@ public class AdminOperations {
             }
             System.out.println();
             if(availableCategories.size() != 0) System.out.print("[A]dd ");
-            if(selectedCategories.size() != 0) System.out.print("[D]elete [C]onfirm");
+            if(selectedCategories.size() != 0) System.out.print("[D]elete ");
+            System.out.print("[C]onfirm");
             System.out.println();
             String operationChoice = sc.nextLine();
             if(availableCategories.size()!=0 && (operationChoice.equals("A") || operationChoice.equals("a"))){
@@ -404,7 +406,7 @@ public class AdminOperations {
                 int categoryIndex = CustomScanner.getIntegerInput(1, selectedCategories.size());
                 availableCategories.add(selectedCategories.get(categoryIndex-1));
                 selectedCategories.remove(categoryIndex-1);
-            }else if(selectedCategories.size()!=0 && (operationChoice.equals("C") || operationChoice.equals("c"))){
+            }else if(operationChoice.equals("C") || operationChoice.equals("c")){
                 notConfirm = false;
             }else {
                 System.out.println("Invalid Input!!");

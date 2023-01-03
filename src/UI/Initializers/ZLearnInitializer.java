@@ -36,6 +36,7 @@ public class ZLearnInitializer {
 //        admin1.addCategoryToAllCategories("Self Help");
 //        admin1.addCategoryToAllCategories("Business");
 //        admin1.addCategoryToAllCategories("Coding");
+        admin1.addCategoryToAllCategories("General");
 
         //course Category
 

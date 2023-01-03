@@ -35,11 +35,15 @@ public class DataManager {
     //******* Course Category ************************
 
     public ArrayList<String> getCategories() {
-        return dbManager.getCategories();
+        ArrayList<String> categories = dbManager.getCategories();
+        categories.remove("General");
+        return categories;
     }
 
     public ArrayList<String> getCourseCategories(String courseId) {
-        return dbManager.getCourseCategories(courseId);
+        ArrayList<String> courseCategories = dbManager.getCourseCategories(courseId);
+        courseCategories.remove("General");
+        return courseCategories;
     }
 
     public ArrayList<Course> getCoursesBasedOnCategory(String category) {

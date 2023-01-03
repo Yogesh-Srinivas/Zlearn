@@ -230,7 +230,6 @@ public class LearnerOperations {
     public void enrollNewCourse(){
         String selectedCourseId = showCategoriesToEnroll();
         if(selectedCourseId == null) return;
-
         if(!selectedCourseId.equals("No_Courses_Available")) {
             Course selectedCourse = dataManager.getCourseDetails(selectedCourseId);
             System.out.println("+++++++" + selectedCourse.getCourseId() + "+++++++");
@@ -261,8 +260,7 @@ public class LearnerOperations {
         ArrayList<String> courseCategories = dataManager.getCategories();
 
         if(courseCategories.size()==0){
-            System.out.println("No Categories Available for courses now.Currently Cant able to Enroll any course.\n" + "Contact Application Admin!");
-            return null;
+            return showCoursesBasedOnCategory("General");
         }
 
         System.out.println("Select Course Category");
@@ -286,7 +284,7 @@ public class LearnerOperations {
         if(userNotEnrolledCourses.size() == 0){
             System.out.println("Sorry! No Courses Available for your Category!!");
         }else{
-            System.out.println("******"+category+" Courses*****");
+            System.out.println("****** "+category+" Courses *****");
             int courseNumber = 0;
             for(Course course:userNotEnrolledCourses){
                 System.out.println("["+(++courseNumber)+"] "+course.getCourseName());

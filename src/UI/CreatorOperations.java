@@ -70,23 +70,7 @@ public class CreatorOperations {
             String courseOperation = CustomScanner.getOptions("1","2","3","4","0");
             switch (courseOperation) {
                 case "1":
-                    System.out.println("+++++++" + currCourse.getCourseId() + "+++++++");
-                    System.out.println("Course Name :" + currCourse.getCourseName());
-                    System.out.println("Creator :" + dataManager.getCreatorName(currCourse.getCreatorId()));
-                    System.out.println("Rating :" + currCourse.getRating());
-                    if (currCourse.getPrice() == 0) System.out.println("Price: Free");
-                    else System.out.println("Price :" + currCourse.getPrice());
-                    System.out.println("-What You'll Learn-");
-                    ArrayList<String> learnings = dataManager.getCourseLearnings(currCourse.getCourseId());
-                    if(learnings.size()>0) {
-                        for (int i = 1; i <= learnings.size(); i++) {
-                            System.out.println("[" + i + "] " + learnings.get(i - 1));
-                        }
-                    }else {
-                        System.out.println("This Course Doesn't have any Content.\n");
-                    }
-                    System.out.println("\n0. back");
-                    CustomScanner.getOptions("0");
+                    viewCourseDetails(currCourse);
                     break;
                 case "2":
                     editCourse(currCourse.getCourseId());
@@ -102,6 +86,79 @@ public class CreatorOperations {
                     break label;
             }
         }
+    }
+
+    private void viewCourseDetails(Course course) {
+        boolean openCourseDetailPage = true;
+        while (openCourseDetailPage) {
+            System.out.println("****** " + course.getCourseName() + " *******");
+            if (!course.getCourseId().contains("ZCourse")) System.out.println("Creator :" + dataManager.getCreatorName(course.getCreatorId()));
+            System.out.println("Rating :" + course.getRating());
+            System.out.println("Price :" + (course.getPrice() == 0 ? "Free" : course.getPrice()));
+            System.out.println("-What You'll Learn-");
+            ArrayList<String> learnings = dataManager.getCourseLearnings(course.getCourseId());
+            if (learnings.size() > 0) {
+                for (int i = 1; i <= learnings.size(); i++) {
+                    System.out.println("[" + i + "] " + learnings.get(i - 1));
+                }
+            } else {
+                System.out.println("This Course Doesn't have any Content.\n");
+            }
+
+            String option;
+            if (learnings.size() == 0) {
+                System.out.println("\n0. back");
+                option = CustomScanner.getOptions("0");
+            } else {
+                System.out.println("\n0. back 1. view content");
+                option = CustomScanner.getOptions("0", "1");
+                if (option.equals("1")) {
+                    viewCourseContent(course.getCourseId());
+                }
+            }
+            if(option.equals("0")) openCourseDetailPage = false;
+        }
+
+    }
+
+    private void viewCourseContent(String courseId){
+        Scanner sc = new Scanner(System.in);
+        boolean loopControl = false;
+        Course currCourse = dataManager.getCourseDetails(courseId);
+        int chapterIndex = 1;
+        while (!loopControl) {
+            System.out.println("+++++++" + currCourse.getCourseId() + "+++++++");
+            Chapter lesson = dataManager.getChapter(courseId, chapterIndex);
+            System.out.println("Chapter : " + lesson.getChapterName());
+            System.out.println();
+            System.out.println("------- Lesson -------");
+            System.out.println(lesson.getLesson());
+            System.out.println();
+            if (chapterIndex > 1 && chapterIndex < currCourse.getNumberOfChapters()) System.out.println("0. back  1. next  2. Exit");
+            else if (chapterIndex == 1 && currCourse.getNumberOfChapters() > 1) {
+                System.out.println("1. next 2. Exit");
+            } else if (chapterIndex == 1 && currCourse.getNumberOfChapters() == 1) {
+                System.out.println("2. Exit");
+            } else if (chapterIndex == currCourse.getNumberOfChapters()) {
+                System.out.println("0. back 2. Exit");
+            }
+            while (true) {
+                String courseControl = sc.nextLine();
+                if (courseControl.equals("0") && chapterIndex > 1) {
+                    chapterIndex -= 1;
+                    break;
+                } else if (courseControl.equals("1") && chapterIndex  < currCourse.getNumberOfChapters()  && currCourse.getNumberOfChapters() > 1) {
+                    chapterIndex += 1;
+                    break;
+                } else if (courseControl.equals("2")) {
+                    loopControl = true;
+                    break;
+                } else {
+                    System.out.println("Invalid input!!");
+                }
+            }
+        }
+
     }
 
     //*********** Edit Course ******************************
@@ -325,14 +382,14 @@ public class CreatorOperations {
                 int categoryIndex = CustomScanner.getIntegerInput(1, availableCategories.size());
                 selectedCategories.add(availableCategories.get(categoryIndex-1));
                 availableCategories.remove(categoryIndex-1);
-            }else if(selectedCategories.size()!=0 && (operationChoice.equals("D") || operationChoice.equals("d"))){
+            }else if(selectedCategories.size()!=0 && operationChoice.equalsIgnoreCase("D")){
                 for(int ind=1;ind<=selectedCategories.size();ind++){
                     System.out.println("["+ind+"] "+selectedCategories.get(ind-1));
                 }
                 int categoryIndex = CustomScanner.getIntegerInput(1, selectedCategories.size());
                 availableCategories.add(selectedCategories.get(categoryIndex-1));
                 selectedCategories.remove(categoryIndex-1);
-            }else if((operationChoice.equals("C") || operationChoice.equals("c"))){
+            }else if(operationChoice.equalsIgnoreCase("C")){
                 notConfirm = false;
             }else {
                 System.out.println("Invalid Input!!");
@@ -353,15 +410,26 @@ public class CreatorOperations {
             }
 
             System.out.print("[A]dd ");
-            if(chapters.size()!=0) System.out.print(" [C]onfirm");
+            if(chapters.size()!=0) System.out.print("[D]elete [C]onfirm");
             System.out.println();
             String options = sc.nextLine();
 
-            if(options.equals("A") || options.equals("a")){
+            if(options.equalsIgnoreCase("A")){
                 chapters.add(getNewChapter(chapters.size()+1));
-            }else if (chapters.size()!=0 && (options.equals("c") || options.equals("C"))){
+            }else if (chapters.size()!=0 && options.equalsIgnoreCase("c")){
                 isConfirm = true;
-            }else {
+            } else if (chapters.size()!=0 && options.equalsIgnoreCase("d")) {
+                System.out.println("******* Delete Content *******");
+                int contentNumber = 1;
+                for (Chapter chapter : chapters) {
+                    System.out.println("[" + contentNumber + "] " + chapter.getChapterName());
+                    contentNumber++;
+                }
+                System.out.println();
+                System.out.println("0. back");
+                int courseIndex = CustomScanner.getIntegerInput(0, chapters.size());
+                if(courseIndex!=0) chapters.remove(courseIndex-1);
+            } else {
                 System.out.println("Invalid Input!!");
             }
         }

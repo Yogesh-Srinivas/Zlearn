@@ -22,10 +22,10 @@ public class SessionHandler {
         System.out.println("Do you want to");
         System.out.println("[L]ogin  or   [S]ignup");
         String loginOption = CustomScanner.getOptions("l","L","s","S");
-        if(loginOption.equals("l") || loginOption.equals("L")){
+        if(loginOption.equalsIgnoreCase("l")){
             authStatus = login();
         }
-        else if(loginOption.equals("s") || loginOption.equals("S")){
+        else if(loginOption.equalsIgnoreCase("s")){
             authStatus = signUp();
         }
         return authStatus;
@@ -71,9 +71,9 @@ public class SessionHandler {
         String password = getPassword();
         String firstName = getFirstName();
 
-        if(signupOption.equals("l") || signupOption.equals("L"))
+        if(signupOption.equalsIgnoreCase("l"))
             dataManager.addLearner(userName,password,firstName);
-        else if(signupOption.equals("c") || signupOption.equals("C"))
+        else if(signupOption.equalsIgnoreCase("c"))
             dataManager.addCreator(userName,password,firstName);
 
         System.out.println("Account created Successfully!!!");
@@ -123,11 +123,11 @@ public class SessionHandler {
     }
 
     private static String getFirstName(){
-        System.out.println("Enter your First Name : ");
+        System.out.println("Enter Your Name to be display : ");
         String firstName = CustomScanner.getNameInput();
         while(firstName.length() < 3 || firstName.length() > 64) {
             System.out.println(
-                    "FirstName should be less than 64 characters and greater than 2 characters\nEnter First Name Again : ");
+                    "Name should be less than 64 characters and greater than 2 characters\nEnter First Name Again : ");
             firstName = CustomScanner.getNameInput();
         }
         return firstName;

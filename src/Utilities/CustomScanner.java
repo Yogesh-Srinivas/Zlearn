@@ -11,6 +11,8 @@ public class CustomScanner {
             try{
                 String input = new Scanner(System.in).nextLine();
                 integerInput = Integer.parseInt(input);
+                String inputCheck = Integer.toString(integerInput);
+                if(!input.equalsIgnoreCase(inputCheck)) throw new Exception();
                 if(integerInput==0 && !input.equals("0")) throw new Exception();
                 if(integerInput>maxValue || integerInput<minValue){
                     throw new Exception();

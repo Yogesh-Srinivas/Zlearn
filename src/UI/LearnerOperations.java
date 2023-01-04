@@ -229,26 +229,38 @@ public class LearnerOperations {
         String selectedCourseId = showCategoriesToEnroll();
         if(selectedCourseId == null) return;
         if(!selectedCourseId.equals("No_Courses_Available")) {
-            Course selectedCourse = dataManager.getCourseDetails(selectedCourseId);
-            System.out.println("+++++++" + selectedCourse.getCourseId() + "+++++++");
-            System.out.println("Course Name :" + selectedCourse.getCourseName());
-            System.out.println("Creator :" + dataManager.getCreatorName(selectedCourse.getCreatorId()));
-            System.out.println("Rating :" + selectedCourse.getRating());
-            System.out.println("-What You'll Learn-");
-            ArrayList<String> learnings = dataManager.getCourseLearnings(selectedCourseId);
-            if (learnings.size() > 0) {
-                for (int i = 1; i <= learnings.size(); i++) {
-                    System.out.println("[" + i + "] " + learnings.get(i - 1));
+            boolean openEnrollPage = true;
+            while(openEnrollPage) {
+                Course selectedCourse = dataManager.getCourseDetails(selectedCourseId);
+                System.out.println("+++++++" + selectedCourse.getCourseId() + "+++++++");
+                System.out.println("Course Name :" + selectedCourse.getCourseName());
+                System.out.println("Creator :" + dataManager.getCreatorName(selectedCourse.getCreatorId()));
+                System.out.println("Rating :" + selectedCourse.getRating());
+                System.out.println("-What You'll Learn-");
+                ArrayList<String> learnings = dataManager.getCourseLearnings(selectedCourseId);
+                if (learnings.size() > 0) {
+                    for (int i = 1; i <= learnings.size(); i++) {
+                        System.out.println("[" + i + "] " + learnings.get(i - 1));
+                    }
+                } else {
+                    System.out.println("This Course Doesn't have any Content.\n");
                 }
-            }else {
-                System.out.println("This Course Doesn't have any Content.\n");
-            }
-            System.out.println();
-            System.out.println("\n1. Enroll  0. Back");
-            String enrollOption = CustomScanner.getOptions("1","0");
-            if(enrollOption.equals("1")) {
-                currentLearner.enrollCourse(selectedCourseId);
-                System.out.println("Course Enrolled Successfully!!");
+                System.out.println();
+                System.out.println("\n1. Enroll  2. View Comments 0. Back");
+                String enrollOption = CustomScanner.getOptions("1", "2", "0");
+                switch (enrollOption) {
+                    case "1":
+                        currentLearner.enrollCourse(selectedCourseId);
+                        System.out.println("Course Enrolled Successfully!!");
+                        openEnrollPage = false;
+                        break;
+                    case "2":
+                        viewComments(selectedCourseId);
+                        break;
+                    case "0":
+                        openEnrollPage = false;
+                        break;
+                }
             }
         }
 
@@ -293,6 +305,30 @@ public class LearnerOperations {
             return userNotEnrolledCourses.get(courseOption-1).getCourseId();
         }
         return "No_Courses_Available";
+    }
+
+    private void viewComments(String courseId) {
+        Scanner sc = new Scanner(System.in);
+        while(true) {
+            System.out.println("***********Comment Page*************");
+            ArrayList<Comment> comments = dataManager.getComments(courseId);
+            if(comments.size()>0) {
+                for (Comment comment : comments) {
+                    System.out.println(dataManager.getLearnerName(comment.getCommentor()) + " : " + comment.getComment());
+                }
+            }
+            else {
+                System.out.println("No comments were posted.");
+            }
+            System.out.println();
+            System.out.println("0. back");
+            String backOption = sc.nextLine();
+            if(backOption.equals("0")){
+                break;
+            }else {
+                System.out.println("Invalid option!!");
+            }
+        }
     }
 
 

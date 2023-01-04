@@ -344,15 +344,25 @@ public class CreatorOperations {
 
     //******* Create New Course ***************************************************************************
     private void createCourse() {
+        //Course name
         System.out.println("Enter Your Course Name");
         String courseName = CustomScanner.getNameInput();
+
+        //Course Category
         ArrayList<String> selectedCategories = getNewCourseCategories();
+        if(selectedCategories == null) return;
         if(selectedCategories.size()==0){
             System.out.println("No Categories Available for courses.So,Course Category is set to General");
         }
+
+        //Course Chapters
         ArrayList<Chapter> courseContent = getCourseChapters();
+        if(courseContent==null) return;
+
+        //Course Price
         System.out.println("Enter Course Price");
         int coursePrice = CustomScanner.getIntegerInput(0, 100000);
+
         currentCreator.addNewCourse(courseName,selectedCategories,courseContent,coursePrice);
         System.out.println("Course Created Successfully!!");
     }
@@ -372,7 +382,7 @@ public class CreatorOperations {
             System.out.println();
             if(availableCategories.size() != 0) System.out.print("[A]dd ");
             if(selectedCategories.size() != 0) System.out.print("[D]elete ");
-            System.out.print("[C]onfirm");
+            System.out.print("[C]onfirm [B]ack");
             System.out.println();
             String operationChoice = sc.nextLine();
             if(availableCategories.size()!=0 && (operationChoice.equalsIgnoreCase("a"))){
@@ -386,11 +396,16 @@ public class CreatorOperations {
                 for(int ind=1;ind<=selectedCategories.size();ind++){
                     System.out.println("["+ind+"] "+selectedCategories.get(ind-1));
                 }
-                int categoryIndex = CustomScanner.getIntegerInput(1, selectedCategories.size());
-                availableCategories.add(selectedCategories.get(categoryIndex-1));
-                selectedCategories.remove(categoryIndex-1);
+                System.out.println("\n\n0. back");
+                int categoryIndex = CustomScanner.getIntegerInput(0, selectedCategories.size());
+                if(categoryIndex!=0) {
+                    availableCategories.add(selectedCategories.get(categoryIndex - 1));
+                    selectedCategories.remove(categoryIndex - 1);
+                }
             }else if(operationChoice.equalsIgnoreCase("C")){
                 notConfirm = false;
+            }else if(operationChoice.equalsIgnoreCase("b")){
+                return null;
             }else {
                 System.out.println("Invalid Input!!");
             }
@@ -410,7 +425,8 @@ public class CreatorOperations {
             }
 
             System.out.print("[A]dd ");
-            if(chapters.size()!=0) System.out.print("[D]elete [C]onfirm");
+            if(chapters.size()!=0) System.out.print("[D]elete [C]onfirm ");
+            System.out.print("[B]ack");
             System.out.println();
             String options = sc.nextLine();
 
@@ -429,7 +445,9 @@ public class CreatorOperations {
                 System.out.println("0. back");
                 int courseIndex = CustomScanner.getIntegerInput(0, chapters.size());
                 if(courseIndex!=0) chapters.remove(courseIndex-1);
-            } else {
+            }else if(options.equalsIgnoreCase("b")){
+                return null;
+            }else {
                 System.out.println("Invalid Input!!");
             }
         }

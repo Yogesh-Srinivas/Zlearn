@@ -109,7 +109,6 @@ public class LearnerOperations {
                     break label;
                 case "5":
                     rateCourse(courseId, currCourse.getCourseName());
-                    System.out.println("Rated Successfully!!");
                     break;
                 case "0":
                     break label;
@@ -219,9 +218,11 @@ public class LearnerOperations {
     }
     private void rateCourse(String courseId,String courseName){
         System.out.println("****Rate the Course - "+courseName+" ****");
-        System.out.println("1.Poor 2.Bad 3.Good 4.Very Good 5.Excellent");
-        int rating = CustomScanner.getIntegerInput(1, 5);
+        System.out.println("1.Poor 2.Bad 3.Good 4.Very Good 5.Excellent\n\n0. back");
+        int rating = CustomScanner.getIntegerInput(0, 5);
+        if(rating==0) return;
         currentLearner.rateCourse(courseId,rating);
+        System.out.println("Rated Successfully!!");
     }
 
     //********* Enroll New Course *************************************************************************

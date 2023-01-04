@@ -65,8 +65,12 @@ public class SessionHandler {
     private static AuthStatus signUp() {
         AuthStatus authStatus;
 
-        System.out.println("[L]earner SignUp\n[C]reator Signup");
-        String signupOption = CustomScanner.getOptions("l","L","c","C");
+        System.out.println("[L]earner SignUp\n[C]reator Signup\n\n0. back");
+        String signupOption = CustomScanner.getOptions("l","L","c","C","0");
+
+        if(signupOption.equals("0")){
+            return AuthStatus.AUTH_FAILED;
+        }
         String userName = getNewUserName();
         String password = getPassword();
         String firstName = getFirstName();

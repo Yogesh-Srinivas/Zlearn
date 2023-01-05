@@ -16,7 +16,7 @@ public interface CreatorManager {
 
     ArrayList<Course> getCreatedCourse(String userId);
 
-    //******* course comemnt ******
+    //******* course comment ******
 
     ArrayList<Comment> getCourseComments(String courseId);
 

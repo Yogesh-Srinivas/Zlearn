@@ -59,7 +59,7 @@ public class Admin extends Creator{
         adminManager.removeAdmin(adminId);
     }
 
-    //******* Zlearn Category operation ************************
+    //******* Z-learn Category operation ************************
 
     public boolean addCategoryToAllCategories(String newCategory) {
         return adminManager.addCategoryToAllCategories(newCategory);

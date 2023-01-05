@@ -26,8 +26,8 @@ public class AdminOperations {
     public void adminDashBoard(){
         label:
         while(true){
-            System.out.println("********* Zlearn Control Center *********");
-            System.out.println("1. User Control\n2. Courses Control\n3. Zlearn Courses\n0. Log out");
+            System.out.println("********* Z-learn Control Center *********");
+            System.out.println("1. User Control\n2. Courses Control\n3. Z-learn Courses\n0. Log out");
             String controlOption = CustomScanner.getOptions("1","2","3","0");
             switch (controlOption) {
                 case "1":
@@ -105,7 +105,7 @@ public class AdminOperations {
         String userName = sc.nextLine();
         System.out.println("Enter the reset Password : ");
         String newPassword = getPassword();
-        if(currentAdmin.changeCreatorPassword(newPassword,userName)) System.out.println("Password Resetted Successfully!!");
+        if(currentAdmin.changeCreatorPassword(newPassword,userName)) System.out.println("Password Changed Successfully!!");
         else System.out.println("Creator doesn't Exist!!");
     }
     private void resetLearnerPassword() {
@@ -115,7 +115,7 @@ public class AdminOperations {
         System.out.println("Enter the reset Password : ");
         String newPassword = getPassword();
 
-        if(currentAdmin.changeLearnerPassword(newPassword,userName)) System.out.println("Password Resetted Successfully!!");
+        if(currentAdmin.changeLearnerPassword(newPassword,userName)) System.out.println("Password Changed Successfully!!");
         else System.out.println("Learner doesn't Exist!!");
     }
 
@@ -256,7 +256,7 @@ public class AdminOperations {
             ArrayList<Comment> comments = currentAdmin.getCourseComments(courseId);
             if(comments.size()>0) {
                 for (Comment comment : comments) {
-                    System.out.println(dataManager.getLearnerName(comment.getCommentor()) + " : " + comment.getComment());
+                    System.out.println(dataManager.getLearnerName(comment.getCommenter()) + " : " + comment.getComment());
                 }
             }
             else {

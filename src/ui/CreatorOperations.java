@@ -324,7 +324,7 @@ public class CreatorOperations {
             ArrayList<Comment> comments = currentCreator.getCourseComments(courseId);
             if(comments.size()>0) {
                 for (Comment comment : comments) {
-                    System.out.println(dataManager.getLearnerName(comment.getCommentor()) + " : " + comment.getComment());
+                    System.out.println(dataManager.getLearnerName(comment.getCommenter()) + " : " + comment.getComment());
                 }
             }
             else {

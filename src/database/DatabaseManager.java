@@ -102,7 +102,7 @@ public class DatabaseManager {
     }
 
 
-    //******* course comemnt ******
+    //******* course comment ******
     
     public void changeCourseName(String newCourseName,String courseId,String userId) {
         coursedb.changeCourseName(newCourseName,courseId,userId);
@@ -182,7 +182,7 @@ public class DatabaseManager {
         userdb.removeAdmin(adminId);
     }
 
-    //******* Zlearn Category operation ************************
+    //******* Z-learn Category operation ************************
     
     public boolean addCategoryToAllCategories(String newCategory) {
         return coursedb.addToAllCategories(newCategory);
@@ -195,8 +195,8 @@ public class DatabaseManager {
 
     //******* users ************************
 
-    public String getLearnerName(String commentor) {
-        return userdb.getLearnerName(commentor);
+    public String getLearnerName(String commenter) {
+        return userdb.getLearnerName(commenter);
     }
 
     public String getCreatorName(String creatorId) {

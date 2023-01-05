@@ -71,7 +71,7 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
     }
 
 
-    //******* course comemnt ******
+    //******* course comment ******
     @Override
     public void changeCourseName(String newCourseName,String courseId,String userId) {
         dbManager.changeCourseName(newCourseName,courseId,userId);
@@ -151,7 +151,7 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
         dbManager.removeAdmin(adminId);
     }
 
-    //******* Zlearn Category operation ************************
+    //******* Z-learn Category operation ************************
     @Override
     public boolean addCategoryToAllCategories(String newCategory) {
        return dbManager.addCategoryToAllCategories(newCategory);

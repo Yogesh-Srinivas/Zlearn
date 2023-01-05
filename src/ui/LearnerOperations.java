@@ -172,7 +172,7 @@ public class LearnerOperations {
 
             ArrayList<Comment> courseComments = dataManager.getComments(courseId);
             for (Comment comment : courseComments) {
-                if (comment.getCommentor().equals(currentLearner.getUserId())) {
+                if (comment.getCommenter().equals(currentLearner.getUserId())) {
                     isCurrentUserCommented = true;
                     break;
                 }
@@ -185,15 +185,15 @@ public class LearnerOperations {
                 if (isCurrentUserCommented) {
                     System.out.println("++++++++++Your Comment+++++++++");
                     for (Comment comment : courseComments) {
-                        if (comment.getCommentor().equals(currentLearner.getUserId())) {
+                        if (comment.getCommenter().equals(currentLearner.getUserId())) {
                             System.out.println(" * " + comment.getComment());
                         }
                     }
                 }
                 System.out.println("-------------------------------");
                 for (Comment comment : courseComments) {
-                    if (!comment.getCommentor().equals(currentLearner.getUserId())) {
-                        System.out.println(dataManager.getLearnerName(comment.getCommentor()) + " : " + comment.getComment());
+                    if (!comment.getCommenter().equals(currentLearner.getUserId())) {
+                        System.out.println(dataManager.getLearnerName(comment.getCommenter()) + " : " + comment.getComment());
                     }
                 }
                 System.out.println();
@@ -314,7 +314,7 @@ public class LearnerOperations {
             ArrayList<Comment> comments = dataManager.getComments(courseId);
             if(comments.size()>0) {
                 for (Comment comment : comments) {
-                    System.out.println(dataManager.getLearnerName(comment.getCommentor()) + " : " + comment.getComment());
+                    System.out.println(dataManager.getLearnerName(comment.getCommenter()) + " : " + comment.getComment());
                 }
             }
             else {

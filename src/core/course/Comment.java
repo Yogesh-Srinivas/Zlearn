@@ -3,19 +3,19 @@ package core.course;
 public class Comment {
     private final String courseId;
     private final String comment;
-    private final String commentor;
+    private final String commenter;
 
     //******* Constructor *******************************
-    public Comment(String comment, String commentor,String courseId) {
+    public Comment(String comment, String commenter,String courseId) {
         this.comment = comment;
-        this.commentor = commentor;
+        this.commenter = commenter;
         this.courseId = courseId;
     }
 
     //Copy Constructor
     public Comment(Comment comment){
         this.comment = comment.comment;
-        this.commentor = comment.commentor;
+        this.commenter = comment.commenter;
         this.courseId = comment.courseId;
     }
     //******* Getters and Setters *******************************
@@ -26,7 +26,7 @@ public class Comment {
         return comment;
     }
 
-    public String getCommentor() {
-        return commentor;
+    public String getCommenter() {
+        return commenter;
     }
 }

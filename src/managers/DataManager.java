@@ -13,8 +13,8 @@ public class DataManager {
 
     //******* users ************************
 
-    public String getLearnerName(String commentor) {
-        return dbManager.getLearnerName(commentor);
+    public String getLearnerName(String commenter) {
+        return dbManager.getLearnerName(commenter);
     }
 
     public String getCreatorName(String creatorId) {

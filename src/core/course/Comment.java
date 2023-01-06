@@ -1,6 +1,6 @@
 package core.course;
 
-public class Comment {
+public final class Comment {
     private final String courseId;
     private final String comment;
     private final String commenter;

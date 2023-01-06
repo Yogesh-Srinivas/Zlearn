@@ -1,6 +1,6 @@
 package core.course;
 
-public class Chapter {
+public final class Chapter {
     private String chapterName;
     private String lesson;
     private String courseId;

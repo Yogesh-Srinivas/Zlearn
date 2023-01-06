@@ -24,6 +24,7 @@ import java.util.ArrayList;
      ArrayList<String> getAllCategories();
      boolean addToAllCategories(String category);
      void removeFromAllCategories(String category);
+     void removeCoursesBasedOnCategory(String category,String userId);
 
      //******* comments ******
      ArrayList<Comment> getCourseComments(String courseId);

@@ -1,6 +1,6 @@
 package core.course;
 
-public class CourseCategory {
+public final class CourseCategory {
     private final String courseId;
     private final String category;
 

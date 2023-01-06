@@ -19,7 +19,7 @@ public class Learner extends User{
     }
 
     //Copy Constructor
-    public Learner(Learner learner){
+    private Learner(Learner learner){
         super(learner);
     }
 

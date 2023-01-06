@@ -1,6 +1,6 @@
 package managers;
 
-public class IdGenerator {
+public final class IdGenerator {
     private static int currentLearnerId = 1000;
     private static int currentCreatorId = 1000;
     private static int currentAdminId = 0;

@@ -1,8 +1,7 @@
 package ui;
-import managers.AuthStatus;
 import ui.initializers.ZLearnInitializer;
 
-public class ZLearn {
+final class ZLearn {
     public static void main(String[] args) {
         ZLearnInitializer.initiate();
 

@@ -5,7 +5,7 @@ import core.users.*;
 
 import java.util.ArrayList;
 
-class UserDatabase implements UserDBOperations{
+final class UserDatabase implements UserDBOperations{
     private final ArrayList<User> users = new ArrayList<>();
 
     //********* Constructor *******************************************************************
@@ -56,8 +56,13 @@ class UserDatabase implements UserDBOperations{
         this.users.add(learner);
     }
     public boolean removeLearner(String userName){
-        Learner learner = (Learner) getUser(userName);
-        return learner != null && this.users.remove(learner);
+        for(User user:this.users){
+            if(user.getUserName().equals(userName) && user.getRole().equals(ROLE.LEARNER)){
+                this.users.remove(user);
+                return true;
+            }
+        }
+        return false;
     }
     public boolean changeLearnerPassword(String userName,String newPassword){
         Learner learner = (Learner) getUser(userName);
@@ -93,8 +98,13 @@ class UserDatabase implements UserDBOperations{
     }
 
     public boolean removeCreator(String userName){
-        Creator creator = (Creator) getUser(userName);
-        return creator != null && this.users.remove(creator);
+        for(User user:this.users){
+            if(user.getUserName().equals(userName) && user.getRole().equals(ROLE.CREATOR)){
+                this.users.remove(user);
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean changeCreatorPassword(String userName,String newPassword){
@@ -114,9 +124,11 @@ class UserDatabase implements UserDBOperations{
     }
 
     public void removeAdmin(String adminId){
-        Admin admin = (Admin) getUser(adminId);
-        if(admin!=null){
-            this.users.remove(admin);
+        for(User user:this.users){
+            if(user.getUserId().equals(adminId) && user.getRole().equals(ROLE.ADMIN)){
+                this.users.remove(user);
+                return;
+            }
         }
     }
 

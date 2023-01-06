@@ -16,7 +16,7 @@ public class Admin extends Creator{
 
     //Copy Constructor
 
-    public Admin(Admin admin){
+    private Admin(Admin admin){
         super(admin);
     }
 
@@ -66,7 +66,7 @@ public class Admin extends Creator{
     }
 
     public void deleteCategoryFromAllCategories(String category) {
-        adminManager.deleteCategoryFromAllCategories(category);
+        adminManager.deleteCategoryFromAllCategories(category,this.getUserId());
     }
 
 }

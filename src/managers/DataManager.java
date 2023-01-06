@@ -5,10 +5,11 @@ import core.course.Comment;
 import core.course.Course;
 import core.users.User;
 import database.*;
+import ui.AuthStatus;
 
 import java.util.ArrayList;
 
-public class DataManager {
+public final class DataManager {
     private final DatabaseManager dbManager = new DatabaseManager();
 
     //******* users ************************
@@ -82,7 +83,7 @@ public class DataManager {
 
 
     //******** User *******************************************************************
-    public  AuthStatus userAuthentication(String userName, String password){
+    public AuthStatus userAuthentication(String userName, String password){
         return dbManager.userAuthentication(userName, password);
     }
 

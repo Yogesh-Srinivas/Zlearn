@@ -1,6 +1,6 @@
 package core.course;
 
-public class CourseProgress {
+public final class CourseProgress {
     private final String userId;
     private final String courseId;
     private int completedChapterCount;

@@ -1,7 +1,6 @@
 package ui;
 
 import core.users.User;
-import managers.AuthStatus;
 import managers.DataManager;
 import utilities.CustomScanner;
 
@@ -9,7 +8,7 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 //Manages User Login and Signup
-public class SessionHandler {
+final class SessionHandler {
     private static User currentUser = null;
     private static final DataManager dataManager = new DataManager();
 

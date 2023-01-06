@@ -9,7 +9,7 @@ import managers.*;
 
 import java.util.ArrayList;
 
-public class ZLearnInitializer {
+public final class ZLearnInitializer {
     public static void initiate(){
         DatabaseManager dbManager = new DatabaseManager();
         Learner learner1 = new Learner(IdGenerator.getNewLearnerId(), "Yogi", "123", "Yogesh");

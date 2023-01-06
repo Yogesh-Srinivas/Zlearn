@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class AdminOperations {
+public final class AdminOperations {
     private final Admin currentAdmin;
     private final DataManager dataManager = new DataManager();
 
@@ -143,8 +143,9 @@ public class AdminOperations {
                     if(courseCategories.size()==0){
                         System.out.println("There is no Category to show");
                     }else {
+                        System.out.println("******* ZLearn Categories *******");
                         for (int i = 1; i <= courseCategories.size(); i++) {
-                            System.out.println("[" + i + "] " + courseCategories.get(i - 1));
+                            System.out.println(courseCategories.get(i - 1));
                         }
                         System.out.println();
                         System.out.println("0. back");
@@ -256,7 +257,9 @@ public class AdminOperations {
             ArrayList<Comment> comments = currentAdmin.getCourseComments(courseId);
             if(comments.size()>0) {
                 for (Comment comment : comments) {
-                    System.out.println(dataManager.getLearnerName(comment.getCommenter()) + " : " + comment.getComment());
+                    String commenterName = dataManager.getLearnerName(comment.getCommenter());
+                    if(commenterName.equals("NULL")) commenterName="Anonymous";
+                    System.out.println(commenterName + " : " + comment.getComment());
                 }
             }
             else {
@@ -532,7 +535,7 @@ public class AdminOperations {
             String options = sc.nextLine();
 
             if(options.equalsIgnoreCase("A")){
-                chapters.add(getNewChapter(chapters.size()+1));
+                chapters.add(getNewChapter());
             }else if (chapters.size()!=0 && options.equalsIgnoreCase("c")){
                 isConfirm = true;
             } else if (chapters.size()!=0 && options.equalsIgnoreCase("d")) {
@@ -552,16 +555,17 @@ public class AdminOperations {
                 System.out.println("Invalid input!!");
             }
         }
+        for(int i=1;i<=chapters.size();i++) chapters.get(i-1).setLessonNo(i);
         return  chapters;
     }
-    private Chapter getNewChapter(int lessonNumber) {
+    private Chapter getNewChapter() {
         String chapterName;
         String lesson;
         System.out.println("Enter Chapter Name");
         chapterName = CustomScanner.getNameInput();
         System.out.println("Enter Chapter Content");
         lesson = CustomScanner.getMultiLineInput();
-        return new Chapter(chapterName,lesson,null,lessonNumber);
+        return new Chapter(chapterName,lesson,null,-1);
     }
     private int getContentIndex(String courseId) {
         ArrayList<Chapter> chapters = dataManager.getCourseContent(courseId);
@@ -615,7 +619,9 @@ public class AdminOperations {
                 case "a":
                 case "A":
                     int lessonNumber = dataManager.getCourseChapterCount(courseId) + 1;
-                    currentAdmin.addCourseContent(courseId, getNewChapter(lessonNumber));
+                    Chapter newChapter = getNewChapter();
+                    newChapter.setLessonNo(lessonNumber);
+                    currentAdmin.addCourseContent(courseId, newChapter);
                     System.out.println("Content Added!");
                     break;
                 case "e":

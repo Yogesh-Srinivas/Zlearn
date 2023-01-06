@@ -6,7 +6,7 @@ import java.util.HashSet;
 
 
 
-class CourseDatabase implements CourseDBOperations{
+final class CourseDatabase implements CourseDBOperations{
     private final ArrayList<Course> courses = new ArrayList<>();
     private final HashSet<String> allCategories = new HashSet<>();
     private final ArrayList<Comment> comments = new ArrayList<>();
@@ -115,6 +115,19 @@ class CourseDatabase implements CourseDBOperations{
 
     public void removeFromAllCategories(String category){
         this.allCategories.remove(category);
+    }
+    public void removeCoursesBasedOnCategory(String category,String userId){
+        ArrayList<String> courseWithCategory = new ArrayList<>();
+        for (CourseCategory csCat : this.courseCategories){
+            if(csCat.getCategory().equals(category))  courseWithCategory.add(csCat.getCourseId());
+        }
+        for(String courseId : courseWithCategory){
+            removeCourseCategory(category,courseId,userId);
+            ArrayList<String> categories = getCourseCategories(courseId);
+            if(categories.size()==0){
+                addCourseCategory("General",courseId,userId);
+            }
+        }
     }
 
     //******* comments ******
@@ -329,14 +342,14 @@ class CourseDatabase implements CourseDBOperations{
 
     public void addCourseCategory(String category,String courseId,String userId){
         int courseIndex = getCourseIndex(courseId);
-        if(courseIndex!=-1 && (userId.contains("Adm") && courseId.contains("ZCourse")) || this.courses.get(courseIndex).getCreatorId().equals(userId)) {
+        if(courseIndex!=-1 && userId.contains("Adm") || this.courses.get(courseIndex).getCreatorId().equals(userId)) {
             this.courseCategories.add(new CourseCategory(courseId,category));
         }
     }
 
     public void removeCourseCategory(String category,String courseId,String userId){
         int courseIndex = getCourseIndex(courseId);
-        if(courseIndex!=-1 && (userId.contains("Adm") && courseId.contains("ZCourse")) || this.courses.get(courseIndex).getCreatorId().equals(userId)) {
+        if(courseIndex!=-1 && userId.contains("Adm") || this.courses.get(courseIndex).getCreatorId().equals(userId)) {
             int categoryIndex = -1;
             for (int i = 0; i < this.courseCategories.size(); i++) {
                 if (this.courseCategories.get(i).getCourseId().equals(courseId) && this.courseCategories.get(

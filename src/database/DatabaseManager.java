@@ -9,11 +9,11 @@ import core.users.Creator;
 import core.users.Learner;
 import core.users.User;
 import managers.IdGenerator;
-import managers.AuthStatus;
+import ui.AuthStatus;
 
 import java.util.ArrayList;
 
-public class DatabaseManager {
+public final class DatabaseManager {
     private final UserDBOperations userdb = UserDatabase.getInstance();
     private final CourseDBOperations coursedb = CourseDatabase.getInstance();
 
@@ -121,6 +121,8 @@ public class DatabaseManager {
     //******* course category ******
     
     public void addCourseCategory(String category, String courseId,String userId) {
+        ArrayList<String> courseCategories = coursedb.getCourseCategories(courseId);
+        if(courseCategories.contains("General")) coursedb.removeCourseCategory("General",courseId,userId);
         coursedb.addCourseCategory(category,courseId,userId);
     }
 
@@ -158,6 +160,10 @@ public class DatabaseManager {
     //******* Learner *********************
     
     public boolean removeLearner(String userName) {
+        String userId = userdb.getUser(userName).getUserId();
+        //unroll courses of user
+        ArrayList<String> userEnrolledCourses = coursedb.getEnrolledCourses(userId);
+        for(String courseId:userEnrolledCourses) coursedb.unenrollCourse(courseId,userId);
         return userdb.removeLearner(userName);
     }
     
@@ -168,6 +174,11 @@ public class DatabaseManager {
     //******* Creator ************************
     
     public boolean removeCreator(String userName) {
+        String userId = userdb.getUser(userName).getUserId();
+        //delete courses of creator
+        ArrayList<Course> createdCourses = coursedb.getCreatedCourses(userId);
+        for(Course course:createdCourses) deleteCourse(course.getCourseId(),userId);
+
         return userdb.removeCreator(userName);
     }
 
@@ -189,8 +200,9 @@ public class DatabaseManager {
     }
 
     
-    public void deleteCategoryFromAllCategories(String category) {
+    public void deleteCategoryFromAllCategories(String category,String userId) {
         coursedb.removeFromAllCategories(category);
+        coursedb.removeCoursesBasedOnCategory(category,userId);
     }
 
     //******* users ************************

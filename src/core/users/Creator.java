@@ -21,7 +21,7 @@ public class Creator extends User{
 
     //Copy Constructor
 
-    public Creator(Creator creator){
+    protected Creator(Creator creator){
         super(creator);
     }
     public User copy(){

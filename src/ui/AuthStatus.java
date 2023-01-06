@@ -1,4 +1,4 @@
-package managers;
+package ui;
 
 public enum AuthStatus {
     LOGIN_SUCCESS,

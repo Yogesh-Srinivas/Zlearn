@@ -10,7 +10,7 @@ import utilities.CustomScanner;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class LearnerOperations {
+public final class LearnerOperations {
     private final Learner currentLearner;
     private final DataManager dataManager = new DataManager();
 
@@ -57,7 +57,6 @@ public class LearnerOperations {
             if(courseOption==0) return;
             openCourse(currentLearner.getEnrolledCourses().get(courseOption-1));
         }else{
-            //need to add back to this
             System.out.println("You have not enrolled any course Yet!");
         }
     }
@@ -193,7 +192,9 @@ public class LearnerOperations {
                 System.out.println("-------------------------------");
                 for (Comment comment : courseComments) {
                     if (!comment.getCommenter().equals(currentLearner.getUserId())) {
-                        System.out.println(dataManager.getLearnerName(comment.getCommenter()) + " : " + comment.getComment());
+                        String commenterName = dataManager.getLearnerName(comment.getCommenter());
+                        if(commenterName.equals("NULL")) commenterName="Anonymous";
+                        System.out.println(commenterName + " : " + comment.getComment());
                     }
                 }
                 System.out.println();
@@ -314,7 +315,9 @@ public class LearnerOperations {
             ArrayList<Comment> comments = dataManager.getComments(courseId);
             if(comments.size()>0) {
                 for (Comment comment : comments) {
-                    System.out.println(dataManager.getLearnerName(comment.getCommenter()) + " : " + comment.getComment());
+                    String commenterName = dataManager.getLearnerName(comment.getCommenter());
+                    if(commenterName.equals("NULL")) commenterName="Anonymous";
+                    System.out.println(commenterName + " : " + comment.getComment());
                 }
             }
             else {

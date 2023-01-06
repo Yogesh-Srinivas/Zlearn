@@ -19,6 +19,6 @@ public interface AdminManager {
     //******* All Categories ******
     boolean addCategoryToAllCategories(String newCategory);
 
-    void deleteCategoryFromAllCategories(String category);
+    void deleteCategoryFromAllCategories(String category,String userId);
 
 }

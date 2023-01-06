@@ -10,7 +10,7 @@ import utilities.CustomScanner;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class CreatorOperations {
+public final class CreatorOperations {
     private final Creator currentCreator;
     private final DataManager dataManager = new DataManager();
 
@@ -273,7 +273,9 @@ public class CreatorOperations {
                 case "a":
                 case "A":
                     int lessonNumber = dataManager.getCourseChapterCount(courseId);
-                    currentCreator.addCourseContent(courseId, getNewChapter(lessonNumber + 1));
+                    Chapter newChapter = getNewChapter();
+                    newChapter.setLessonNo(lessonNumber+1);
+                    currentCreator.addCourseContent(courseId, newChapter);
                     System.out.println("Content Added!");
                     break;
                 case "e":
@@ -323,8 +325,11 @@ public class CreatorOperations {
             System.out.println("***********Comment Page*************");
             ArrayList<Comment> comments = currentCreator.getCourseComments(courseId);
             if(comments.size()>0) {
+
                 for (Comment comment : comments) {
-                    System.out.println(dataManager.getLearnerName(comment.getCommenter()) + " : " + comment.getComment());
+                    String commenterName = dataManager.getLearnerName(comment.getCommenter());
+                    if(commenterName.equals("NULL")) commenterName="Anonymous";
+                    System.out.println(commenterName + " : " + comment.getComment());
                 }
             }
             else {
@@ -430,7 +435,7 @@ public class CreatorOperations {
             String options = sc.nextLine();
 
             if(options.equalsIgnoreCase("A")){
-                chapters.add(getNewChapter(chapters.size()+1));
+                chapters.add(getNewChapter());
             }else if (chapters.size()!=0 && options.equalsIgnoreCase("c")){
                 isConfirm = true;
             } else if (chapters.size()!=0 && options.equalsIgnoreCase("d")) {
@@ -450,15 +455,16 @@ public class CreatorOperations {
                 System.out.println("Invalid Input!!");
             }
         }
+        for(int i=1;i<=chapters.size();i++) chapters.get(i-1).setLessonNo(i);
         return  chapters;
     }
-    private Chapter getNewChapter(int lessonNumber) {
+    private Chapter getNewChapter() {
         String chapterName;
         String lesson;
         System.out.println("Enter Chapter Name");
         chapterName = CustomScanner.getNameInput();
         System.out.println("Enter Chapter Content");
         lesson = CustomScanner.getMultiLineInput();
-        return new Chapter(chapterName,lesson,null,lessonNumber);
+        return new Chapter(chapterName,lesson,null,-1);
     }
 }

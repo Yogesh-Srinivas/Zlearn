@@ -1,6 +1,6 @@
 package core.course;
 
-public class Course {
+public final class Course {
     private String courseName;
     private final String courseId;
     private double rating;

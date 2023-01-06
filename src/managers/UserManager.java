@@ -8,7 +8,7 @@ import database.*;
 
 import java.util.ArrayList;
 
-public class UserManager implements LearnerManager,CreatorManager,AdminManager{
+public final class UserManager implements LearnerManager,CreatorManager,AdminManager{
     private final DatabaseManager dbManager = new DatabaseManager();
 
     //***** Learner Manager Operations ********************************************************************************
@@ -158,8 +158,8 @@ public class UserManager implements LearnerManager,CreatorManager,AdminManager{
     }
 
     @Override
-    public void deleteCategoryFromAllCategories(String category) {
-        dbManager.deleteCategoryFromAllCategories(category);
+    public void deleteCategoryFromAllCategories(String category,String userId) {
+        dbManager.deleteCategoryFromAllCategories(category,userId);
     }
 
 }

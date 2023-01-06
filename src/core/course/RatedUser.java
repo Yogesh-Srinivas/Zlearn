@@ -1,6 +1,6 @@
 package core.course;
 
-public class RatedUser {
+public final class RatedUser {
     private final String courseId;
     private final String userId;
     private final int rating;

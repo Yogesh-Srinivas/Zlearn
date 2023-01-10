@@ -109,8 +109,11 @@ final class CourseDatabase implements CourseDBOperations{
         return new ArrayList<>(this.allCategories);
     }
 
-    public boolean addToAllCategories(String category){
-        return this.allCategories.add(category);
+    public boolean addToAllCategories(String newCategory){
+        for(String category:this.allCategories){
+            if(category.equalsIgnoreCase(newCategory)) return false;
+        }
+        return this.allCategories.add(newCategory);
     }
 
     public void removeFromAllCategories(String category){
@@ -123,10 +126,6 @@ final class CourseDatabase implements CourseDBOperations{
         }
         for(String courseId : courseWithCategory){
             removeCourseCategory(category,courseId,userId);
-            ArrayList<String> categories = getCourseCategories(courseId);
-            if(categories.size()==0){
-                addCourseCategory("General",courseId,userId);
-            }
         }
     }
 

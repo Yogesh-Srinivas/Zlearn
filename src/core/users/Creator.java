@@ -39,7 +39,7 @@ public class Creator extends User{
 
     //******* course ******
     public void addNewCourse(String courseName, ArrayList<String> courseCategories, ArrayList<Chapter> courseContent, int coursePrice) {
-        if(courseCategories.size()==0) courseCategories.add("General");
+        courseCategories.add("General");
         creatorManager.addNewCourse(courseName,courseCategories,courseContent,coursePrice,this.getUserId());
     }
 

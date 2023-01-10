@@ -92,9 +92,9 @@ public final class ZLearnInitializer {
         };
 
         //add Courses
-        creator2.addNewCourse("The Minions",category,content1,120);
-        creator2.addNewCourse("The Business School", category,content2,350);
-        admin1.addNewCourse("The Minions 2", category,content3, 0);
+        creator2.addNewCourse("The Business School", new ArrayList<>(category),content2,350);
+        creator2.addNewCourse("The Minions",new ArrayList<>(category),content1,120);
+        admin1.addNewCourse("The Minions 2", new ArrayList<>(category),content3, 0);
 
         //add course1 comments
         learner1.addComment("Nice course","Course_101");

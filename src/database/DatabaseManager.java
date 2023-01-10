@@ -121,8 +121,6 @@ public final class DatabaseManager {
     //******* course category ******
     
     public void addCourseCategory(String category, String courseId,String userId) {
-        ArrayList<String> courseCategories = coursedb.getCourseCategories(courseId);
-        if(courseCategories.contains("General")) coursedb.removeCourseCategory("General",courseId,userId);
         coursedb.addCourseCategory(category,courseId,userId);
     }
 
@@ -241,7 +239,7 @@ public final class DatabaseManager {
     //******* course Category ************************
 
     public ArrayList<String> getCategories() {
-        return new ArrayList<>(coursedb.getAllCategories());
+        return coursedb.getAllCategories();
     }
 
     public ArrayList<String> getCourseCategories(String courseId) {
@@ -249,7 +247,7 @@ public final class DatabaseManager {
     }
 
     public ArrayList<Course> getCoursesBasedOnCategory(String category) {
-        return new ArrayList<>(coursedb.getCoursesBasedOnCategory(category));
+        return coursedb.getCoursesBasedOnCategory(category);
     }
 
     //******* course Content ************************

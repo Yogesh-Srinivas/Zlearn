@@ -42,9 +42,7 @@ public final class DataManager {
     }
 
     public ArrayList<String> getCourseCategories(String courseId) {
-        ArrayList<String> courseCategories = dbManager.getCourseCategories(courseId);
-        courseCategories.remove("General");
-        return courseCategories;
+        return dbManager.getCourseCategories(courseId);
     }
 
     public ArrayList<Course> getCoursesBasedOnCategory(String category) {

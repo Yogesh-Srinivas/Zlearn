@@ -195,17 +195,16 @@ public final class CreatorOperations {
         while(!exitEdit) {
             ArrayList<String> availableCategories = dataManager.getCategories();
             ArrayList<String> currCourseCategories = dataManager.getCourseCategories(courseId);
+            currCourseCategories.remove("General");
             for(String category:currCourseCategories){
                 availableCategories.remove(category);
             }
-            if(currCourseCategories.size()==0) System.out.println("course Category : General");
-            else {
-                System.out.print("course Category :  ");
-                for (int i = 0; i < currCourseCategories.size(); i++) {
-                    System.out.print(currCourseCategories.get(i));
-                    if (i != currCourseCategories.size() - 1) System.out.print(", ");
-                }
+
+            System.out.print("course Category :  ");
+            for (String currCourseCategory : currCourseCategories) {
+                System.out.print(currCourseCategory + ", ");
             }
+            System.out.print("General(Default)");
             System.out.println();
             System.out.println();
             if(availableCategories.size()!=0) System.out.print("1. Add ");
@@ -226,26 +225,20 @@ public final class CreatorOperations {
                         int categoryIndex = CustomScanner.getIntegerInput(1, availableCategories.size());
                         String catergoryToadd = availableCategories.get(categoryIndex - 1);
                         currentCreator.addCourseCategory(catergoryToadd, courseId);
-                        if(currCourseCategories.contains("General"))  currentCreator.removeCourseCategory("General",courseId);
-
                     }
                 } else if (editOperation.equals("2") && currCourseCategories.size() > 0) {
                     isValidEditOperation = true;
                     int categoryCount = 0;
                     System.out.println("Choose Category");
-                    if(currCourseCategories.size()==1 && currCourseCategories.contains("General")){
+                    if(currCourseCategories.size() == 0){
                         System.out.println("There No Category to delete.");
-                    } else if (currCourseCategories.size() > 0) {
+                    } else {
                         for (String category : currCourseCategories) {
                             System.out.println("[" + (++categoryCount) + "] " + category);
                         }
                         int categoryIndex = CustomScanner.getIntegerInput(1, currCourseCategories.size());
                         String categoryToRemove = currCourseCategories.get(categoryIndex - 1);
                         currentCreator.removeCourseCategory(categoryToRemove, courseId);
-                        if (currCourseCategories.size() == 1) {
-                            currentCreator.addCourseCategory("General", courseId);
-                            System.out.println("course Category is set to General");
-                        }
                     }
                 } else if (editOperation.equals("0")) {
                     isValidEditOperation = true;
@@ -356,7 +349,7 @@ public final class CreatorOperations {
         ArrayList<String> selectedCategories = getNewCourseCategories();
         if(selectedCategories == null) return;
         if(selectedCategories.size()==0){
-            System.out.println("No Categories Available for courses.So,course Category is set to General");
+            System.out.println("Course Category is set to General");
         }
 
         //course Chapters
@@ -380,9 +373,10 @@ public final class CreatorOperations {
         while(notConfirm) {
             System.out.print("Selected Category : ");
             for (int i = 0; i < selectedCategories.size(); i++) {
-                System.out.print(selectedCategories.get(i));
+                System.out.print(selectedCategories.get(i)+", ");
                 if (i != selectedCategories.size() - 1) System.out.print(", ");
             }
+            System.out.print("General(Default)");
             System.out.println();
             if(availableCategories.size() != 0) System.out.print("[A]dd ");
             if(selectedCategories.size() != 0) System.out.print("[D]elete ");

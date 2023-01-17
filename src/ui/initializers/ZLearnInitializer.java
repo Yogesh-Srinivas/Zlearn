@@ -49,52 +49,25 @@ public final class ZLearnInitializer {
         };
 
         //course Content
-        ArrayList<Chapter> content1 = new ArrayList<Chapter>(){
+        ArrayList<Chapter> content = new ArrayList<Chapter>(){
             {
-                add(new Chapter("Lesson 1", "Yellow is new black",null,1));
-                add(new Chapter("Lesson 2","This is minions, they have yellow skin color with round eyes!",null,2));
-                add(new Chapter("Lesson 3","Minions appears in despicable me movie and owns its franchises",null,3));
-                add(new Chapter("Lesson 4","Minions appears in despicable me movie and owns its franchises",null,4));
-                add(new Chapter("Lesson 5","Minions appears in despicable me movie and owns its franchises",null,5));
-                add(new Chapter("Lesson 6","Minions appears in despicable me movie and owns its franchises",null,6));
-                add(new Chapter("Lesson 7","Minions appears in despicable me movie and owns its franchises",null,7));
-                add(new Chapter("Lesson 8","Minions appears in despicable me movie and owns its franchises",null,8));
-
-            }
-        };
-
-        ArrayList<Chapter> content2 = new ArrayList<Chapter>(){
-            {
-                add(new Chapter("Lesson 1", "Yellow is new black",null,1));
-                add(new Chapter("Lesson 2","This is minions, they have yellow skin color with round eyes!",null,2));
-                add(new Chapter("Lesson 3","Minions appears in despicable me movie and owns its franchises",null,3));
-                add(new Chapter("Lesson 4","Minions appears in despicable me movie and owns its franchises",null,4));
-                add(new Chapter("Lesson 5","Minions appears in despicable me movie and owns its franchises",null,5));
-                add(new Chapter("Lesson 6","Minions appears in despicable me movie and owns its franchises",null,6));
-                add(new Chapter("Lesson 7","Minions appears in despicable me movie and owns its franchises",null,7));
-                add(new Chapter("Lesson 8","Minions appears in despicable me movie and owns its franchises",null,8));
-
-            }
-        };
-
-        ArrayList<Chapter> content3 = new ArrayList<Chapter>(){
-            {
-                add(new Chapter("Lesson 1", "Yellow is new black",null,1));
-                add(new Chapter("Lesson 2","This is minions, they have yellow skin color with round eyes!",null,2));
-                add(new Chapter("Lesson 3","Minions appears in despicable me movie and owns its franchises",null,3));
-                add(new Chapter("Lesson 4","Minions appears in despicable me movie and owns its franchises",null,4));
-                add(new Chapter("Lesson 5","Minions appears in despicable me movie and owns its franchises",null,5));
-                add(new Chapter("Lesson 6","Minions appears in despicable me movie and owns its franchises",null,6));
-                add(new Chapter("Lesson 7","Minions appears in despicable me movie and owns its franchises",null,7));
-                add(new Chapter("Lesson 8","Minions appears in despicable me movie and owns its franchises",null,8));
+                add(new Chapter("Les 1 - Objects", "An Object can be defined as an instance of a class.\nAn object contains an address and takes up some space in memory.\nObjects can communicate without knowing the details of each other's data or code.\nThe only necessary thing is the type of message accepted and the type of response returned by the objects.\n\nExample: A dog is an object because it has states like color, name, breed, etc. as well as behaviors like wagging the tail, barking, eating, etc. ",null,1));
+                add(new Chapter("Les 2 - Class", "Collection of objects is called class. It is a logical entity.\n" + "\n" + "A class can also be defined as a blueprint from which you can create an individual object.\nClass doesn't consume any space.", null, 2));
+                add(new Chapter("Les 3 - Inheritance","When one object acquires all the properties and behaviors of a parent object, it is known as inheritance.\nIt provides code reusability.\nIt is used to achieve runtime polymorphism.",null,3));
+                add(new Chapter("Les 4 - Polymorphism", "If one task is performed in different ways, it is known as polymorphism.\n For example: to convince the customer differently, to draw something, for example, shape, triangle, rectangle, etc.\n" + "\n" + "In Java, we use method overloading and method overriding to achieve polymorphism.\n" + "\n" + "Another example can be to speak something; for example, a cat speaks meow, dog barks woof, etc.", null, 4));
+                add(new Chapter("Les 5 - Abstraction", "Hiding internal details and showing functionality is known as abstraction.\n For example phone call, we don't know the internal processing.\n" + "\n" + "In Java, we use abstract class and interface to achieve abstraction.", null, 5));
+                add(new Chapter("Les 6 - Encapsulation", "Binding (or wrapping) code and data together into a single unit are known as encapsulation.\n For example, a capsule, it is wrapped with different medicines.\n" + "\n" + "A java class is the example of encapsulation.\nJava bean is the fully encapsulated class because all the data members are private here.", null, 6));
+                add(new Chapter("Les 7 - Coupling and Cohesion","Coupling\n\nCoupling refers to the knowledge or information or dependency of another class.\nIt arises when classes are aware of each other.\nIf a class has the details information of another class, there is strong coupling.\nIn Java, we use private, protected, and public modifiers to display the visibility level of a class, method, and field.\nYou can use interfaces for the weaker coupling because there is no concrete implementation.\n\nCohesion\n\nCohesion refers to the level of a component which performs a single well-defined task.\nA single well-defined task is done by a highly cohesive method.\nThe weakly cohesive method will split the task into separate parts.\nThe java.io package is a highly cohesive package because it has I/O related classes and interface.\nHowever, the java.util package is a weakly cohesive package because it has unrelated classes and interfaces.",null,7));
+                add(new Chapter("Les 8 - Association", "Association represents the relationship between the objects.\nHere, one object can be associated with one object or many objects.\nThere can be four types of association between the objects:\n\n" + "    * One to One\n" + "    * One to Many\n" + "    * Many to One, and\n" + "    * Many to Many", null, 8));
 
             }
         };
 
         //add Courses
-        creator2.addNewCourse("The Business School", new ArrayList<>(category),content2,350);
-        creator2.addNewCourse("The Minions",new ArrayList<>(category),content1,120);
-        admin1.addNewCourse("The Minions 2", new ArrayList<>(category),content3, 0);
+        creator2.addNewCourse("The Business School", new ArrayList<>(category),copyChapterArray(content),350);
+        creator2.addNewCourse("The Java - Basics",new ArrayList<>(category),copyChapterArray(content),120);
+        creator1.addNewCourse("Java 1-0-1",new ArrayList<>(category),copyChapterArray(content),0);
+        admin1.addNewCourse("Code with Java", new ArrayList<>(category),copyChapterArray(content), 0);
 
         //add course1 comments
         learner1.addComment("Nice course","Course_101");
@@ -116,5 +89,13 @@ public final class ZLearnInitializer {
         learner3.addComment("Add more content like this.","ZCourse_101");
         learner2.addComment("Nice course","ZCourse_101");
 
+    }
+
+    private static ArrayList<Chapter> copyChapterArray(ArrayList<Chapter> chapters){
+        ArrayList<Chapter> newChapterArray = new ArrayList<>();
+        for (Chapter ch:chapters) {
+            newChapterArray.add(new Chapter(ch));
+        }
+        return newChapterArray;
     }
 }
